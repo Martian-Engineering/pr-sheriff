@@ -1,31 +1,62 @@
 #!/usr/bin/env node
-
-import { Command } from 'commander';
+import { loadConfig } from "./config/loadConfig.js";
+import { printJson } from "./output/printJson.js";
+import { redactConfig } from "./config/redactConfig.js";
+import { runCommand } from "./commands/runCommand.js";
+import { extractGlobalOptions } from "./cli/extractGlobalOptions.js";
+import { getRootHelp } from "./cli/help.js";
 
 /**
  * Entry point for the pr-sheriff CLI.
  *
- * This is intentionally minimal scaffolding so other tasks can fill in
- * commands, config loading, and output formatting.
+ * This scaffold focuses on:
+ * - a stable subcommand structure
+ * - config loading (file + env)
+ * - emitting JSON to stdout
  */
-export function main(argv: string[] = process.argv): void {
-  const program = new Command();
+async function main(): Promise<void> {
+  const argv = process.argv.slice(2);
+  const globals = extractGlobalOptions(argv);
 
-  program
-    .name('pr-sheriff')
-    .description('PR Sheriff CLI (work in progress)')
-    .version('0.0.0');
+  if (globals.help && globals.rest.length === 0) {
+    printJson({ ok: true, help: getRootHelp() });
+    return;
+  }
 
-  program
-    .command('analyze-pr')
-    .argument('<repo>', 'GitHub repo, e.g. owner/name')
-    .argument('<prNumber>', 'Pull request number')
-    .action((_repo: string, _prNumber: string) => {
-      console.error('analyze-pr: not implemented');
-      process.exitCode = 1;
+  const command = globals.rest[0];
+  if (!command) {
+    printJson({ ok: false, error: { message: "Missing command", code: "MISSING_COMMAND" }, help: getRootHelp() });
+    process.exitCode = 1;
+    return;
+  }
+
+  const configResult = await loadConfig({ configPath: globals.configPath });
+  const ctx = {
+    config: configResult.config,
+    configMeta: configResult.meta
+  };
+
+  try {
+    const result = await runCommand(command, globals.rest.slice(1), ctx);
+    printJson({
+      ok: true,
+      command,
+      config: redactConfig(configResult.config),
+      configMeta: configResult.meta,
+      result
     });
-
-  program.parse(argv);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    printJson({
+      ok: false,
+      command,
+      config: redactConfig(configResult.config),
+      configMeta: configResult.meta,
+      error: { message }
+    });
+    process.exitCode = 1;
+  }
 }
 
-main();
+await main();
+

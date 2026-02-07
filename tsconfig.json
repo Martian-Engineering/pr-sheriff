@@ -6,13 +6,11 @@
     "rootDir": "src",
     "outDir": "dist",
     "strict": true,
-    "esModuleInterop": true,
+    "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "declaration": true,
-    "sourceMap": true,
-    "preserveShebang": true
+    "sourceMap": true
   },
   "include": ["src/**/*.ts"]
 }
+
