@@ -1,0 +1,4 @@
+HTTP/2 200
+
+{"data":{"repository":{"issue":{"timelineItems":{"nodes":[{"__typename":"CrossReferencedEvent","createdAt":"2020-01-01T00:00:00Z","actor":{"login":"alice"},"source":{"__typename":"PullRequest","number":5,"title":"PR","url":"u","mergedAt":null,"closedAt":null}}],"pageInfo":{"hasNextPage":true,"endCursor":"CURSOR1"}}}}}}
+

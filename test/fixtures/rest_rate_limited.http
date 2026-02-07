@@ -1,0 +1,6 @@
+HTTP/2 403
+x-ratelimit-remaining: 0
+retry-after: 1
+
+{"message":"API rate limit exceeded"}
+
