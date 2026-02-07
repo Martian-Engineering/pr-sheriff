@@ -1,0 +1,23 @@
+{
+  "name": "pr-sheriff",
+  "version": "0.0.0",
+  "description": "PR Sheriff CLI",
+  "type": "module",
+  "bin": {
+    "pr-sheriff": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "commander": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
+}
