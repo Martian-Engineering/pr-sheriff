@@ -1,0 +1,4 @@
+HTTP/2 200
+
+{"data":{"repository":{"issue":{"timelineItems":{"nodes":[{"__typename":"ClosedEvent","createdAt":"2020-01-02T00:00:00Z","actor":{"login":"bob"},"closer":{"__typename":"PullRequest","number":6,"title":"PR2","url":"u2","mergedAt":"2020-01-02T00:00:00Z","closedAt":"2020-01-02T00:00:00Z"}}],"pageInfo":{"hasNextPage":false,"endCursor":null}}}}}}
+
