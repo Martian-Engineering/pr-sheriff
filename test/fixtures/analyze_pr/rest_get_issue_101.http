@@ -1,0 +1,9 @@
+HTTP/2 200
+x-ratelimit-remaining: 50
+
+{
+  "number": 101,
+  "title": "Foo bug",
+  "html_url": "https://github.com/octo/hello/issues/101"
+}
+

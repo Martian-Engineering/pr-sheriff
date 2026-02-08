@@ -1,0 +1,10 @@
+HTTP/2 200
+x-ratelimit-remaining: 50
+
+{
+  "number": 11,
+  "title": "Earlier attempt at foo fix",
+  "html_url": "https://github.com/octo/hello/pull/11",
+  "pull_request": { "url": "https://api.github.com/repos/octo/hello/pulls/11" }
+}
+

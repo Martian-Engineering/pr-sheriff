@@ -1,0 +1,17 @@
+HTTP/2 200
+x-ratelimit-remaining: 50
+
+{
+  "total_count": 1,
+  "incomplete_results": false,
+  "items": [
+    {
+      "number": 200,
+      "title": "Improve foo handling (merged)",
+      "html_url": "https://github.com/octo/hello/pull/200",
+      "pull_request": { "url": "https://api.github.com/repos/octo/hello/pulls/200" },
+      "closed_at": "2024-01-20T00:00:00Z"
+    }
+  ]
+}
+

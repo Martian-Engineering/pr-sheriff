@@ -1,0 +1,12 @@
+HTTP/2 200
+x-ratelimit-remaining: 50
+
+[
+  {
+    "id": 1101,
+    "created_at": "2023-12-20T12:00:00Z",
+    "body": "This probably gets superseded by #12 once merged.",
+    "user": { "login": "dan" }
+  }
+]
+
