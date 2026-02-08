@@ -35,6 +35,16 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
     throw new Error(`Invalid --pr value: ${prRaw}`);
   }
 
+  // Note: `src/github/*.mjs` and `src/graph/*.mjs` are plain JS modules. We use
+  // dynamic import here to avoid requiring TS declaration files for them.
+  const [{ GitHubFetch }, { buildReferenceGraph }] = await Promise.all([
+    import("../../github/index.mjs"),
+    import("../../graph/index.mjs")
+  ]);
+
+  const gh = new GitHubFetch({ repo: `${owner}/${repo}` });
+  const graph = await buildReferenceGraph({ gh, owner, repo, prNumber: pr });
+
   return {
     kind: "analyze-pr",
     input: {
@@ -43,7 +53,7 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
       pr,
       prUrl: parsed.values["pr-url"] ?? null
     },
-    status: "not_implemented"
+    graph,
+    status: "ok"
   };
 }
-
