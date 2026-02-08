@@ -329,7 +329,7 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
         .filter((c) => c.source === "merged_search")
         .slice(0, 50)
         .map((c) => ({ number: c.number, title: c.title ?? "", url: c.url }))
-    }
-    graph,
+    },
+    graph
   };
 }
