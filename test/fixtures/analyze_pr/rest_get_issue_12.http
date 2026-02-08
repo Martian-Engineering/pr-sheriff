@@ -1,0 +1,10 @@
+HTTP/2 200
+x-ratelimit-remaining: 50
+
+{
+  "number": 12,
+  "title": "Merged foo fix",
+  "html_url": "https://github.com/octo/hello/pull/12",
+  "pull_request": { "url": "https://api.github.com/repos/octo/hello/pulls/12" }
+}
+
