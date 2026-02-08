@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli.ts",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.js",
+    "test": "node --test"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -21,4 +22,3 @@
     "node": ">=18"
   }
 }
-
