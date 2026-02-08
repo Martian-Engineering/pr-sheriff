@@ -8,9 +8,10 @@
     "pr-sheriff": "./dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json && node scripts/copy-dist-assets.mjs",
+    "build": "tsc -p tsconfig.json && node scripts/copy-mjs-to-dist.mjs",
     "dev": "tsx src/cli.ts",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.js",
+    "test": "node --test"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

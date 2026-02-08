@@ -176,10 +176,21 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
   const useCache = parsed.values["no-cache"] ? false : !fixturesDir;
   const ghRunner = fixturesDir ? makeFixtureGhRunner(fixturesDir) : undefined;
 
-  const gh = new GitHubFetch({
-    repo: `${owner}/${repo}`,
-    ghRunner
-  });
+  // Note: `src/github/*.mjs` and `src/graph/*.mjs` are plain JS modules.
+  // We use dynamic import to avoid TS type declaration friction.
+  const [{ GitHubFetch }, { buildReferenceGraph }] = await Promise.all([
+    import("../../github/index.mjs"),
+    import("../../graph/index.mjs")
+  ]);
+
+  const gh = new GitHubFetch({ repo: `${owner}/${repo}`, ghRunner });
+
+  // Always build the reference graph first; it provides high-signal candidates.
+  const graph = await buildReferenceGraph({ gh, owner, repo, prNumber: pr });
+
+  // Minimal candidate set based on merged search + (optional) graph-derived PRs.
+  // NOTE: We keep the existing simple candidate logic as a baseline while the
+  // graph builder evolves.
 
   const maxChainPRs = 10;
   const chainQueue: number[] = [pr];
@@ -265,6 +276,7 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
 
   const candidateNumbers = uniqNumbers(candidates.map((c) => c.number));
 
+
   return {
     kind: "analyze-pr",
     input: {
@@ -318,5 +330,6 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
         .slice(0, 50)
         .map((c) => ({ number: c.number, title: c.title ?? "", url: c.url }))
     }
+    graph,
   };
 }
