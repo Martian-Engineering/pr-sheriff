@@ -1,6 +1,7 @@
 import type { CommandContext } from "../types/context.js";
 import { analyzePr } from "./subcommands/analyzePr.js";
 import { batch } from "./subcommands/batch.js";
+import { candidates } from "./subcommands/candidates.js";
 import { index } from "./subcommands/index.js";
 import { report } from "./subcommands/report.js";
 
@@ -13,6 +14,8 @@ export async function runCommand(command: string, argv: string[], ctx: CommandCo
       return await analyzePr(argv, ctx);
     case "batch":
       return await batch(argv, ctx);
+    case "candidates":
+      return await candidates(argv, ctx);
     case "index":
       return await index(argv, ctx);
     case "report":
@@ -21,4 +24,3 @@ export async function runCommand(command: string, argv: string[], ctx: CommandCo
       throw new Error(`Unknown command: ${command}`);
   }
 }
-
