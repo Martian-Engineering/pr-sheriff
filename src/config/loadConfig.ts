@@ -22,6 +22,7 @@ function env(name: string): string | undefined {
 function getDefaults(): AppConfig {
   return {
     githubApiUrl: "https://api.github.com",
+    qmdCollection: "pr-sheriff-corpus",
     logLevel: "info"
   };
 }
@@ -80,6 +81,16 @@ export async function loadConfig(opts: { configPath?: string }): Promise<{ confi
     envConfig.model = model;
     meta.loadedFromEnv.push("PR_SHERIFF_MODEL");
   }
+  const qmdCollection = env("PR_SHERIFF_QMD_COLLECTION");
+  if (qmdCollection) {
+    envConfig.qmdCollection = qmdCollection;
+    meta.loadedFromEnv.push("PR_SHERIFF_QMD_COLLECTION");
+  }
+  const qmdIndex = env("PR_SHERIFF_QMD_INDEX");
+  if (qmdIndex) {
+    envConfig.qmdIndex = qmdIndex;
+    meta.loadedFromEnv.push("PR_SHERIFF_QMD_INDEX");
+  }
   const logLevel = parseLogLevel(env("PR_SHERIFF_LOG_LEVEL"));
   if (logLevel) {
     envConfig.logLevel = logLevel;
@@ -94,4 +105,3 @@ export async function loadConfig(opts: { configPath?: string }): Promise<{ confi
 
   return { config, meta };
 }
-
