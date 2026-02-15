@@ -1,0 +1,630 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776643762",
+    "pull_request_review_id": 3765827397,
+    "id": 2776643762,
+    "node_id": "PRRC_kwDOQb6kR86lgDiy",
+    "diff_hunk": "@@ -92,7 +92,20 @@ export const OpenClawSchema = z\n     meta: z\n       .object({\n         lastTouchedVersion: z.string().optional(),\n-        lastTouchedAt: z.string().optional(),\n+        // Accept both ISO strings and numeric Unix timestamps (agent file edits may write Date.now())",
+    "path": "src/config/zod-schema.ts",
+    "commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Over-permissive timestamp input**\n\n`meta.lastTouchedAt` now accepts *any* string (`z.string()`), so invalid timestamps like `\"not-a-date\"` will still validate and flow through as-is. That means downstream code that assumes an ISO timestamp may still break, and it also doesn’t fully match the intent of “ISO timestamp” noted in `schema.ts`. Consider tightening this to an ISO datetime validator (or `z.coerce.date()` + transform) so both numeric and string inputs are normalized/validated consistently.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/config/zod-schema.ts\nLine: 93:95\n\nComment:\n**Over-permissive timestamp input**\n\n`meta.lastTouchedAt` now accepts *any* string (`z.string()`), so invalid timestamps like `\"not-a-date\"` will still validate and flow through as-is. That means downstream code that assumes an ISO timestamp may still break, and it also doesn’t fully match the intent of “ISO timestamp” noted in `schema.ts`. Consider tightening this to an ISO datetime validator (or `z.coerce.date()` + transform) so both numeric and string inputs are normalized/validated consistently.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T01:23:17Z",
+    "updated_at": "2026-02-07T01:23:19Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776643762",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776643762"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776643762"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776643762/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 93,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 95,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776643810",
+    "pull_request_review_id": 3765827397,
+    "id": 2776643810,
+    "node_id": "PRRC_kwDOQb6kR86lgDji",
+    "diff_hunk": "@@ -0,0 +1,56 @@\n+import { describe, expect, it, vi } from \"vitest\";\n+\n+describe(\"meta.lastTouchedAt numeric timestamp coercion\", () => {",
+    "path": "src/config/config.meta-timestamp-coercion.test.ts",
+    "commit_id": "7135d72b22b6135c764895d5d1b1c137b46eb5e5",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Unneeded module resets**\n\nEach test calls `vi.resetModules()` before `await import(\"./config.js\")`, but nothing in this file mutates module state between tests. This forces reloading the module 4x and can slow the suite. You can import `validateConfigObject` once at the top (or use `beforeEach` only if a specific test requires module isolation).\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/config/config.meta-timestamp-coercion.test.ts\nLine: 1:3\n\nComment:\n**Unneeded module resets**\n\nEach test calls `vi.resetModules()` before `await import(\"./config.js\")`, but nothing in this file mutates module state between tests. This forces reloading the module 4x and can slow the suite. You can import `validateConfigObject` once at the top (or use `beforeEach` only if a specific test requires module isolation).\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T01:23:19Z",
+    "updated_at": "2026-02-07T01:23:19Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776643810",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776643810"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776643810"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776643810/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 1,
+    "original_start_line": 1,
+    "start_side": "RIGHT",
+    "line": 3,
+    "original_line": 3,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 3,
+    "position": 3,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776678802",
+    "pull_request_review_id": 3765860016,
+    "id": 2776678802,
+    "node_id": "PRRC_kwDOQb6kR86lgMGS",
+    "diff_hunk": "@@ -92,7 +92,20 @@ export const OpenClawSchema = z\n     meta: z\n       .object({\n         lastTouchedVersion: z.string().optional(),\n-        lastTouchedAt: z.string().optional(),\n+        // Accept both ISO strings and numeric Unix timestamps (agent file edits may write Date.now())",
+    "path": "src/config/zod-schema.ts",
+    "commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "mcaxtr",
+      "id": 7562095,
+      "node_id": "MDQ6VXNlcjc1NjIwOTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7562095?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mcaxtr",
+      "html_url": "https://github.com/mcaxtr",
+      "followers_url": "https://api.github.com/users/mcaxtr/followers",
+      "following_url": "https://api.github.com/users/mcaxtr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mcaxtr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mcaxtr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mcaxtr/subscriptions",
+      "organizations_url": "https://api.github.com/users/mcaxtr/orgs",
+      "repos_url": "https://api.github.com/users/mcaxtr/repos",
+      "events_url": "https://api.github.com/users/mcaxtr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mcaxtr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good catch — tightened the string branch to also validate via `new Date(s).getTime()`. Non-date strings like `\"not-a-date\"` now fail validation via `ctx.addIssue()` instead of passing through. Added a test for this case (5 tests total now).",
+    "created_at": "2026-02-07T01:38:23Z",
+    "updated_at": "2026-02-07T01:38:23Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776678802",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776678802"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776678802"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776678802/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 93,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 95,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776643762,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776680039",
+    "pull_request_review_id": 3765861677,
+    "id": 2776680039,
+    "node_id": "PRRC_kwDOQb6kR86lgMZn",
+    "diff_hunk": "@@ -0,0 +1,56 @@\n+import { describe, expect, it, vi } from \"vitest\";\n+\n+describe(\"meta.lastTouchedAt numeric timestamp coercion\", () => {",
+    "path": "src/config/config.meta-timestamp-coercion.test.ts",
+    "commit_id": "7135d72b22b6135c764895d5d1b1c137b46eb5e5",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "mcaxtr",
+      "id": 7562095,
+      "node_id": "MDQ6VXNlcjc1NjIwOTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7562095?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mcaxtr",
+      "html_url": "https://github.com/mcaxtr",
+      "followers_url": "https://api.github.com/users/mcaxtr/followers",
+      "following_url": "https://api.github.com/users/mcaxtr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mcaxtr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mcaxtr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mcaxtr/subscriptions",
+      "organizations_url": "https://api.github.com/users/mcaxtr/orgs",
+      "repos_url": "https://api.github.com/users/mcaxtr/repos",
+      "events_url": "https://api.github.com/users/mcaxtr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mcaxtr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This is the established pattern across all config test files in the codebase (105 occurrences across 20 test files). Keeping it consistent with the existing convention.",
+    "created_at": "2026-02-07T01:38:50Z",
+    "updated_at": "2026-02-07T01:38:50Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776680039",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776680039"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776680039"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776680039/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 1,
+    "original_start_line": 1,
+    "start_side": "RIGHT",
+    "line": 3,
+    "original_line": 3,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776643810,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 3,
+    "position": 3,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776682942",
+    "pull_request_review_id": 3765865595,
+    "id": 2776682942,
+    "node_id": "PRRC_kwDOQb6kR86lgNG-",
+    "diff_hunk": "@@ -92,7 +92,20 @@ export const OpenClawSchema = z\n     meta: z\n       .object({\n         lastTouchedVersion: z.string().optional(),\n-        lastTouchedAt: z.string().optional(),\n+        // Accept both ISO strings and numeric Unix timestamps (agent file edits may write Date.now())",
+    "path": "src/config/zod-schema.ts",
+    "commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "HenryLoenwind",
+      "id": 1485873,
+      "node_id": "MDQ6VXNlcjE0ODU4NzM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1485873?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/HenryLoenwind",
+      "html_url": "https://github.com/HenryLoenwind",
+      "followers_url": "https://api.github.com/users/HenryLoenwind/followers",
+      "following_url": "https://api.github.com/users/HenryLoenwind/following{/other_user}",
+      "gists_url": "https://api.github.com/users/HenryLoenwind/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/HenryLoenwind/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/HenryLoenwind/subscriptions",
+      "organizations_url": "https://api.github.com/users/HenryLoenwind/orgs",
+      "repos_url": "https://api.github.com/users/HenryLoenwind/repos",
+      "events_url": "https://api.github.com/users/HenryLoenwind/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/HenryLoenwind/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "This introduces a functionality change with string timestamps. Before, the validation was:\r\n\r\n> lastTouchedAt: z.string().optional(),\r\n\r\ni.e. it accepted any string and let the consuming code handle it.\r\n\r\ngreptile's analysis was wrong.",
+    "created_at": "2026-02-07T01:40:01Z",
+    "updated_at": "2026-02-07T01:40:01Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776682942",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776682942"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776682942"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776682942/reactions",
+      "total_count": 2,
+      "+1": 2,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 93,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 95,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776643762,
+    "author_association": "NONE",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776686060",
+    "pull_request_review_id": 3765868120,
+    "id": 2776686060,
+    "node_id": "PRRC_kwDOQb6kR86lgN3s",
+    "diff_hunk": "@@ -92,7 +92,20 @@ export const OpenClawSchema = z\n     meta: z\n       .object({\n         lastTouchedVersion: z.string().optional(),\n-        lastTouchedAt: z.string().optional(),\n+        // Accept both ISO strings and numeric Unix timestamps (agent file edits may write Date.now())",
+    "path": "src/config/zod-schema.ts",
+    "commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You're absolutely right. The PR **does** introduce a behavior change:\n\n**Before:** `lastTouchedAt: z.string().optional()` accepted any string without validation.\n\n**After:** The string branch now validates that it's a parseable date via `new Date(s).getTime()`, rejecting invalid strings like `\"not-a-date\"`.\n\nMy original comment was correct about the validation being over-permissive (any string passed through), but the author's response *added* validation, which is a **breaking change** for any existing configs that stored non-date strings in that field. The author also added a test for this new rejection behavior (test 4 in the test file).\n\nIf the field was truly meant to be \"let consuming code handle it\" as you noted, then adding date validation changes that contract.",
+    "created_at": "2026-02-07T01:40:45Z",
+    "updated_at": "2026-02-07T01:40:45Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776686060",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776686060"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776686060"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776686060/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 93,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 95,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776643762,
+    "author_association": "NONE",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776951507",
+    "pull_request_review_id": 3766175802,
+    "id": 2776951507,
+    "node_id": "PRRC_kwDOQb6kR86lhOrT",
+    "diff_hunk": "@@ -92,7 +92,20 @@ export const OpenClawSchema = z\n     meta: z\n       .object({\n         lastTouchedVersion: z.string().optional(),\n-        lastTouchedAt: z.string().optional(),\n+        // Accept both ISO strings and numeric Unix timestamps (agent file edits may write Date.now())",
+    "path": "src/config/zod-schema.ts",
+    "commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "mcaxtr",
+      "id": 7562095,
+      "node_id": "MDQ6VXNlcjc1NjIwOTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7562095?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mcaxtr",
+      "html_url": "https://github.com/mcaxtr",
+      "followers_url": "https://api.github.com/users/mcaxtr/followers",
+      "following_url": "https://api.github.com/users/mcaxtr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mcaxtr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mcaxtr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mcaxtr/subscriptions",
+      "organizations_url": "https://api.github.com/users/mcaxtr/orgs",
+      "repos_url": "https://api.github.com/users/mcaxtr/repos",
+      "events_url": "https://api.github.com/users/mcaxtr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mcaxtr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good point — the original schema intentionally accepted any string to avoid breaking existing configs that might have non-date values in `lastTouchedAt`. Our transform would reject those on load, which is a breaking change.\n\nWould a safer approach be to only coerce numeric timestamps (the original bug) while passing through any existing string as-is? That way we fix the Zod validation error without narrowing what was previously accepted.",
+    "created_at": "2026-02-07T03:58:44Z",
+    "updated_at": "2026-02-07T03:58:44Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776951507",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776951507"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776951507"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776951507/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 93,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 95,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776643762,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776952469",
+    "pull_request_review_id": 3766177263,
+    "id": 2776952469,
+    "node_id": "PRRC_kwDOQb6kR86lhO6V",
+    "diff_hunk": "@@ -92,7 +92,20 @@ export const OpenClawSchema = z\n     meta: z\n       .object({\n         lastTouchedVersion: z.string().optional(),\n-        lastTouchedAt: z.string().optional(),\n+        // Accept both ISO strings and numeric Unix timestamps (agent file edits may write Date.now())",
+    "path": "src/config/zod-schema.ts",
+    "commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Yes, exactly. To preserve backward compatibility, only coerce numeric timestamps while passing through any string unchanged:\n\n```suggestion\n        // Accept both ISO strings and numeric Unix timestamps (agent file edits may write Date.now())\n        lastTouchedAt: z\n          .union([\n            z.string(), // Pass through any string unchanged (original behavior)\n            z.number().transform((n, ctx) => {\n              const d = new Date(n);\n              if (Number.isNaN(d.getTime())) {\n                ctx.addIssue({ code: z.ZodIssueCode.custom, message: \"Invalid timestamp\" });\n                return z.NEVER;\n              }\n              return d.toISOString();\n            }),\n          ])\n          .optional(),\n```\n\nThis fixes the original bug (numeric timestamps causing validation errors) without rejecting existing configs that might have stored non-date strings in `lastTouchedAt`.\n\nYou'll also need to remove test 4 (\"rejects non-date strings without throwing\") since we're no longer validating strings.",
+    "created_at": "2026-02-07T03:59:15Z",
+    "updated_at": "2026-02-07T03:59:16Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776952469",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776952469"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776952469"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776952469/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 93,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 95,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776643762,
+    "author_association": "NONE",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776993257",
+    "pull_request_review_id": 3766227195,
+    "id": 2776993257,
+    "node_id": "PRRC_kwDOQb6kR86lhY3p",
+    "diff_hunk": "@@ -92,7 +92,20 @@ export const OpenClawSchema = z\n     meta: z\n       .object({\n         lastTouchedVersion: z.string().optional(),\n-        lastTouchedAt: z.string().optional(),\n+        // Accept both ISO strings and numeric Unix timestamps (agent file edits may write Date.now())",
+    "path": "src/config/zod-schema.ts",
+    "commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "original_commit_id": "41d545052482769caf0f32a20c19f8fef104a992",
+    "user": {
+      "login": "mcaxtr",
+      "id": 7562095,
+      "node_id": "MDQ6VXNlcjc1NjIwOTU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7562095?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/mcaxtr",
+      "html_url": "https://github.com/mcaxtr",
+      "followers_url": "https://api.github.com/users/mcaxtr/followers",
+      "following_url": "https://api.github.com/users/mcaxtr/following{/other_user}",
+      "gists_url": "https://api.github.com/users/mcaxtr/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/mcaxtr/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/mcaxtr/subscriptions",
+      "organizations_url": "https://api.github.com/users/mcaxtr/orgs",
+      "repos_url": "https://api.github.com/users/mcaxtr/repos",
+      "events_url": "https://api.github.com/users/mcaxtr/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/mcaxtr/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@HenryLoenwind Updated — strings now pass through unchanged (preserving original behavior), only numeric timestamps get coerced to ISO strings. Does that work?",
+    "created_at": "2026-02-07T04:27:31Z",
+    "updated_at": "2026-02-07T04:27:32Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776993257",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10807",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776993257"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10807#discussion_r2776993257"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10807"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776993257/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 93,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 95,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776643762,
+    "author_association": "CONTRIBUTOR",
+    "original_position": 5,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

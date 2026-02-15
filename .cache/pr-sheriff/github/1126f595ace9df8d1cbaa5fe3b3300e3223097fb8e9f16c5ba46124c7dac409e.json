@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2766814003",
+    "pull_request_review_id": 3754235959,
+    "id": 2766814003,
+    "node_id": "PRRC_kwDOQb6kR86k6jsz",
+    "diff_hunk": "@@ -191,10 +191,10 @@ export function printCronList(jobs: CronJob[], runtime = defaultRuntime) {\n       CRON_SCHEDULE_PAD,\n     );\n     const nextLabel = pad(\n-      job.enabled ? formatRelative(job.state.nextRunAtMs, now) : \"-\",\n+      job.enabled ? formatRelative(job.state?.nextRunAtMs, now) : \"-\",\n       CRON_NEXT_PAD,\n     );\n-    const lastLabel = pad(formatRelative(job.state.lastRunAtMs, now), CRON_LAST_PAD);\n+    const lastLabel = pad(formatRelative(job.state?.lastRunAtMs, now), CRON_LAST_PAD);",
+    "path": "src/cli/cron-cli/shared.ts",
+    "commit_id": "9cb9ec71d0fa64f418459dd983e0fc32f0dcbfd0",
+    "original_commit_id": "9cb9ec71d0fa64f418459dd983e0fc32f0dcbfd0",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Falsy timestamp treated as unset**\n`formatRelative` uses `if (!ms) return \"-\";`, so passing `job.state?.nextRunAtMs` / `lastRunAtMs` will render `0` as \"-\" (even though it’s a valid numeric timestamp). If these fields can ever be `0` (e.g. default/uninitialized from older data), the CLI output will be wrong. Safer check is `ms == null` (null/undefined) rather than falsy.\n\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cli/cron-cli/shared.ts\nLine: 194:197\n\nComment:\n**Falsy timestamp treated as unset**\n`formatRelative` uses `if (!ms) return \"-\";`, so passing `job.state?.nextRunAtMs` / `lastRunAtMs` will render `0` as \"-\" (even though it’s a valid numeric timestamp). If these fields can ever be `0` (e.g. default/uninitialized from older data), the CLI output will be wrong. Safer check is `ms == null` (null/undefined) rather than falsy.\n\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-05T02:48:57Z",
+    "updated_at": "2026-02-05T02:48:58Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9289#discussion_r2766814003",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/9289",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2766814003"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/9289#discussion_r2766814003"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/9289"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2766814003/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 194,
+    "original_start_line": 194,
+    "start_side": "RIGHT",
+    "line": 197,
+    "original_line": 197,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 22,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2766820442",
+    "pull_request_review_id": 3754241868,
+    "id": 2766820442,
+    "node_id": "PRRC_kwDOQb6kR86k6lRa",
+    "diff_hunk": "",
+    "path": "openclaw-2026-02-02.log",
+    "commit_id": "9cb9ec71d0fa64f418459dd983e0fc32f0dcbfd0",
+    "original_commit_id": "9cb9ec71d0fa64f418459dd983e0fc32f0dcbfd0",
+    "user": {
+      "login": "acsoto",
+      "id": 59144459,
+      "node_id": "MDQ6VXNlcjU5MTQ0NDU5",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59144459?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/acsoto",
+      "html_url": "https://github.com/acsoto",
+      "followers_url": "https://api.github.com/users/acsoto/followers",
+      "following_url": "https://api.github.com/users/acsoto/following{/other_user}",
+      "gists_url": "https://api.github.com/users/acsoto/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/acsoto/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/acsoto/subscriptions",
+      "organizations_url": "https://api.github.com/users/acsoto/orgs",
+      "repos_url": "https://api.github.com/users/acsoto/repos",
+      "events_url": "https://api.github.com/users/acsoto/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/acsoto/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "should not include",
+    "created_at": "2026-02-05T02:52:09Z",
+    "updated_at": "2026-02-05T02:52:09Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9289#discussion_r2766820442",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/9289",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2766820442"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/9289#discussion_r2766820442"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/9289"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2766820442/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 1,
+    "original_line": 1,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 1,
+    "position": 1,
+    "subject_type": "file"
+  }
+]

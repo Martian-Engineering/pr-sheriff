@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774931293",
+    "pull_request_review_id": 3763957319,
+    "id": 2774931293,
+    "node_id": "PRRC_kwDOQb6kR86lZhdd",
+    "diff_hunk": "@@ -50,12 +52,14 @@ export function resolveCronDeliveryPlan(job: CronJob): CronDeliveryPlan {\n \n   const channel = deliveryChannel ?? payloadChannel ?? \"last\";\n   const to = deliveryTo ?? payloadTo;\n+  const deliveryThreadId = normalizeTo((delivery as { threadId?: unknown } | undefined)?.threadId);\n   if (hasDelivery) {",
+    "path": "src/cron/delivery.ts",
+    "commit_id": "490c6b72f4593fb0325f970b71379c988d232a5d",
+    "original_commit_id": "e2e20b3bd757dbd8c4c62df98aea919178905dd5",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Thread ID silently ignored**\n\n`resolveCronDeliveryPlan()` only reads `threadId` from `job.delivery` (`deliveryThreadId`), but the “legacy” path (where `job.delivery` is absent and delivery behavior is inferred from `payload.deliver/channel/to`) never considers any thread id. If an existing client/job relies on payload-only delivery configuration, setting a thread identifier won’t have any effect and delivery will remain unthreaded. If you intend thread support to work in the legacy/payload path too, it needs to be plumbed from `job.payload` (and included in the returned plan) the same way `channel`/`to` are.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/delivery.ts\nLine: 53:56\n\nComment:\n**Thread ID silently ignored**\n\n`resolveCronDeliveryPlan()` only reads `threadId` from `job.delivery` (`deliveryThreadId`), but the “legacy” path (where `job.delivery` is absent and delivery behavior is inferred from `payload.deliver/channel/to`) never considers any thread id. If an existing client/job relies on payload-only delivery configuration, setting a thread identifier won’t have any effect and delivery will remain unthreaded. If you intend thread support to work in the legacy/payload path too, it needs to be plumbed from `job.payload` (and included in the returned plan) the same way `channel`/`to` are.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-06T16:20:22Z",
+    "updated_at": "2026-02-06T16:20:23Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10518#discussion_r2774931293",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10518",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774931293"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10518#discussion_r2774931293"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10518"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774931293/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 54,
+    "original_start_line": 53,
+    "start_side": "RIGHT",
+    "line": 57,
+    "original_line": 56,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 14,
+    "position": 14,
+    "subject_type": "line"
+  }
+]

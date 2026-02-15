@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3768057429",
+    "html_url": "https://github.com/openclaw/openclaw/pull/1234#issuecomment-3768057429",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/1234",
+    "id": 3768057429,
+    "node_id": "IC_kwDOQb6kR87gl_5V",
+    "user": {
+      "login": "dougvk",
+      "id": 401660,
+      "node_id": "MDQ6VXNlcjQwMTY2MA==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/401660?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/dougvk",
+      "html_url": "https://github.com/dougvk",
+      "followers_url": "https://api.github.com/users/dougvk/followers",
+      "following_url": "https://api.github.com/users/dougvk/following{/other_user}",
+      "gists_url": "https://api.github.com/users/dougvk/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/dougvk/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/dougvk/subscriptions",
+      "organizations_url": "https://api.github.com/users/dougvk/orgs",
+      "repos_url": "https://api.github.com/users/dougvk/repos",
+      "events_url": "https://api.github.com/users/dougvk/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/dougvk/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-01-19T12:19:00Z",
+    "updated_at": "2026-01-19T12:19:00Z",
+    "body": "you took #1234 :shakes fist:!!",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3768057429/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

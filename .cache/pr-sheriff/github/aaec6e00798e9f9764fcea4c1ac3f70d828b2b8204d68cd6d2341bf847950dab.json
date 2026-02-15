@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2775394470",
+    "pull_request_review_id": 3764485274,
+    "id": 2775394470,
+    "node_id": "PRRC_kwDOQb6kR86lbSim",
+    "diff_hunk": "@@ -0,0 +1,131 @@\n+import fs from \"node:fs/promises\";\n+import os from \"node:os\";\n+import path from \"node:path\";\n+import { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\n+import { CronService } from \"./service.js\";\n+\n+const noopLogger = {\n+  debug: vi.fn(),\n+  info: vi.fn(),\n+  warn: vi.fn(),\n+  error: vi.fn(),\n+};\n+\n+async function makeStorePath() {\n+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), \"openclaw-cron-\"));\n+  return {\n+    storePath: path.join(dir, \"cron\", \"jobs.json\"),\n+    cleanup: async () => {\n+      await fs.rm(dir, { recursive: true, force: true });\n+    },\n+  };\n+}\n+\n+describe(\"CronService drift guard catches overdue jobs\", () => {\n+  beforeEach(() => {\n+    vi.useFakeTimers();\n+    vi.setSystemTime(new Date(\"2025-12-13T00:00:00.000Z\"));\n+    noopLogger.debug.mockClear();\n+    noopLogger.info.mockClear();\n+    noopLogger.warn.mockClear();\n+    noopLogger.error.mockClear();\n+  });\n+\n+  afterEach(() => {\n+    vi.useRealTimers();\n+  });",
+    "path": "src/cron/service.drift-guard-catches-overdue-jobs.test.ts",
+    "commit_id": "801fc4d64336ad016022c3867366669447e94217",
+    "original_commit_id": "1ec37e6ee42480b2527f72cdd4d5e680c00f5864",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Cleanup skipped on failure**\n\nBoth tests call `cron.stop()`/`store.cleanup()` at the end of the test body, so if an assertion throws earlier the temp dir is leaked and the CronService may keep timers open until `afterEach` runs. This can make the suite flaky over time (especially when running individual tests repeatedly). Consider moving `cron.stop()` + `store.cleanup()` into `afterEach` or a `try/finally` around the test body so cleanup always happens even on failure.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/service.drift-guard-catches-overdue-jobs.test.ts\nLine: 34:36\n\nComment:\n**Cleanup skipped on failure**\n\nBoth tests call `cron.stop()`/`store.cleanup()` at the end of the test body, so if an assertion throws earlier the temp dir is leaked and the CronService may keep timers open until `afterEach` runs. This can make the suite flaky over time (especially when running individual tests repeatedly). Consider moving `cron.stop()` + `store.cleanup()` into `afterEach` or a `try/finally` around the test body so cleanup always happens even on failure.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-06T18:05:52Z",
+    "updated_at": "2026-02-06T18:05:53Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10580#discussion_r2775394470",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2775394470"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10580#discussion_r2775394470"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2775394470/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 34,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 36,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 36,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

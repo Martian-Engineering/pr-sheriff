@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069866",
+    "pull_request_review_id": 3742801184,
+    "id": 2757069866,
+    "node_id": "PRRC_kwDOQb6kR86kVYwq",
+    "diff_hunk": "@@ -422,11 +422,10 @@ final class AppState {\n         let trimmedUser = parsed.user?.trimmingCharacters(in: .whitespacesAndNewlines)\n         let user = (trimmedUser?.isEmpty ?? true) ? nil : trimmedUser\n         let port = parsed.port\n-        let assembled: String\n-        if let user {\n-            assembled = port == 22 ? \"\\(user)@\\(host)\" : \"\\(user)@\\(host):\\(port)\"\n+        let assembled = if let user {\n+            port == 22 ? \"\\(user)@\\(host)\" : \"\\(user)@\\(host):\\(port)\"\n         } else {\n-            assembled = port == 22 ? host : \"\\(host):\\(port)\"\n+            port == 22 ? host : \"\\(host):\\(port)\"\n         }",
+    "path": "apps/macos/Sources/OpenClaw/AppState.swift",
+    "commit_id": "d371932b28e4a44629af0863599d3db7a433a008",
+    "original_commit_id": "d371932b28e4a44629af0863599d3db7a433a008",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P0] Swift `if` expression may break older toolchains\n\n`let assembled = if let user { ... } else { ... }` requires Swift 5.9+ (and may not be enabled in all build environments). If CI/Xcode for `apps/macos` isn’t guaranteed to be on a toolchain that supports `if` expressions, this will fail to compile.\n\nThis change is unrelated to the WhatsApp fix, so it’s also a high-risk surprise for this PR.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: apps/macos/Sources/OpenClaw/AppState.swift\nLine: 425:429\n\nComment:\n[P0] Swift `if` expression may break older toolchains\n\n`let assembled = if let user { ... } else { ... }` requires Swift 5.9+ (and may not be enabled in all build environments). If CI/Xcode for `apps/macos` isn’t guaranteed to be on a toolchain that supports `if` expressions, this will fail to compile.\n\nThis change is unrelated to the WhatsApp fix, so it’s also a high-risk surprise for this PR.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:58:06Z",
+    "updated_at": "2026-02-03T03:58:06Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2152#discussion_r2757069866",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2152",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069866"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2152#discussion_r2757069866"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2152"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069866/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 425,
+    "original_start_line": 425,
+    "start_side": "RIGHT",
+    "line": 429,
+    "original_line": 429,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line"
+  }
+]

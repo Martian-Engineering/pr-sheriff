@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3809885021",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2166#issuecomment-3809885021",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/2166",
+    "id": 3809885021,
+    "node_id": "IC_kwDOQb6kR87jFjtd",
+    "user": {
+      "login": "ngutman",
+      "id": 1540134,
+      "node_id": "MDQ6VXNlcjE1NDAxMzQ=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1540134?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ngutman",
+      "html_url": "https://github.com/ngutman",
+      "followers_url": "https://api.github.com/users/ngutman/followers",
+      "following_url": "https://api.github.com/users/ngutman/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ngutman/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ngutman/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ngutman/subscriptions",
+      "organizations_url": "https://api.github.com/users/ngutman/orgs",
+      "repos_url": "https://api.github.com/users/ngutman/repos",
+      "events_url": "https://api.github.com/users/ngutman/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ngutman/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-01-28T08:51:08Z",
+    "updated_at": "2026-01-28T08:51:08Z",
+    "body": "@thewilloftheshadow wanted to bring this up, I'm aware of the huge amounts of PRs this one effects all macOS node connections when the machine comes back from sleep (or when the node is restarted)",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3809885021/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

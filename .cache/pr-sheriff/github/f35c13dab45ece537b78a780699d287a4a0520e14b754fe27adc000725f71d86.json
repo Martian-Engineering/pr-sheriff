@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2770651764",
+    "pull_request_review_id": 3758831623,
+    "id": 2770651764,
+    "node_id": "PRRC_kwDOQb6kR86lJMp0",
+    "diff_hunk": "@@ -101,6 +132,22 @@ export function resolveModel(\n       } as Model<Api>);\n       return { model: fallbackModel, authStorage, modelRegistry };\n     }\n+\n+    // Fallback: check known Anthropic models when upstream catalog is behind.\n+    // This prevents crashes when a new model is released but pi-ai hasn't\n+    // been updated yet.\n+    if (normalizeProviderId(provider) === \"anthropic\") {",
+    "path": "src/agents/pi-embedded-runner/model.ts",
+    "commit_id": "cd09c43e3e706746cb458b4c31f94823bbe6bba9",
+    "original_commit_id": "cd09c43e3e706746cb458b4c31f94823bbe6bba9",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Fallback never triggers**\n\nIn `resolveModel()`, the `ANTHROPIC_MODEL_FALLBACKS` check is unreachable for *unknown* Anthropic models because the earlier `if (providerCfg || modelId.startsWith(\"mock-\"))` branch will always run when an Anthropic provider config exists (which it typically does). That branch returns a generic `openai-responses` model, so a user configuring `anthropic/claude-opus-4-6` will still resolve to the wrong API/model instead of your Anthropic fallback.\n\nThis means the crash may be avoided, but the resolved model will be incorrect (wrong `api`, `baseUrl`, pricing, etc.) in the common case where `cfg.models.providers.anthropic` is set.\n\nAlso appears at `src/agents/pi-embedded-runner/model.ts:119-134` (generic providerCfg fallback preceding the Anthropic fallback).\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/pi-embedded-runner/model.ts\nLine: 136:139\n\nComment:\n**Fallback never triggers**\n\nIn `resolveModel()`, the `ANTHROPIC_MODEL_FALLBACKS` check is unreachable for *unknown* Anthropic models because the earlier `if (providerCfg || modelId.startsWith(\"mock-\"))` branch will always run when an Anthropic provider config exists (which it typically does). That branch returns a generic `openai-responses` model, so a user configuring `anthropic/claude-opus-4-6` will still resolve to the wrong API/model instead of your Anthropic fallback.\n\nThis means the crash may be avoided, but the resolved model will be incorrect (wrong `api`, `baseUrl`, pricing, etc.) in the common case where `cfg.models.providers.anthropic` is set.\n\nAlso appears at `src/agents/pi-embedded-runner/model.ts:119-134` (generic providerCfg fallback preceding the Anthropic fallback).\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-05T18:57:01Z",
+    "updated_at": "2026-02-05T18:57:08Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9834#discussion_r2770651764",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/9834",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2770651764"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/9834#discussion_r2770651764"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/9834"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2770651764/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 136,
+    "original_start_line": 136,
+    "start_side": "RIGHT",
+    "line": 139,
+    "original_line": 139,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 46,
+    "position": 46,
+    "subject_type": "line"
+  }
+]

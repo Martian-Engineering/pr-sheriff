@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3863415487",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10850#issuecomment-3863415487",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/10850",
+    "id": 3863415487,
+    "node_id": "IC_kwDOQb6kR87mRwq_",
+    "user": {
+      "login": "talhaorak",
+      "id": 1158906,
+      "node_id": "MDQ6VXNlcjExNTg5MDY=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1158906?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/talhaorak",
+      "html_url": "https://github.com/talhaorak",
+      "followers_url": "https://api.github.com/users/talhaorak/followers",
+      "following_url": "https://api.github.com/users/talhaorak/following{/other_user}",
+      "gists_url": "https://api.github.com/users/talhaorak/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/talhaorak/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/talhaorak/subscriptions",
+      "organizations_url": "https://api.github.com/users/talhaorak/orgs",
+      "repos_url": "https://api.github.com/users/talhaorak/repos",
+      "events_url": "https://api.github.com/users/talhaorak/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/talhaorak/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-02-07T02:58:43Z",
+    "updated_at": "2026-02-07T02:58:43Z",
+    "body": "Thanks for the review! I want to clarify the hot-reload flow:\n\nIn `server-reload-handlers.ts`, channel restarts go through:\n```javascript\nconst restartChannel = async (name) => {\n  await params.stopChannel(name);  // This calls abort.abort()\n  await params.startChannel(name);\n};\n```\n\nAnd `stopChannel()` in `server-channels.ts` does call `abort?.abort()`, which triggers our abort handler and sets `stopState.promise`.\n\nThat said, your point about being more defensive is valid — if there are other code paths that restart the channel without going through `stopChannel()`, those wouldn't be covered. Happy to extend the fix if maintainers prefer that approach.\n\nThe current fix specifically targets the SIGUSR1/config-reload path that was reported in #8140.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3863415487/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

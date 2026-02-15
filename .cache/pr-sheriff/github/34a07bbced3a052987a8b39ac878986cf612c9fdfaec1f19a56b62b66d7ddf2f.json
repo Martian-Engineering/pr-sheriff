@@ -1,0 +1,209 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947376",
+    "pull_request_review_id": 3742654006,
+    "id": 2756947376,
+    "node_id": "PRRC_kwDOQb6kR86kU62w",
+    "diff_hunk": "@@ -313,7 +313,23 @@ export function createSignalEventHandler(deps: SignalEventHandlerDeps) {\n       : deps.isSignalReactionMessage(dataMessage?.reaction)\n         ? dataMessage?.reaction\n         : null;\n-    const messageText = (dataMessage?.message ?? \"\").trim();\n+\n+    // Replace ￼ (object replacement character) with @uuid or @phone from mentions\n+    let messageText = (dataMessage?.message ?? \"\").trim();\n+    if (messageText && dataMessage?.mentions?.length) {\n+      const mentions = dataMessage.mentions\n+        .filter((m) => (m.uuid || m.number) && m.start != null && m.length != null)\n+        .sort((a, b) => (b.start ?? 0) - (a.start ?? 0)); // Reverse order to avoid index shifting\n+\n+      for (const mention of mentions) {\n+        const start = mention.start!;\n+        const length = mention.length!;\n+        const identifier = mention.uuid || mention.number || \"\";\n+        const replacement = `@${identifier}`;\n+        messageText = messageText.slice(0, start) + replacement + messageText.slice(start + length);",
+    "path": "src/signal/monitor/event-handler.ts",
+    "commit_id": "6e5987127e42bf9b7e9a7bb9f42a9889ac984122",
+    "original_commit_id": "6e5987127e42bf9b7e9a7bb9f42a9889ac984122",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Mention replacement can corrupt text when `start`/`length` are out of bounds (or not aligned with JS string indices).\n\nThis assumes `mention.start`/`mention.length` are valid indices into `dataMessage.message` as a JS string. If Signal provides offsets in UTF-16 code units vs codepoints, or if the message was trimmed (see `.trim()`), or if a malformed payload includes out-of-range values, `slice(start + length)` will produce unexpected results (silently dropping/duplicating content). Consider validating bounds against `messageText.length` (and ideally operating on the untrimmed original string) before slicing.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/signal/monitor/event-handler.ts\nLine: 319:329\n\nComment:\n[P1] Mention replacement can corrupt text when `start`/`length` are out of bounds (or not aligned with JS string indices).\n\nThis assumes `mention.start`/`mention.length` are valid indices into `dataMessage.message` as a JS string. If Signal provides offsets in UTF-16 code units vs codepoints, or if the message was trimmed (see `.trim()`), or if a malformed payload includes out-of-range values, `slice(start + length)` will produce unexpected results (silently dropping/duplicating content). Consider validating bounds against `messageText.length` (and ideally operating on the untrimmed original string) before slicing.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T02:54:13Z",
+    "updated_at": "2026-02-03T02:54:15Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2013#discussion_r2756947376",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2013",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947376"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2013#discussion_r2756947376"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2013"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947376/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 319,
+    "original_start_line": 319,
+    "start_side": "RIGHT",
+    "line": 329,
+    "original_line": 329,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 18,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947400",
+    "pull_request_review_id": 3742654006,
+    "id": 2756947400,
+    "node_id": "PRRC_kwDOQb6kR86kU63I",
+    "diff_hunk": "@@ -313,7 +313,23 @@ export function createSignalEventHandler(deps: SignalEventHandlerDeps) {\n       : deps.isSignalReactionMessage(dataMessage?.reaction)\n         ? dataMessage?.reaction\n         : null;\n-    const messageText = (dataMessage?.message ?? \"\").trim();\n+\n+    // Replace ￼ (object replacement character) with @uuid or @phone from mentions\n+    let messageText = (dataMessage?.message ?? \"\").trim();\n+    if (messageText && dataMessage?.mentions?.length) {\n+      const mentions = dataMessage.mentions\n+        .filter((m) => (m.uuid || m.number) && m.start != null && m.length != null)\n+        .sort((a, b) => (b.start ?? 0) - (a.start ?? 0)); // Reverse order to avoid index shifting",
+    "path": "src/signal/monitor/event-handler.ts",
+    "commit_id": "6e5987127e42bf9b7e9a7bb9f42a9889ac984122",
+    "original_commit_id": "6e5987127e42bf9b7e9a7bb9f42a9889ac984122",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P3] Comment says “replace \\ufffc …” but code replaces by slicing at `mention.start`/`mention.length` regardless of whether the substring is actually \\ufffc.\n\nIf `start/length` ever point at non-placeholder content (e.g., different client behavior or malformed payload), this will still overwrite that text. Consider either checking that `messageText.slice(start, start + length)` contains `\\ufffc` (or expected placeholder span) before replacing, or updating the comment to reflect the current behavior.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/signal/monitor/event-handler.ts\nLine: 318:322\n\nComment:\n[P3] Comment says “replace \\ufffc …” but code replaces by slicing at `mention.start`/`mention.length` regardless of whether the substring is actually \\ufffc.\n\nIf `start/length` ever point at non-placeholder content (e.g., different client behavior or malformed payload), this will still overwrite that text. Consider either checking that `messageText.slice(start, start + length)` contains `\\ufffc` (or expected placeholder span) before replacing, or updating the comment to reflect the current behavior.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T02:54:14Z",
+    "updated_at": "2026-02-03T02:54:15Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2013#discussion_r2756947400",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2013",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947400"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2013#discussion_r2756947400"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2013"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947400/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 318,
+    "original_start_line": 318,
+    "start_side": "RIGHT",
+    "line": 322,
+    "original_line": 322,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757070364",
+    "pull_request_review_id": 3742801774,
+    "id": 2757070364,
+    "node_id": "PRRC_kwDOQb6kR86kVY4c",
+    "diff_hunk": "@@ -313,7 +313,23 @@ export function createSignalEventHandler(deps: SignalEventHandlerDeps) {\n       : deps.isSignalReactionMessage(dataMessage?.reaction)\n         ? dataMessage?.reaction\n         : null;\n-    const messageText = (dataMessage?.message ?? \"\").trim();\n+\n+    // Replace ￼ (object replacement character) with @uuid or @phone from mentions\n+    let messageText = (dataMessage?.message ?? \"\").trim();\n+    if (messageText && dataMessage?.mentions?.length) {\n+      const mentions = dataMessage.mentions\n+        .filter((m) => (m.uuid || m.number) && m.start != null && m.length != null)\n+        .sort((a, b) => (b.start ?? 0) - (a.start ?? 0)); // Reverse order to avoid index shifting\n+\n+      for (const mention of mentions) {\n+        const start = mention.start!;\n+        const length = mention.length!;\n+        const identifier = mention.uuid || mention.number || \"\";\n+        const replacement = `@${identifier}`;\n+        messageText = messageText.slice(0, start) + replacement + messageText.slice(start + length);\n+      }",
+    "path": "src/signal/monitor/event-handler.ts",
+    "commit_id": "6e5987127e42bf9b7e9a7bb9f42a9889ac984122",
+    "original_commit_id": "6e5987127e42bf9b7e9a7bb9f42a9889ac984122",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Mention offsets likely become incorrect due to `.trim()` before replacement.\n\n`mention.start`/`mention.length` refer to positions in the original `dataMessage.message`, but `messageText` is trimmed first (`(dataMessage?.message ?? \"\").trim()`). If the message has leading/trailing whitespace/newlines, all offsets can shift and the replacements will target the wrong span (overwriting user text) even when Signal’s indices are otherwise correct. Consider performing mention substitution on the untrimmed string (then trim after), or adjust offsets based on removed prefix whitespace.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/signal/monitor/event-handler.ts\nLine: 318:330\n\nComment:\n[P1] Mention offsets likely become incorrect due to `.trim()` before replacement.\n\n`mention.start`/`mention.length` refer to positions in the original `dataMessage.message`, but `messageText` is trimmed first (`(dataMessage?.message ?? \"\").trim()`). If the message has leading/trailing whitespace/newlines, all offsets can shift and the replacements will target the wrong span (overwriting user text) even when Signal’s indices are otherwise correct. Consider performing mention substitution on the untrimmed string (then trim after), or adjust offsets based on removed prefix whitespace.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:58:19Z",
+    "updated_at": "2026-02-03T03:58:21Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2013#discussion_r2757070364",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2013",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757070364"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2013#discussion_r2757070364"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2013"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757070364/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 318,
+    "original_start_line": 318,
+    "start_side": "RIGHT",
+    "line": 330,
+    "original_line": 330,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 19,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3861252450",
+    "html_url": "https://github.com/openclaw/openclaw/pull/6433#issuecomment-3861252450",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/6433",
+    "id": 3861252450,
+    "node_id": "IC_kwDOQb6kR87mJgli",
+    "user": {
+      "login": "adampaulsen",
+      "id": 1534261,
+      "node_id": "MDQ6VXNlcjE1MzQyNjE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1534261?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/adampaulsen",
+      "html_url": "https://github.com/adampaulsen",
+      "followers_url": "https://api.github.com/users/adampaulsen/followers",
+      "following_url": "https://api.github.com/users/adampaulsen/following{/other_user}",
+      "gists_url": "https://api.github.com/users/adampaulsen/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/adampaulsen/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/adampaulsen/subscriptions",
+      "organizations_url": "https://api.github.com/users/adampaulsen/orgs",
+      "repos_url": "https://api.github.com/users/adampaulsen/repos",
+      "events_url": "https://api.github.com/users/adampaulsen/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/adampaulsen/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-02-06T16:11:14Z",
+    "updated_at": "2026-02-06T16:11:14Z",
+    "body": "I am also seeing this on version 2026.1.30. The log message 16:00:26 [plugins] plugin CLI register skipped (memory-core)... is hitting stdout and breaking the bash source command. My workaround for now is using a static completion file.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3861252450/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

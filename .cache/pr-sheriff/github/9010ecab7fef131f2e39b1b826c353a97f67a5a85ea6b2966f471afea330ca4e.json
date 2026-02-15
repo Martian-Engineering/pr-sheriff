@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185042",
+    "pull_request_review_id": 3742934553,
+    "id": 2757185042,
+    "node_id": "PRRC_kwDOQb6kR86kV04S",
+    "diff_hunk": "@@ -418,6 +488,14 @@ export async function resolveImplicitProviders(params: {\n     providers.ollama = { ...(await buildOllamaProvider()), apiKey: ollamaKey };\n   }\n \n+  // jan.ai provider - only add if explicitly configured\n+  const janKey =\n+    resolveEnvApiKeyVarName(\"jan\") ??\n+    resolveApiKeyFromProfiles({ provider: \"jan\", store: authStore });\n+  if (janKey) {",
+    "path": "src/agents/models-config.providers.ts",
+    "commit_id": "ff8b6d86c835f68861a6704c1b47064b260c4be1",
+    "original_commit_id": "ff8b6d86c835f68861a6704c1b47064b260c4be1",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P0] The env helper used here returns an identifier string, not a resolved credential. That identifier can end up in the provider config.\n\nThis likely wants the helper that returns the resolved value.\n\nSuggestion: use the value-returning env helper in place of the identifier-returning one here.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/models-config.providers.ts\nLine: 492:495\n\nComment:\n[P0] The env helper used here returns an identifier string, not a resolved credential. That identifier can end up in the provider config.\n\nThis likely wants the helper that returns the resolved value.\n\nSuggestion: use the value-returning env helper in place of the identifier-returning one here.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:34Z",
+    "updated_at": "2026-02-03T04:51:38Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/1943#discussion_r2757185042",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/1943",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185042"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/1943#discussion_r2757185042"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/1943"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185042/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 492,
+    "original_start_line": 492,
+    "start_side": "RIGHT",
+    "line": 495,
+    "original_line": 495,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 106,
+    "position": 416,
+    "subject_type": "line"
+  }
+]

@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185005",
+    "pull_request_review_id": 3742934511,
+    "id": 2757185005,
+    "node_id": "PRRC_kwDOQb6kR86kV03t",
+    "diff_hunk": "@@ -0,0 +1,284 @@\n+import type { WebClient as SlackWebClient } from \"@slack/web-api\";\n+\n+import { logVerbose } from \"../globals.js\";\n+import type { SlackFile, SlackMessageEvent } from \"./types.js\";\n+\n+type CanvasUrlMatch = {\n+  url: string;\n+  fileId?: string;\n+};\n+\n+export type SlackCanvasRef = {\n+  fileId?: string;\n+  canvasUrl?: string;\n+  channelId?: string;\n+  messageTs?: string;\n+};\n+\n+export type SlackCanvasContent = {\n+  title?: string;\n+  extractedText: string;\n+  rawFormat: \"json\" | \"text\" | \"unknown\";\n+  truncated: boolean;\n+};\n+\n+export type SlackCanvasFetchResult =\n+  | ({ ok: true } & SlackCanvasContent)\n+  | { ok: false; error: string };\n+\n+const SLACK_CANVAS_MIME = \"application/vnd.slack-docs\";\n+const CANVAS_FILETYPE_HINTS = new Set([\"quip\"]);\n+const CANVAS_PRETTY_TYPE = new Set([\"canvas\"]);\n+\n+const CANVAS_URL_RE = /https?:\\/\\/[^\\s<>\"]*slack\\.com\\/(docs|canvas|doc|files)\\/[^\\s<>\"]+/gi;\n+const SLACK_FILE_ID_RE = /\\bF[A-Z0-9]{8,}\\b/g;\n+\n+export function isSlackCanvasFile(file?: SlackFile | null): boolean {\n+  if (!file) return false;\n+  const mimetype = file.mimetype?.toLowerCase();\n+  const prettyType = file.pretty_type?.toLowerCase();\n+  const filetype = file.filetype?.toLowerCase();\n+  if (mimetype && mimetype === SLACK_CANVAS_MIME) return true;\n+  if (prettyType && CANVAS_PRETTY_TYPE.has(prettyType)) return true;\n+  if (filetype && CANVAS_FILETYPE_HINTS.has(filetype)) return true;\n+  return false;\n+}\n+\n+function extractFileIdFromUrl(url: string): string | undefined {\n+  const matches = url.match(SLACK_FILE_ID_RE);\n+  if (!matches || matches.length === 0) return undefined;\n+  return matches[0];\n+}\n+\n+function collectUrlsFromText(text: string): CanvasUrlMatch[] {\n+  const matches = text.match(CANVAS_URL_RE) ?? [];\n+  return matches.map((url) => ({ url, fileId: extractFileIdFromUrl(url) }));\n+}\n+\n+function collectUrlsFromObject(value: unknown, into: CanvasUrlMatch[], seen = new Set<string>()) {\n+  if (!value) return;\n+  if (typeof value === \"string\") {\n+    for (const entry of collectUrlsFromText(value)) {\n+      if (seen.has(entry.url)) continue;\n+      seen.add(entry.url);\n+      into.push(entry);\n+    }\n+    return;\n+  }\n+  if (Array.isArray(value)) {\n+    for (const entry of value) collectUrlsFromObject(entry, into, seen);\n+    return;\n+  }\n+  if (typeof value !== \"object\") return;\n+  for (const entry of Object.values(value as Record<string, unknown>)) {\n+    collectUrlsFromObject(entry, into, seen);\n+  }",
+    "path": "src/slack/canvases.ts",
+    "commit_id": "d421bbeb4827f27e1362df4b61b293b48b5404ef",
+    "original_commit_id": "d421bbeb4827f27e1362df4b61b293b48b5404ef",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P2] Recursive URL scan can blow up on cyclic objects\n\n`collectUrlsFromObject` recurses through arbitrary `blocks`/`attachments` payloads but doesn't track visited object identities, so a cyclic structure (or very deep graph) would cause unbounded recursion/stack overflow. Slack payloads are usually acyclic JSON, but this becomes a footgun if these helpers ever get called on non-JSON objects (or if a test/middleware introduces cycles). Consider adding a `seenObjects: WeakSet<object>` guard (in addition to the existing URL dedupe) to prevent cycles.\n\nAlso appears in: `collectJsonText` in the same file (`src/slack/canvases.ts:132-173`) which has a depth cap but no cycle guard.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/slack/canvases.ts\nLine: 58:75\n\nComment:\n[P2] Recursive URL scan can blow up on cyclic objects\n\n`collectUrlsFromObject` recurses through arbitrary `blocks`/`attachments` payloads but doesn't track visited object identities, so a cyclic structure (or very deep graph) would cause unbounded recursion/stack overflow. Slack payloads are usually acyclic JSON, but this becomes a footgun if these helpers ever get called on non-JSON objects (or if a test/middleware introduces cycles). Consider adding a `seenObjects: WeakSet<object>` guard (in addition to the existing URL dedupe) to prevent cycles.\n\nAlso appears in: `collectJsonText` in the same file (`src/slack/canvases.ts:132-173`) which has a depth cap but no cycle guard.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:33Z",
+    "updated_at": "2026-02-03T04:51:38Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2084#discussion_r2757185005",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2084",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185005"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2084#discussion_r2757185005"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2084"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185005/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 58,
+    "original_start_line": 58,
+    "start_side": "RIGHT",
+    "line": 75,
+    "original_line": 75,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 75,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185034",
+    "pull_request_review_id": 3742934511,
+    "id": 2757185034,
+    "node_id": "PRRC_kwDOQb6kR86kV04K",
+    "diff_hunk": "@@ -336,8 +337,45 @@ export async function prepareSlackMessage(params: {\n     token: ctx.botToken,\n     maxBytes: ctx.mediaMaxBytes,\n   });\n-  const rawBody = (message.text ?? \"\").trim() || media?.placeholder || \"\";\n-  if (!rawBody) return null;\n+\n+  const canvasRefs = extractCanvasRefsFromEvent(message);\n+  const canvasBlocks: string[] = [];\n+  for (const ref of canvasRefs) {\n+    const label = ref.fileId ?? ref.canvasUrl ?? \"unknown\";\n+    const result = await fetchSlackCanvasContent({\n+      ref,\n+      client: ctx.app.client,\n+      token: ctx.botToken,\n+      maxBytes: ctx.canvasMaxBytes,\n+      maxChars: ctx.canvasTextMaxChars,\n+    });\n+    if (result.ok) {\n+      const title = result.title ?? label;\n+      const content = result.truncated\n+        ? `${result.extractedText}\\n[truncated]`\n+        : result.extractedText;\n+      canvasBlocks.push(`[Slack Canvas: ${title}]\\n${content}`);\n+    } else {\n+      ctx.logger.warn(\n+        {\n+          fileId: ref.fileId,\n+          url: ref.canvasUrl,\n+          channelId: ref.channelId,\n+          messageTs: ref.messageTs,\n+          error: result.error,\n+        },\n+        \"slack canvas fetch failed\",\n+      );\n+      canvasBlocks.push(`[Slack Canvas: ${label}] Unable to fetch content (${result.error})`);\n+    }\n+  }",
+    "path": "src/slack/monitor/message-handler/prepare.ts",
+    "commit_id": "d421bbeb4827f27e1362df4b61b293b48b5404ef",
+    "original_commit_id": "d421bbeb4827f27e1362df4b61b293b48b5404ef",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P3] Canvas fetch runs serially per message\n\nCanvas ingestion loops `for (const ref of canvasRefs) { await fetchSlackCanvasContent(...) }`, which serializes downloads. If a single message contains multiple canvases/links this will add avoidable latency to inbound handling. If you want to keep best-effort behavior but reduce tail latency, consider fetching in parallel with a small concurrency cap and joining results.\n\nNot blocking, but worth considering since this runs on the hot path.\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/slack/monitor/message-handler/prepare.ts\nLine: 341:371\n\nComment:\n[P3] Canvas fetch runs serially per message\n\nCanvas ingestion loops `for (const ref of canvasRefs) { await fetchSlackCanvasContent(...) }`, which serializes downloads. If a single message contains multiple canvases/links this will add avoidable latency to inbound handling. If you want to keep best-effort behavior but reduce tail latency, consider fetching in parallel with a small concurrency cap and joining results.\n\nNot blocking, but worth considering since this runs on the hot path.\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:34Z",
+    "updated_at": "2026-02-03T04:51:38Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2084#discussion_r2757185034",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2084",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185034"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2084#discussion_r2757185034"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2084"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185034/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 341,
+    "original_start_line": 341,
+    "start_side": "RIGHT",
+    "line": 371,
+    "original_line": 371,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 45,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

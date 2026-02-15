@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184998",
+    "pull_request_review_id": 3742934493,
+    "id": 2757184998,
+    "node_id": "PRRC_kwDOQb6kR86kV03m",
+    "diff_hunk": "@@ -107,7 +108,6 @@ public actor GatewayNodeSession {\n \n         do {\n             try await channel.connect()\n-            await onConnected()\n         } catch {",
+    "path": "apps/shared/MoltbotKit/Sources/MoltbotKit/GatewayNodeSession.swift",
+    "commit_id": "82529f4826c61247182401807183b1b9efd7357a",
+    "original_commit_id": "82529f4826c61247182401807183b1b9efd7357a",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P0] `onConnected` is no longer guaranteed to fire after `connect()` returns.\n\nWith the removal of `await onConnected()` here, the only remaining invocation is in `handlePush` on `.snapshot` (`apps/shared/MoltbotKit/Sources/MoltbotKit/GatewayNodeSession.swift:179-183`). If the socket connects but the snapshot never arrives (or arrives late, or is dropped on reconnect), callers that rely on `onConnected` being called after `connect()` completes may hang or mis-report connection state.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: apps/shared/MoltbotKit/Sources/MoltbotKit/GatewayNodeSession.swift\nLine: 109:111\n\nComment:\n[P0] `onConnected` is no longer guaranteed to fire after `connect()` returns.\n\nWith the removal of `await onConnected()` here, the only remaining invocation is in `handlePush` on `.snapshot` (`apps/shared/MoltbotKit/Sources/MoltbotKit/GatewayNodeSession.swift:179-183`). If the socket connects but the snapshot never arrives (or arrives late, or is dropped on reconnect), callers that rely on `onConnected` being called after `connect()` completes may hang or mis-report connection state.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:33Z",
+    "updated_at": "2026-02-03T04:51:34Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2166#discussion_r2757184998",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184998"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2166#discussion_r2757184998"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184998/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 109,
+    "original_start_line": 109,
+    "start_side": "RIGHT",
+    "line": 111,
+    "original_line": 111,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 13,
+    "position": 132,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185028",
+    "pull_request_review_id": 3742934493,
+    "id": 2757185028,
+    "node_id": "PRRC_kwDOQb6kR86kV04E",
+    "diff_hunk": "@@ -328,8 +345,8 @@ public actor GatewayChannelActor {\n         } else if let password = self.password {\n             params[\"auth\"] = ProtoAnyCodable([\"password\": ProtoAnyCodable(password)])\n         }\n-        let signedAtMs = Int(Date().timeIntervalSince1970 * 1000)\n         let connectNonce = try await self.waitForConnectChallenge()\n+        let signedAtMs = Int(Date().timeIntervalSince1970 * 1000)\n         let scopesValue = scopes.joined(separator: \",\")\n         var payloadParts = [",
+    "path": "apps/shared/MoltbotKit/Sources/MoltbotKit/GatewayChannel.swift",
+    "commit_id": "82529f4826c61247182401807183b1b9efd7357a",
+    "original_commit_id": "82529f4826c61247182401807183b1b9efd7357a",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P2] `signedAtMs` is computed after awaiting `waitForConnectChallenge()`.\n\nThis shifts the signature timestamp later by up to `connectChallengeTimeoutSeconds` (0.75s) plus scheduling/network delay. It likely won’t break anything given server skew tolerance (10 min), but if the intent is “time when connect attempt started”, consider computing `signedAtMs` before the await for more stable/diagnostic-friendly timestamps.\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: apps/shared/MoltbotKit/Sources/MoltbotKit/GatewayChannel.swift\nLine: 348:351\n\nComment:\n[P2] `signedAtMs` is computed after awaiting `waitForConnectChallenge()`.\n\nThis shifts the signature timestamp later by up to `connectChallengeTimeoutSeconds` (0.75s) plus scheduling/network delay. It likely won’t break anything given server skew tolerance (10 min), but if the intent is “time when connect attempt started”, consider computing `signedAtMs` before the await for more stable/diagnostic-friendly timestamps.\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:33Z",
+    "updated_at": "2026-02-03T04:51:34Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2166#discussion_r2757185028",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2166",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185028"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2166#discussion_r2757185028"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2166"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185028/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 348,
+    "original_start_line": 348,
+    "start_side": "RIGHT",
+    "line": 351,
+    "original_line": 351,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 52,
+    "position": 75,
+    "subject_type": "line"
+  }
+]

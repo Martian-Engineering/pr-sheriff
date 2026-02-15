@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3866065278",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9687#issuecomment-3866065278",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/9687",
+    "id": 3866065278,
+    "node_id": "IC_kwDOQb6kR87mb3l-",
+    "user": {
+      "login": "tyler6204",
+      "id": 64381258,
+      "node_id": "MDQ6VXNlcjY0MzgxMjU4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/64381258?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tyler6204",
+      "html_url": "https://github.com/tyler6204",
+      "followers_url": "https://api.github.com/users/tyler6204/followers",
+      "following_url": "https://api.github.com/users/tyler6204/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tyler6204/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tyler6204/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tyler6204/subscriptions",
+      "organizations_url": "https://api.github.com/users/tyler6204/orgs",
+      "repos_url": "https://api.github.com/users/tyler6204/repos",
+      "events_url": "https://api.github.com/users/tyler6204/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tyler6204/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-02-08T03:48:17Z",
+    "updated_at": "2026-02-08T03:48:17Z",
+    "body": "Superseded by https://github.com/openclaw/openclaw/pull/11641 (merge commit: 8fae55e8e0579881a0b5a7a936fe3054dd73228d). Closing to reduce duplicate PR noise. Please open a new PR only if there is additional scope beyond this fix.",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3866065278/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

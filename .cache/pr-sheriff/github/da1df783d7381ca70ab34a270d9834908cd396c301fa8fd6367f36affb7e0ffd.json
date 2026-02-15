@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3832419912",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2123#issuecomment-3832419912",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/2123",
+    "id": 3832419912,
+    "node_id": "IC_kwDOQb6kR87kbhZI",
+    "user": {
+      "login": "kira-ariaki",
+      "id": 257352493,
+      "node_id": "U_kgDOD1bjLQ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/257352493?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/kira-ariaki",
+      "html_url": "https://github.com/kira-ariaki",
+      "followers_url": "https://api.github.com/users/kira-ariaki/followers",
+      "following_url": "https://api.github.com/users/kira-ariaki/following{/other_user}",
+      "gists_url": "https://api.github.com/users/kira-ariaki/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/kira-ariaki/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/kira-ariaki/subscriptions",
+      "organizations_url": "https://api.github.com/users/kira-ariaki/orgs",
+      "repos_url": "https://api.github.com/users/kira-ariaki/repos",
+      "events_url": "https://api.github.com/users/kira-ariaki/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/kira-ariaki/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-02-02T01:00:07Z",
+    "updated_at": "2026-02-02T01:00:07Z",
+    "body": "👍 This approach is better than my similar PR #3620 (which got closed in the feature freeze). Pre-emptively syncing before refresh is smarter than post-failure recovery. Hope this gets merged!",
+    "author_association": "CONTRIBUTOR",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3832419912/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

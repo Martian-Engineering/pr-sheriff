@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756886353",
+    "pull_request_review_id": 3742581047,
+    "id": 2756886353,
+    "node_id": "PRRC_kwDOQb6kR86kUr9R",
+    "diff_hunk": "@@ -19,6 +19,24 @@ export function resolveUserTimezone(configured?: string): string {\n   return host?.trim() || \"UTC\";\n }\n \n+/**\n+ * Get the timezone abbreviation (e.g., \"EST\", \"PST\", \"UTC\") for a given IANA timezone.\n+ * Falls back to the IANA name if abbreviation cannot be determined.\n+ */\n+export function getTimezoneAbbreviation(timezone: string): string {\n+  try {\n+    const formatter = new Intl.DateTimeFormat(\"en-US\", {\n+      timeZone: timezone,\n+      timeZoneName: \"short\",\n+    });\n+    const parts = formatter.formatToParts(new Date());\n+    const tzPart = parts.find((p) => p.type === \"timeZoneName\");\n+    return tzPart?.value ?? timezone;\n+  } catch {\n+    return timezone;\n+  }\n+}",
+    "path": "src/agents/date-time.ts",
+    "commit_id": "3353add33aa6e37b19c3b0492231aaac7a637069",
+    "original_commit_id": "3353add33aa6e37b19c3b0492231aaac7a637069",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P2] `timeZoneName: \"short\"` may not yield true abbreviations across environments\n\n`Intl.DateTimeFormat(..., { timeZoneName: \"short\" })` often returns offsets like `GMT-5`/`UTC−05:00` or localized strings (and can vary by Node/ICU build), so `getTimezoneAbbreviation()` may not reliably produce `EST/PST` as the PR description implies. If the goal is a stable, friendly label, consider renaming the function (e.g. to `getTimezoneShortName`) or using `timeZoneName: \"shortGeneric\"`/`\"shortOffset\"` depending on the desired output semantics.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/date-time.ts\nLine: 26:38\n\nComment:\n[P2] `timeZoneName: \"short\"` may not yield true abbreviations across environments\n\n`Intl.DateTimeFormat(..., { timeZoneName: \"short\" })` often returns offsets like `GMT-5`/`UTC−05:00` or localized strings (and can vary by Node/ICU build), so `getTimezoneAbbreviation()` may not reliably produce `EST/PST` as the PR description implies. If the goal is a stable, friendly label, consider renaming the function (e.g. to `getTimezoneShortName`) or using `timeZoneName: \"shortGeneric\"`/`\"shortOffset\"` depending on the desired output semantics.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T02:24:12Z",
+    "updated_at": "2026-02-03T02:24:14Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/4901#discussion_r2756886353",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/4901",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756886353"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/4901#discussion_r2756886353"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/4901"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756886353/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 26,
+    "original_start_line": 26,
+    "start_side": "RIGHT",
+    "line": 38,
+    "original_line": 38,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 20,
+    "position": 26,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756886372",
+    "pull_request_review_id": 3742581047,
+    "id": 2756886372,
+    "node_id": "PRRC_kwDOQb6kR86kUr9k",
+    "diff_hunk": "@@ -51,7 +51,11 @@ function buildUserIdentitySection(ownerLine: string | undefined, isMinimal: bool\n \n function buildTimeSection(params: { userTimezone?: string }) {\n   if (!params.userTimezone) return [];\n-  return [\"## Current Date & Time\", `Time zone: ${params.userTimezone}`, \"\"];\n+  const abbrev = getTimezoneAbbreviation(params.userTimezone);\n+  // Show both IANA name and abbreviation if they differ\n+  const tzDisplay =\n+    abbrev !== params.userTimezone ? `${params.userTimezone} (${abbrev})` : params.userTimezone;\n+  return [\"## Current Date & Time\", `Time zone: ${tzDisplay}`, \"\"];\n }",
+    "path": "src/agents/system-prompt.ts",
+    "commit_id": "3353add33aa6e37b19c3b0492231aaac7a637069",
+    "original_commit_id": "3353add33aa6e37b19c3b0492231aaac7a637069",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P3] Consider trimming before comparing to avoid duplicate display from whitespace/casing\n\n`buildTimeSection()` compares `abbrev !== params.userTimezone`, but `params.userTimezone` can include whitespace (it’s trimmed later in `buildAgentSystemPrompt`). If `buildTimeSection` is ever reused elsewhere, you could end up with `America/New_York (America/New_York)`-style output due purely to whitespace. Passing the already-trimmed `userTimezone` down (or trimming locally before both the call and the comparison) keeps the display stable.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/system-prompt.ts\nLine: 52:59\n\nComment:\n[P3] Consider trimming before comparing to avoid duplicate display from whitespace/casing\n\n`buildTimeSection()` compares `abbrev !== params.userTimezone`, but `params.userTimezone` can include whitespace (it’s trimmed later in `buildAgentSystemPrompt`). If `buildTimeSection` is ever reused elsewhere, you could end up with `America/New_York (America/New_York)`-style output due purely to whitespace. Passing the already-trimmed `userTimezone` down (or trimming locally before both the call and the comparison) keeps the display stable.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T02:24:13Z",
+    "updated_at": "2026-02-03T02:24:14Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/4901#discussion_r2756886372",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/4901",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756886372"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/4901#discussion_r2756886372"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/4901"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756886372/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 52,
+    "original_start_line": 52,
+    "start_side": "RIGHT",
+    "line": 59,
+    "original_line": 59,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 19,
+    "position": 83,
+    "subject_type": "line"
+  }
+]

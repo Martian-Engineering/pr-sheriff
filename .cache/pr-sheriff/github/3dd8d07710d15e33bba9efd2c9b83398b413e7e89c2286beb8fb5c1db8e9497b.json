@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3865162952",
+    "html_url": "https://github.com/openclaw/openclaw/pull/4637#issuecomment-3865162952",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/4637",
+    "id": 3865162952,
+    "node_id": "IC_kwDOQb6kR87mYbTI",
+    "user": {
+      "login": "jeanlucthumm",
+      "id": 4934853,
+      "node_id": "MDQ6VXNlcjQ5MzQ4NTM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4934853?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jeanlucthumm",
+      "html_url": "https://github.com/jeanlucthumm",
+      "followers_url": "https://api.github.com/users/jeanlucthumm/followers",
+      "following_url": "https://api.github.com/users/jeanlucthumm/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jeanlucthumm/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jeanlucthumm/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jeanlucthumm/subscriptions",
+      "organizations_url": "https://api.github.com/users/jeanlucthumm/orgs",
+      "repos_url": "https://api.github.com/users/jeanlucthumm/repos",
+      "events_url": "https://api.github.com/users/jeanlucthumm/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jeanlucthumm/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-02-07T19:42:45Z",
+    "updated_at": "2026-02-07T19:42:45Z",
+    "body": "FYI: #10841 addresses this from a different angle — instead of injecting time into the system prompt (which breaks caching), `session_status` now returns ISO-8601 and Unix timestamps. See #10836.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3865162952/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

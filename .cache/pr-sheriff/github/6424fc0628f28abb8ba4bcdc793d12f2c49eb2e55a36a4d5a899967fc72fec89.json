@@ -1,0 +1,209 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184997",
+    "pull_request_review_id": 3742934512,
+    "id": 2757184997,
+    "node_id": "PRRC_kwDOQb6kR86kV03l",
+    "diff_hunk": "@@ -511,6 +512,81 @@ export async function runEmbeddedAttempt(\n       // Force a stable streamFn reference so vitest can reliably mock @mariozechner/pi-ai.\n       activeSession.agent.streamFn = streamSimple;\n \n+      // IMPORTANT (embedded mode): bind the pi extension runner.\n+      //\n+      // In pi-coding-agent, ExtensionRunner defaults `ctx.model` to `undefined` until\n+      // `extensionRunner.bindCore(...)` is called. Moltbot uses the SDK in embedded",
+    "path": "src/agents/pi-embedded-runner/run/attempt.ts",
+    "commit_id": "300e90ac0d9a8a720b4925c6b43848319693ac1c",
+    "original_commit_id": "300e90ac0d9a8a720b4925c6b43848319693ac1c",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Comment/PR description says \"initialize\" but code calls `bindCore`.\n\nThis is easy to miss during future maintenance/debugging: the PR text and the inline both refer to initializing the runner, but the actual change is binding core callbacks via `extensionRunner.bindCore(...)`. If `initialize()` is a real API on this object, readers may assume it was invoked when it wasn’t.\n\nSuggestion: update the inline comment (and/or PR description) to consistently describe the action as binding the core, or rename the variable/comment to reflect `bindCore`.\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/pi-embedded-runner/run/attempt.ts\nLine: 515:518\n\nComment:\n[P1] Comment/PR description says \"initialize\" but code calls `bindCore`.\n\nThis is easy to miss during future maintenance/debugging: the PR text and the inline both refer to initializing the runner, but the actual change is binding core callbacks via `extensionRunner.bindCore(...)`. If `initialize()` is a real API on this object, readers may assume it was invoked when it wasn’t.\n\nSuggestion: update the inline comment (and/or PR description) to consistently describe the action as binding the core, or rename the variable/comment to reflect `bindCore`.\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:33Z",
+    "updated_at": "2026-02-03T04:51:36Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2027#discussion_r2757184997",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2027",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184997"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2027#discussion_r2757184997"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2027"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184997/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 515,
+    "original_start_line": 515,
+    "start_side": "RIGHT",
+    "line": 518,
+    "original_line": 518,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 25,
+    "position": 223,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185032",
+    "pull_request_review_id": 3742934512,
+    "id": 2757185032,
+    "node_id": "PRRC_kwDOQb6kR86kV04I",
+    "diff_hunk": "@@ -511,6 +512,81 @@ export async function runEmbeddedAttempt(\n       // Force a stable streamFn reference so vitest can reliably mock @mariozechner/pi-ai.\n       activeSession.agent.streamFn = streamSimple;\n \n+      // IMPORTANT (embedded mode): bind the pi extension runner.\n+      //\n+      // In pi-coding-agent, ExtensionRunner defaults `ctx.model` to `undefined` until\n+      // `extensionRunner.bindCore(...)` is called. Moltbot uses the SDK in embedded\n+      // mode (no interactive UI), so without this binding compaction hooks that\n+      // rely on `ctx.model` (e.g. `compaction-safeguard`) will always fall back to\n+      // \"Summary unavailable...\" and history will be truncated without a summary.\n+      const extensionRunner = activeSession.extensionRunner;\n+      if (extensionRunner) {\n+        extensionRunner.bindCore(\n+          {\n+            // Embedded runs don't have a UI; keep UI-dependent actions as safe no-ops.\n+            sendMessage: async () => {},\n+            sendUserMessage: async () => {},\n+            appendEntry: () => {},\n+            setSessionName: () => {},\n+            getSessionName: () => undefined,\n+            setLabel: () => {},\n+            getActiveTools: () =>\n+              (activeSession.agent.state.tools ?? [])\n+                .map((tool) => {\n+                  if (!tool) {\n+                    return undefined;\n+                  }\n+                  if (typeof tool === \"string\") {\n+                    return tool;\n+                  }\n+                  if (typeof tool === \"object\" && \"name\" in tool) {\n+                    const name = (tool as { name?: unknown }).name;\n+                    return typeof name === \"string\" ? name : undefined;\n+                  }\n+                  return undefined;\n+                })\n+                .filter((name): name is string => typeof name === \"string\"),\n+            getAllTools: () => [],\n+            setActiveTools: () => {},\n+            setModel: async (model: Model<Api>) => {\n+              const key = await activeSession.modelRegistry.getApiKey(model);\n+              if (!key) {\n+                return false;\n+              }\n+              await activeSession.setModel(model);\n+              return true;\n+            },\n+            getThinkingLevel: () => activeSession.thinkingLevel,\n+            setThinkingLevel: (level: ThinkingLevel) => {\n+              activeSession.setThinkingLevel(level);\n+            },\n+          },\n+          {\n+            // Provide live model + context access for extensions.\n+            getModel: () => activeSession.agent.state.model,\n+            isIdle: () => true,\n+            abort: () => {\n+              void activeSession.abort();\n+            },\n+            hasPendingMessages: () => false,",
+    "path": "src/agents/pi-embedded-runner/run/attempt.ts",
+    "commit_id": "300e90ac0d9a8a720b4925c6b43848319693ac1c",
+    "original_commit_id": "300e90ac0d9a8a720b4925c6b43848319693ac1c",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] `isIdle`/`hasPendingMessages` are hardcoded, which can break extensions relying on them.\n\nIn embedded mode these are currently always `true`/`false`, but extensions often gate actions (including compaction) on whether the agent is streaming or has queued messages. With the current stubs, an extension could attempt compaction or other work while the agent is mid-stream and get inconsistent behavior.\n\nIf `activeSession` exposes state for these (e.g. `activeSession.isStreaming` or similar), it’d be safer to wire these through rather than returning constants.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/pi-embedded-runner/run/attempt.ts\nLine: 567:571\n\nComment:\n[P1] `isIdle`/`hasPendingMessages` are hardcoded, which can break extensions relying on them.\n\nIn embedded mode these are currently always `true`/`false`, but extensions often gate actions (including compaction) on whether the agent is streaming or has queued messages. With the current stubs, an extension could attempt compaction or other work while the agent is mid-stream and get inconsistent behavior.\n\nIf `activeSession` exposes state for these (e.g. `activeSession.isStreaming` or similar), it’d be safer to wire these through rather than returning constants.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:34Z",
+    "updated_at": "2026-02-03T04:51:36Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2027#discussion_r2757185032",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2027",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185032"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2027#discussion_r2757185032"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2027"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185032/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 567,
+    "original_start_line": 567,
+    "start_side": "RIGHT",
+    "line": 571,
+    "original_line": 571,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 78,
+    "position": 276,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185089",
+    "pull_request_review_id": 3742934512,
+    "id": 2757185089,
+    "node_id": "PRRC_kwDOQb6kR86kV05B",
+    "diff_hunk": "@@ -511,6 +512,81 @@ export async function runEmbeddedAttempt(\n       // Force a stable streamFn reference so vitest can reliably mock @mariozechner/pi-ai.\n       activeSession.agent.streamFn = streamSimple;\n \n+      // IMPORTANT (embedded mode): bind the pi extension runner.\n+      //\n+      // In pi-coding-agent, ExtensionRunner defaults `ctx.model` to `undefined` until\n+      // `extensionRunner.bindCore(...)` is called. Moltbot uses the SDK in embedded\n+      // mode (no interactive UI), so without this binding compaction hooks that\n+      // rely on `ctx.model` (e.g. `compaction-safeguard`) will always fall back to\n+      // \"Summary unavailable...\" and history will be truncated without a summary.\n+      const extensionRunner = activeSession.extensionRunner;\n+      if (extensionRunner) {\n+        extensionRunner.bindCore(\n+          {\n+            // Embedded runs don't have a UI; keep UI-dependent actions as safe no-ops.\n+            sendMessage: async () => {},\n+            sendUserMessage: async () => {},\n+            appendEntry: () => {},\n+            setSessionName: () => {},\n+            getSessionName: () => undefined,\n+            setLabel: () => {},\n+            getActiveTools: () =>\n+              (activeSession.agent.state.tools ?? [])\n+                .map((tool) => {\n+                  if (!tool) {\n+                    return undefined;\n+                  }\n+                  if (typeof tool === \"string\") {\n+                    return tool;\n+                  }\n+                  if (typeof tool === \"object\" && \"name\" in tool) {\n+                    const name = (tool as { name?: unknown }).name;\n+                    return typeof name === \"string\" ? name : undefined;\n+                  }\n+                  return undefined;\n+                })\n+                .filter((name): name is string => typeof name === \"string\"),\n+            getAllTools: () => [],\n+            setActiveTools: () => {},\n+            setModel: async (model: Model<Api>) => {\n+              const key = await activeSession.modelRegistry.getApiKey(model);\n+              if (!key) {\n+                return false;\n+              }\n+              await activeSession.setModel(model);\n+              return true;\n+            },\n+            getThinkingLevel: () => activeSession.thinkingLevel,\n+            setThinkingLevel: (level: ThinkingLevel) => {\n+              activeSession.setThinkingLevel(level);\n+            },\n+          },\n+          {\n+            // Provide live model + context access for extensions.\n+            getModel: () => activeSession.agent.state.model,\n+            isIdle: () => true,\n+            abort: () => {\n+              void activeSession.abort();\n+            },\n+            hasPendingMessages: () => false,\n+            shutdown: () => {},\n+            getContextUsage: () => activeSession.getContextUsage(),\n+            compact: (options?: CompactOptions) => {\n+              void (async () => {\n+                try {\n+                  const result = await activeSession.compact(options?.customInstructions);\n+                  options?.onComplete?.(result);\n+                } catch (error) {\n+                  const err = error instanceof Error ? error : new Error(String(error));\n+                  options?.onError?.(err);\n+                }\n+              })();",
+    "path": "src/agents/pi-embedded-runner/run/attempt.ts",
+    "commit_id": "300e90ac0d9a8a720b4925c6b43848319693ac1c",
+    "original_commit_id": "300e90ac0d9a8a720b4925c6b43848319693ac1c",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P2] `compact` ignores returned promise and doesn’t surface completion as an async result.\n\n`compact` is implemented as fire-and-forget (`void (async () => { ... })()`), so callers that `await` `compact()` will resolve immediately even though compaction is still running. Some extensions might reasonably expect `compact` to be awaitable (even if callbacks exist).\n\nIf the `bindCore` contract allows it, consider returning the inner promise (or making `compact` `async`) so the caller can choose between awaiting and using callbacks.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/pi-embedded-runner/run/attempt.ts\nLine: 574:583\n\nComment:\n[P2] `compact` ignores returned promise and doesn’t surface completion as an async result.\n\n`compact` is implemented as fire-and-forget (`void (async () => { ... })()`), so callers that `await` `compact()` will resolve immediately even though compaction is still running. Some extensions might reasonably expect `compact` to be awaitable (even if callbacks exist).\n\nIf the `bindCore` contract allows it, consider returning the inner promise (or making `compact` `async`) so the caller can choose between awaiting and using callbacks.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:35Z",
+    "updated_at": "2026-02-03T04:51:36Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2027#discussion_r2757185089",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2027",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185089"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2027#discussion_r2757185089"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2027"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185089/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 574,
+    "original_start_line": 574,
+    "start_side": "RIGHT",
+    "line": 583,
+    "original_line": 583,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 90,
+    "position": 288,
+    "subject_type": "line"
+  }
+]

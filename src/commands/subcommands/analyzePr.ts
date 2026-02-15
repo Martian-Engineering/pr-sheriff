@@ -20,6 +20,15 @@ type AnalyzePrCandidate = {
   source: "merged_search" | "reference_chain" | "graph_duplicate";
 };
 
+type AnalyzePrOpenCandidate = {
+  number: number;
+  title: string | null;
+  url: string | null;
+  state: string | null;
+  draft: boolean | null;
+  source: "graph_duplicate";
+};
+
 function toIsoDate(v: unknown): string | null {
   if (typeof v !== "string") return null;
   // Accept `YYYY-MM-DD` or full ISO timestamps.
@@ -292,6 +301,87 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
 
   const candidateNumbers = uniqNumbers(candidates.map((c) => c.number));
 
+  const graphNodes = Object.values((graph as any)?.nodes ?? {}) as any[];
+  const graphPrNodes = graphNodes.filter(
+    (node: any) => node && typeof node === "object" && node.type === "pr" && typeof node.number === "number" && node.number !== pr
+  );
+
+  const graphNumbers = graphPrNodes.map((node: any) => node.number as number);
+  const referenceChainNumbers = candidates.filter((c) => c.source === "reference_chain").map((c) => c.number);
+  const openCandidateNumbers = uniqNumbers([...graphNumbers, ...referenceChainNumbers]);
+
+  const openCandidateMap = new Map<number, any>();
+  for (const node of graphPrNodes) {
+    if (!openCandidateMap.has(node.number)) openCandidateMap.set(node.number, node);
+  }
+
+  const competingOpenPRs: AnalyzePrOpenCandidate[] = [];
+  for (const number of openCandidateNumbers) {
+    const node = openCandidateMap.get(number);
+    const needsRefresh =
+      !node || typeof node.state !== "string" || node.state.length === 0 || typeof node.title !== "string" || typeof node.url !== "string";
+
+    let prData = node;
+    if (needsRefresh) {
+      try {
+        prData = await gh.getPR(number, { useCache });
+      } catch {
+        continue;
+      }
+    }
+
+    if (prData?.state !== "open") continue;
+    competingOpenPRs.push({
+      number,
+      title: prData?.title ?? null,
+      url: prData?.html_url ?? prData?.url ?? null,
+      state: prData?.state ?? null,
+      draft: prData?.draft ?? null,
+      source: "graph_duplicate"
+    });
+  }
+
+  competingOpenPRs.sort((a, b) => a.number - b.number);
+
+  const judgeInput = {
+    repo: `${owner}/${repo}`,
+    target: {
+      number: targetPR.number,
+      title: targetPR.title ?? "",
+      body: targetPR.body ?? "",
+      comments: (targetComments?.all ?? []).map((c: any) => ({
+        id: c.id ?? null,
+        created_at: c.created_at ?? null,
+        user: c.user?.login ?? null,
+        body: c.body ?? ""
+      }))
+    },
+    candidates: candidates
+      .filter((c) => c.source === "merged_search" || c.source === "graph_duplicate")
+      .slice(0, 50)
+      .map((c) => ({ number: c.number, title: c.title ?? "", url: c.url })),
+    competingOpenPRs
+  };
+
+  let verdict: unknown = null;
+  if (process.env.PR_SHERIFF_ANTHROPIC_API_KEY) {
+    const { buildJudgeSystemPrompt, buildJudgeUserPrompt, runAnthropicJudge } = await import("../../llm/anthropic_judge.mjs");
+
+    const task =
+      "Given this open PR and these candidates, determine if the target PR has been superseded or is a duplicate. Consider: same issue references, overlapping code changes, timeline.";
+    const payload = {
+      ...judgeInput,
+      candidates: [
+        ...judgeInput.candidates.map((c) => ({ ...c, source: "merged_search" })),
+        ...judgeInput.competingOpenPRs.map((c) => ({ ...c }))
+      ]
+    };
+
+    const system = buildJudgeSystemPrompt();
+    const user = buildJudgeUserPrompt({ task, payload });
+    verdict = await runAnthropicJudge({ system, user });
+  }
+
 
   return {
     kind: "analyze-pr",
@@ -328,24 +418,8 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
       numbers: candidateNumbers,
       items: candidates
     },
-    judgeInput: {
-      repo: `${owner}/${repo}`,
-      target: {
-        number: targetPR.number,
-        title: targetPR.title ?? "",
-        body: targetPR.body ?? "",
-        comments: (targetComments?.all ?? []).map((c: any) => ({
-          id: c.id ?? null,
-          created_at: c.created_at ?? null,
-          user: c.user?.login ?? null,
-          body: c.body ?? ""
-        }))
-      },
-      candidates: candidates
-        .filter((c) => c.source === "merged_search" || c.source === "graph_duplicate")
-        .slice(0, 50)
-        .map((c) => ({ number: c.number, title: c.title ?? "", url: c.url }))
-    },
+    judgeInput,
+    verdict,
     graph
   };
 }

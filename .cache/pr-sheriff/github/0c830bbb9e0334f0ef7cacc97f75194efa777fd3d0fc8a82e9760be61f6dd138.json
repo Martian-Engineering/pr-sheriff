@@ -1,0 +1,209 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778434923",
+    "pull_request_review_id": 3768740747,
+    "id": 2778434923,
+    "node_id": "PRRC_kwDOQb6kR86lm41r",
+    "diff_hunk": "@@ -0,0 +1,107 @@\n+import fs from \"node:fs/promises\";\n+import os from \"node:os\";\n+import path from \"node:path\";",
+    "path": "src/cron/debug-timing.test.ts",
+    "commit_id": "0a95bb9c21b81d67baa34fb7cec319daec420376",
+    "original_commit_id": "0a95bb9c21b81d67baa34fb7cec319daec420376",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Debug test committed**\n`src/cron/debug-timing.test.ts` looks like an interactive debugging artifact: it writes to real temp dirs, logs extensively (`console.log`), and uses a busy-loop `waitForJob` with fake timers to drive the service. This will make CI output noisy and is brittle/flaky compared to existing deterministic unit tests; it should be removed (or converted into a proper, non-debug unit test without console logging) before merge.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/debug-timing.test.ts\nLine: 1:3\n\nComment:\n**Debug test committed**\n`src/cron/debug-timing.test.ts` looks like an interactive debugging artifact: it writes to real temp dirs, logs extensively (`console.log`), and uses a busy-loop `waitForJob` with fake timers to drive the service. This will make CI output noisy and is brittle/flaky compared to existing deterministic unit tests; it should be removed (or converted into a proper, non-debug unit test without console logging) before merge.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-08T03:16:41Z",
+    "updated_at": "2026-02-08T03:16:43Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/11641#discussion_r2778434923",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/11641",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778434923"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/11641#discussion_r2778434923"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/11641"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778434923/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 1,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 3,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 3,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778434932",
+    "pull_request_review_id": 3768740747,
+    "id": 2778434932,
+    "node_id": "PRRC_kwDOQb6kR86lm410",
+    "diff_hunk": "@@ -84,10 +200,29 @@ export async function onTimer(state: CronServiceState) {\n       const startedAt = state.deps.nowMs();\n       job.state.runningAtMs = startedAt;\n       emit(state, { jobId: job.id, action: \"started\", runAtMs: startedAt });\n+\n+      const jobTimeoutMs =\n+        job.payload.kind === \"agentTurn\" && typeof job.payload.timeoutSeconds === \"number\"\n+          ? job.payload.timeoutSeconds * 1_000\n+          : DEFAULT_JOB_TIMEOUT_MS;\n+\n       try {\n-        const result = await executeJobCore(state, job);\n+        let timeoutId: NodeJS.Timeout;\n+        const result = await Promise.race([\n+          executeJobCore(state, job),\n+          new Promise<never>((_, reject) => {\n+            timeoutId = setTimeout(\n+              () => reject(new Error(\"cron: job execution timed out\")),\n+              jobTimeoutMs,\n+            );\n+          }),\n+        ]).finally(() => clearTimeout(timeoutId!));\n         results.push({ jobId: id, ...result, startedAt, endedAt: state.deps.nowMs() });\n       } catch (err) {",
+    "path": "src/cron/service/timer.ts",
+    "commit_id": "5a73aa3f7e5c09ee3ab3c34c690a2a2776be1194",
+    "original_commit_id": "0a95bb9c21b81d67baa34fb7cec319daec420376",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Timeout leak on sync**\nIn `onTimer`, the `Promise.race` sets `timeoutId` inside the executor, then clears it in `.finally(() => clearTimeout(timeoutId!))`. If `executeJobCore(state, job)` throws synchronously before the timeout promise runs, `timeoutId` will still be `undefined` and `clearTimeout(timeoutId!)` becomes `clearTimeout(undefined)` (no-op), leaving the `setTimeout` scheduled and later rejecting without a handler. This can cause spurious warnings/crashes depending on unhandled rejection settings. Consider initializing `timeoutId` before the race (e.g. `let timeoutId: NodeJS.Timeout | null = null;` and guard the clear) so the timer can’t leak.\n\nAlso appears in this same pattern at src/cron/service/timer.ts:210-220.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/service/timer.ts\nLine: 209:221\n\nComment:\n**Timeout leak on sync**\nIn `onTimer`, the `Promise.race` sets `timeoutId` inside the executor, then clears it in `.finally(() => clearTimeout(timeoutId!))`. If `executeJobCore(state, job)` throws synchronously before the timeout promise runs, `timeoutId` will still be `undefined` and `clearTimeout(timeoutId!)` becomes `clearTimeout(undefined)` (no-op), leaving the `setTimeout` scheduled and later rejecting without a handler. This can cause spurious warnings/crashes depending on unhandled rejection settings. Consider initializing `timeoutId` before the race (e.g. `let timeoutId: NodeJS.Timeout | null = null;` and guard the clear) so the timer can’t leak.\n\nAlso appears in this same pattern at src/cron/service/timer.ts:210-220.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-08T03:16:42Z",
+    "updated_at": "2026-02-08T03:16:43Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/11641#discussion_r2778434932",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/11641",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778434932"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/11641#discussion_r2778434932"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/11641"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778434932/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 209,
+    "original_start_line": 209,
+    "start_side": "RIGHT",
+    "line": 221,
+    "original_line": 221,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 167,
+    "position": 167,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778435179",
+    "pull_request_review_id": 3768741376,
+    "id": 2778435179,
+    "node_id": "PRRC_kwDOQb6kR86lm45r",
+    "diff_hunk": "@@ -323,76 +451,54 @@ async function executeJobCore(\n export async function executeJob(\n   state: CronServiceState,\n   job: CronJob,\n-  nowMs: number,\n-  opts: { forced: boolean },\n+  _nowMs: number,\n+  _opts: { forced: boolean },\n ) {\n+  if (!job.state) {\n+    job.state = {};\n+  }\n   const startedAt = state.deps.nowMs();\n   job.state.runningAtMs = startedAt;\n   job.state.lastError = undefined;\n   emit(state, { jobId: job.id, action: \"started\", runAtMs: startedAt });\n \n-  let deleted = false;\n-\n-  const finish = async (\n-    status: \"ok\" | \"error\" | \"skipped\",\n-    err?: string,\n-    summary?: string,\n-    session?: { sessionId?: string; sessionKey?: string },\n-  ) => {\n-    const endedAt = state.deps.nowMs();\n-    job.state.runningAtMs = undefined;\n-    job.state.lastRunAtMs = startedAt;\n-    job.state.lastStatus = status;\n-    job.state.lastDurationMs = Math.max(0, endedAt - startedAt);\n-    job.state.lastError = err;\n-\n-    const shouldDelete =\n-      job.schedule.kind === \"at\" && status === \"ok\" && job.deleteAfterRun === true;\n-\n-    if (!shouldDelete) {\n-      if (job.schedule.kind === \"at\" && status === \"ok\") {\n-        job.enabled = false;\n-        job.state.nextRunAtMs = undefined;\n-      } else if (job.enabled) {\n-        job.state.nextRunAtMs = computeJobNextRunAtMs(job, endedAt);\n-      } else {\n-        job.state.nextRunAtMs = undefined;\n-      }\n-    }\n-\n-    emit(state, {\n-      jobId: job.id,\n-      action: \"finished\",\n-      status,\n-      error: err,\n-      summary,\n-      sessionId: session?.sessionId,\n-      sessionKey: session?.sessionKey,\n-      runAtMs: startedAt,\n-      durationMs: job.state.lastDurationMs,\n-      nextRunAtMs: job.state.nextRunAtMs,\n-    });\n-\n-    if (shouldDelete && state.store) {\n-      state.store.jobs = state.store.jobs.filter((j) => j.id !== job.id);\n-      deleted = true;\n-      emit(state, { jobId: job.id, action: \"removed\" });\n-    }\n+  let coreResult: {\n+    status: \"ok\" | \"error\" | \"skipped\";\n+    error?: string;\n+    summary?: string;\n+    sessionId?: string;\n+    sessionKey?: string;\n   };\n-\n   try {\n-    const result = await executeJobCore(state, job);\n-    await finish(result.status, result.error, result.summary, {\n-      sessionId: result.sessionId,\n-      sessionKey: result.sessionKey,\n-    });\n+    coreResult = await executeJobCore(state, job);\n   } catch (err) {\n-    await finish(\"error\", String(err));\n-  } finally {\n-    job.updatedAtMs = nowMs;\n-    if (!opts.forced && job.enabled && !deleted) {\n-      job.state.nextRunAtMs = computeJobNextRunAtMs(job, state.deps.nowMs());\n-    }\n+    coreResult = { status: \"error\", error: String(err) };\n+  }\n+\n+  const endedAt = state.deps.nowMs();\n+  const shouldDelete = applyJobResult(state, job, {\n+    status: coreResult.status,\n+    error: coreResult.error,\n+    startedAt,\n+    endedAt,\n+  });",
+    "path": "src/cron/service/timer.ts",
+    "commit_id": "5a73aa3f7e5c09ee3ab3c34c690a2a2776be1194",
+    "original_commit_id": "0a95bb9c21b81d67baa34fb7cec319daec420376",
+    "user": {
+      "login": "chatgpt-codex-connector[bot]",
+      "id": 199175422,
+      "node_id": "BOT_kgDOC98s_g",
+      "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+      "html_url": "https://github.com/apps/chatgpt-codex-connector",
+      "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Preserve forced run semantics when updating schedule**\n\nIn `executeJob`, the new flow ignores the `forced` flag and always calls `applyJobResult`, which recomputes `nextRunAtMs`/backoff and can even disable one-shot jobs. The `run` command in `src/cron/service/ops.ts` still passes `{ forced: mode === \"force\" }`, so a manual `force` run now mutates the schedule and can delay or skip the next natural run (or disable an `at` job after an error). Previously, forced runs avoided schedule updates. Consider threading the `forced` flag into `applyJobResult` or bypassing schedule/backoff updates when forced.\n\nUseful? React with 👍 / 👎.",
+    "created_at": "2026-02-08T03:17:04Z",
+    "updated_at": "2026-02-08T03:17:05Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/11641#discussion_r2778435179",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/11641",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778435179"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/11641#discussion_r2778435179"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/11641"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2778435179/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 478,
+    "original_start_line": 478,
+    "start_side": "RIGHT",
+    "line": 484,
+    "original_line": 484,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 351,
+    "position": 351,
+    "subject_type": "line"
+  }
+]

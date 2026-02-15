@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776502103",
+    "pull_request_review_id": 3765657640,
+    "id": 2776502103,
+    "node_id": "PRRC_kwDOQb6kR86lfg9X",
+    "diff_hunk": "@@ -51,7 +52,7 @@ export function resolveCronDeliveryPlan(job: CronJob): CronDeliveryPlan {\n   const channel = deliveryChannel ?? payloadChannel ?? \"last\";\n   const to = deliveryTo ?? payloadTo;\n   if (hasDelivery) {\n-    const resolvedMode = mode ?? \"none\";\n+    const resolvedMode = mode ?? \"announce\";",
+    "path": "src/cron/delivery.ts",
+    "commit_id": "9f8e83dba0c45868236a7c0fd6377f1130fc32c1",
+    "original_commit_id": "73b9e026c4bccda1cb81311b78ae9bebfa290e74",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Missing `mode` changes behavior**\n\n`resolveCronDeliveryPlan` now defaults `delivery.mode` to `\"announce\"` when a `delivery` object exists but `mode` is absent (`const resolvedMode = mode ?? \"announce\"`). That means a partially-specified delivery object like `{ channel, to }` will start sending announcements even if older stores/clients wrote delivery configs without a mode. If existing persisted jobs can have `delivery` without `mode` (likely during migrations/older versions), this is a behavior change that will result in unexpected outbound messages.\n\nIf the intent is to be backwards-compatible and safe-by-default, keep the default as `\"none\"` (or require `mode` explicitly) and only announce when `mode` is set to `announce`/`deliver`.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/delivery.ts\nLine: 52:55\n\nComment:\n**Missing `mode` changes behavior**\n\n`resolveCronDeliveryPlan` now defaults `delivery.mode` to `\"announce\"` when a `delivery` object exists but `mode` is absent (`const resolvedMode = mode ?? \"announce\"`). That means a partially-specified delivery object like `{ channel, to }` will start sending announcements even if older stores/clients wrote delivery configs without a mode. If existing persisted jobs can have `delivery` without `mode` (likely during migrations/older versions), this is a behavior change that will result in unexpected outbound messages.\n\nIf the intent is to be backwards-compatible and safe-by-default, keep the default as `\"none\"` (or require `mode` explicitly) and only announce when `mode` is set to `announce`/`deliver`.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T00:13:41Z",
+    "updated_at": "2026-02-07T00:13:41Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10776#discussion_r2776502103",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10776",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776502103"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10776#discussion_r2776502103"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10776"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776502103/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 52,
+    "original_start_line": 52,
+    "start_side": "RIGHT",
+    "line": 55,
+    "original_line": 55,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line"
+  }
+]

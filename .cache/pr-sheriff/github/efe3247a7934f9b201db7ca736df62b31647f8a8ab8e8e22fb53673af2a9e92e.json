@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055517",
+    "pull_request_review_id": 3742783330,
+    "id": 2757055517,
+    "node_id": "PRRC_kwDOQb6kR86kVVQd",
+    "diff_hunk": "@@ -496,15 +496,31 @@ export async function runHeartbeatOnce(opts: {\n   // If so, use a specialized prompt that instructs the model to relay the result\n   // instead of the standard heartbeat prompt with \"reply HEARTBEAT_OK\".\n   const isExecEvent = opts.reason === \"exec-event\";\n-  const pendingEvents = isExecEvent ? peekSystemEvents(sessionKey) : [];\n+  // Check if this is a cron job system event (not a periodic heartbeat).\n+  // Cron jobs enqueue system events before calling runHeartbeatOnce.\n+  // SECURITY: opts.reason is set internally by the heartbeat scheduler and cron runner.\n+  // It is NOT user-controlled. Cron jobs are defined in admin-only gateway config.\n+  const isCronEvent = typeof opts.reason === \"string\" && opts.reason.startsWith(\"cron:\");\n+  // Always peek system events for cron and exec events to determine prompt type.\n+  const pendingEvents = isExecEvent || isCronEvent ? peekSystemEvents(sessionKey) : [];",
+    "path": "src/infra/heartbeat-runner.ts",
+    "commit_id": "1568d8b3a58fa1645910c5a78726026d4cab1157",
+    "original_commit_id": "1568d8b3a58fa1645910c5a78726026d4cab1157",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Cron events can be misdetected if `reason` includes the `cron:` prefix for non-cron wakeups\n\n`isCronEvent` is derived from `opts.reason.startsWith(\"cron:\")` (src/infra/heartbeat-runner.ts:503). If any other internal caller ever uses a `reason` string with the same prefix (e.g. future feature or a typo), this will switch the prompt/body/provider semantics and can cause system events to be consumed/relayed unexpectedly. Consider using a dedicated enum/union for reasons, or passing an explicit boolean (e.g. `isCronEvent`) from the cron runner instead of prefix parsing.\n\nSeverity depends on whether other code paths can set `reason` with the `cron:` prefix.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/infra/heartbeat-runner.ts\nLine: 498:505\n\nComment:\n[P1] Cron events can be misdetected if `reason` includes the `cron:` prefix for non-cron wakeups\n\n`isCronEvent` is derived from `opts.reason.startsWith(\"cron:\")` (src/infra/heartbeat-runner.ts:503). If any other internal caller ever uses a `reason` string with the same prefix (e.g. future feature or a typo), this will switch the prompt/body/provider semantics and can cause system events to be consumed/relayed unexpectedly. Consider using a dedicated enum/union for reasons, or passing an explicit boolean (e.g. `isCronEvent`) from the cron runner instead of prefix parsing.\n\nSeverity depends on whether other code paths can set `reason` with the `cron:` prefix.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:51:32Z",
+    "updated_at": "2026-02-03T03:51:38Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/3580#discussion_r2757055517",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/3580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055517"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/3580#discussion_r2757055517"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/3580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055517/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 498,
+    "original_start_line": 498,
+    "start_side": "RIGHT",
+    "line": 505,
+    "original_line": 505,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 11,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055578",
+    "pull_request_review_id": 3742783330,
+    "id": 2757055578,
+    "node_id": "PRRC_kwDOQb6kR86kVVRa",
+    "diff_hunk": "@@ -496,15 +496,31 @@ export async function runHeartbeatOnce(opts: {\n   // If so, use a specialized prompt that instructs the model to relay the result\n   // instead of the standard heartbeat prompt with \"reply HEARTBEAT_OK\".\n   const isExecEvent = opts.reason === \"exec-event\";\n-  const pendingEvents = isExecEvent ? peekSystemEvents(sessionKey) : [];\n+  // Check if this is a cron job system event (not a periodic heartbeat).\n+  // Cron jobs enqueue system events before calling runHeartbeatOnce.\n+  // SECURITY: opts.reason is set internally by the heartbeat scheduler and cron runner.\n+  // It is NOT user-controlled. Cron jobs are defined in admin-only gateway config.\n+  const isCronEvent = typeof opts.reason === \"string\" && opts.reason.startsWith(\"cron:\");\n+  // Always peek system events for cron and exec events to determine prompt type.\n+  const pendingEvents = isExecEvent || isCronEvent ? peekSystemEvents(sessionKey) : [];\n   const hasExecCompletion = pendingEvents.some((evt) => evt.includes(\"Exec finished\"));\n-\n-  const prompt = hasExecCompletion ? EXEC_EVENT_PROMPT : resolveHeartbeatPrompt(cfg, heartbeat);\n+  // Cron system events should NOT get the heartbeat prompt - the system event IS the prompt.\n+  // Only periodic heartbeats (reason: \"interval\" or no cron prefix) get the heartbeat prompt.\n+  const hasCronSystemEvents = isCronEvent && pendingEvents.length > 0;\n+\n+  // For cron events with pending system events, use the system event text directly\n+  // (without appending the heartbeat prompt). The system event IS the prompt.\n+  // SECURITY: System events originate from admin-controlled cron job configs (payload.text).\n+  // User input cannot reach enqueueSystemEvent() - only the cron scheduler calls it.\n+  const cronEventBody = hasCronSystemEvents ? pendingEvents.join(\"\\n\\n\") : null;\n+  const prompt = hasExecCompletion\n+    ? EXEC_EVENT_PROMPT\n+    : (cronEventBody ?? resolveHeartbeatPrompt(cfg, heartbeat));\n   const ctx = {\n     Body: prompt,\n     From: sender,\n     To: sender,\n-    Provider: hasExecCompletion ? \"exec-event\" : \"heartbeat\",\n+    Provider: hasExecCompletion ? \"exec-event\" : hasCronSystemEvents ? \"cron-event\" : \"heartbeat\",",
+    "path": "src/infra/heartbeat-runner.ts",
+    "commit_id": "1568d8b3a58fa1645910c5a78726026d4cab1157",
+    "original_commit_id": "1568d8b3a58fa1645910c5a78726026d4cab1157",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Cron system events are concatenated without delimiting metadata, which can blur event boundaries\n\nFor cron events, `cronEventBody` is `pendingEvents.join(\"\\n\\n\")` and becomes `ctx.Body` (src/infra/heartbeat-runner.ts:515-523). If multiple system events are pending, the agent sees a single merged prompt without clear separators (IDs/timestamps/type), which can change behavior or cause partial/incorrect handling. Consider inserting a stable delimiter (e.g. `---` with per-event numbering) or only passing the latest event if that’s the intended semantics.\n\nThis matters when multiple cron system events can queue before the heartbeat runner processes them.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/infra/heartbeat-runner.ts\nLine: 515:523\n\nComment:\n[P1] Cron system events are concatenated without delimiting metadata, which can blur event boundaries\n\nFor cron events, `cronEventBody` is `pendingEvents.join(\"\\n\\n\")` and becomes `ctx.Body` (src/infra/heartbeat-runner.ts:515-523). If multiple system events are pending, the agent sees a single merged prompt without clear separators (IDs/timestamps/type), which can change behavior or cause partial/incorrect handling. Consider inserting a stable delimiter (e.g. `---` with per-event numbering) or only passing the latest event if that’s the intended semantics.\n\nThis matters when multiple cron system events can queue before the heartbeat runner processes them.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:51:33Z",
+    "updated_at": "2026-02-03T03:51:38Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/3580#discussion_r2757055578",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/3580",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055578"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/3580#discussion_r2757055578"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/3580"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055578/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 515,
+    "original_start_line": 515,
+    "start_side": "RIGHT",
+    "line": 523,
+    "original_line": 523,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 32,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

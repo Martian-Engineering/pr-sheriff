@@ -1,0 +1,141 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776802172",
+    "pull_request_review_id": 3766000174,
+    "id": 2776802172,
+    "node_id": "PRRC_kwDOQb6kR86lgqN8",
+    "diff_hunk": "@@ -350,6 +410,55 @@ async function runPerplexitySearch(params: {\n   return { content, citations };\n }\n \n+async function runBochaSearch(params: {\n+  query: string;\n+  count: number;\n+  apiKey: string;\n+  baseUrl: string;\n+  timeoutSeconds: number;\n+}): Promise<{ results: Array<{ title: string; url: string; description: string; siteName?: string; published?: string }> }> {\n+  const res = await fetch(params.baseUrl, {\n+    method: \"POST\",\n+    headers: {\n+      \"Content-Type\": \"application/json\",\n+      Authorization: `Bearer ${params.apiKey}`,",
+    "path": "src/agents/tools/web-search.ts",
+    "commit_id": "645cbcde911ec8c93735d2ed1eb3d2d7a9a42427",
+    "original_commit_id": "645cbcde911ec8c93735d2ed1eb3d2d7a9a42427",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Bocha baseUrl not normalized**\n\n`runBochaSearch` calls `fetch(params.baseUrl, ...)` directly, but `baseUrl` is documented/configured as a \"base URL\" (and `resolvePerplexityBaseUrl` normalizes by appending a path). If a user sets `tools.web.search.bocha.baseUrl` to something like `https://api.bocha.cn` (or adds a trailing slash), this will hit the wrong endpoint and always fail. Either treat this as an endpoint URL everywhere (rename/help text) or normalize it similarly (e.g., `new URL('/v1/web-search', baseUrl)` / strip+append path) before fetching.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/tools/web-search.ts\nLine: 420:424\n\nComment:\n**Bocha baseUrl not normalized**\n\n`runBochaSearch` calls `fetch(params.baseUrl, ...)` directly, but `baseUrl` is documented/configured as a \"base URL\" (and `resolvePerplexityBaseUrl` normalizes by appending a path). If a user sets `tools.web.search.bocha.baseUrl` to something like `https://api.bocha.cn` (or adds a trailing slash), this will hit the wrong endpoint and always fail. Either treat this as an endpoint URL everywhere (rename/help text) or normalize it similarly (e.g., `new URL('/v1/web-search', baseUrl)` / strip+append path) before fetching.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:46:23Z",
+    "updated_at": "2026-02-07T02:46:27Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10839#discussion_r2776802172",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10839",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776802172"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10839#discussion_r2776802172"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10839"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776802172/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 420,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 424,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 126,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776805841",
+    "pull_request_review_id": 3766003574,
+    "id": 2776805841,
+    "node_id": "PRRC_kwDOQb6kR86lgrHR",
+    "diff_hunk": "@@ -350,6 +410,55 @@ async function runPerplexitySearch(params: {\n   return { content, citations };\n }\n \n+async function runBochaSearch(params: {\n+  query: string;\n+  count: number;\n+  apiKey: string;\n+  baseUrl: string;\n+  timeoutSeconds: number;\n+}): Promise<{ results: Array<{ title: string; url: string; description: string; siteName?: string; published?: string }> }> {\n+  const res = await fetch(params.baseUrl, {\n+    method: \"POST\",\n+    headers: {\n+      \"Content-Type\": \"application/json\",\n+      Authorization: `Bearer ${params.apiKey}`,",
+    "path": "src/agents/tools/web-search.ts",
+    "commit_id": "645cbcde911ec8c93735d2ed1eb3d2d7a9a42427",
+    "original_commit_id": "645cbcde911ec8c93735d2ed1eb3d2d7a9a42427",
+    "user": {
+      "login": "xiekeyang",
+      "id": 9944031,
+      "node_id": "MDQ6VXNlcjk5NDQwMzE=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9944031?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/xiekeyang",
+      "html_url": "https://github.com/xiekeyang",
+      "followers_url": "https://api.github.com/users/xiekeyang/followers",
+      "following_url": "https://api.github.com/users/xiekeyang/following{/other_user}",
+      "gists_url": "https://api.github.com/users/xiekeyang/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/xiekeyang/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/xiekeyang/subscriptions",
+      "organizations_url": "https://api.github.com/users/xiekeyang/orgs",
+      "repos_url": "https://api.github.com/users/xiekeyang/repos",
+      "events_url": "https://api.github.com/users/xiekeyang/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/xiekeyang/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Good catch! Fixed in b1d7533 — now using `new URL(\"/v1/web-search\", baseUrl)` to normalize, and updated the default to `https://api.bocha.cn` (base origin only). This handles trailing slashes and missing paths correctly.",
+    "created_at": "2026-02-07T02:48:48Z",
+    "updated_at": "2026-02-07T02:48:48Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10839#discussion_r2776805841",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10839",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776805841"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10839#discussion_r2776805841"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10839"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776805841/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": 420,
+    "start_side": "RIGHT",
+    "line": null,
+    "original_line": 424,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776802172,
+    "author_association": "NONE",
+    "original_position": 126,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

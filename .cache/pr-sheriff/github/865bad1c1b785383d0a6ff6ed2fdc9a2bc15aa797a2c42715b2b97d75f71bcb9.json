@@ -1,0 +1,281 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776741889",
+    "pull_request_review_id": 3765928697,
+    "id": 2776741889,
+    "node_id": "PRRC_kwDOQb6kR86lgbgB",
+    "diff_hunk": "@@ -482,6 +485,15 @@ function buildChatItems(props: ChatProps): Array<ChatItem | MessageGroup> {\n       continue;\n     }\n \n+    // Filter out bare reset/new session prompts that leak from gateway\n+    const messageText =\n+      typeof normalized.content === \"string\"\n+        ? normalized.content\n+        : normalized.content.map((c) => c.text ?? \"\").join(\"\");\n+    if (messageText.includes(BARE_RESET_MARKER)) {\n+      continue;\n+    }",
+    "path": "ui/src/ui/views/chat.ts",
+    "commit_id": "0dfae50366b0cd3862b15842ac23e1717513e384",
+    "original_commit_id": "c48b2bbe1cc182063ade36c23c412c68a1dfd181",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Overbroad marker filtering**\n\nThis filter skips any message whose rendered text *contains* the reset marker (`includes(BARE_RESET_MARKER)`). In this repo the marker appears as a prefix to a longer system prompt (see `src/auto-reply/reply/get-reply-run.ts:52`), so this will also hide those legitimate system messages (or any user/assistant message quoting that phrase). If the intent is only to hide the *bare* reset/new-session prompt, this should match exact content (and role) rather than substring containment (e.g., `normalized.role === \"system\"` and `messageText.trim() === BARE_RESET_MARKER`).\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: ui/src/ui/views/chat.ts\nLine: 488:495\n\nComment:\n**Overbroad marker filtering**\n\nThis filter skips any message whose rendered text *contains* the reset marker (`includes(BARE_RESET_MARKER)`). In this repo the marker appears as a prefix to a longer system prompt (see `src/auto-reply/reply/get-reply-run.ts:52`), so this will also hide those legitimate system messages (or any user/assistant message quoting that phrase). If the intent is only to hide the *bare* reset/new-session prompt, this should match exact content (and role) rather than substring containment (e.g., `normalized.role === \"system\"` and `messageText.trim() === BARE_RESET_MARKER`).\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:22:44Z",
+    "updated_at": "2026-02-07T02:22:45Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10828#discussion_r2776741889",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10828",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776741889"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10828#discussion_r2776741889"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10828"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776741889/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 487,
+    "original_start_line": 488,
+    "start_side": "RIGHT",
+    "line": 497,
+    "original_line": 497,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 21,
+    "position": 30,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776752160",
+    "pull_request_review_id": 3765942514,
+    "id": 2776752160,
+    "node_id": "PRRC_kwDOQb6kR86lgeAg",
+    "diff_hunk": "@@ -482,6 +485,15 @@ function buildChatItems(props: ChatProps): Array<ChatItem | MessageGroup> {\n       continue;\n     }\n \n+    // Filter out bare reset/new session prompts that leak from gateway\n+    const messageText =\n+      typeof normalized.content === \"string\"\n+        ? normalized.content\n+        : normalized.content.map((c) => c.text ?? \"\").join(\"\");\n+    if (messageText.includes(BARE_RESET_MARKER)) {\n+      continue;\n+    }",
+    "path": "ui/src/ui/views/chat.ts",
+    "commit_id": "0dfae50366b0cd3862b15842ac23e1717513e384",
+    "original_commit_id": "c48b2bbe1cc182063ade36c23c412c68a1dfd181",
+    "user": {
+      "login": "HenryLoenwind",
+      "id": 1485873,
+      "node_id": "MDQ6VXNlcjE0ODU4NzM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1485873?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/HenryLoenwind",
+      "html_url": "https://github.com/HenryLoenwind",
+      "followers_url": "https://api.github.com/users/HenryLoenwind/followers",
+      "following_url": "https://api.github.com/users/HenryLoenwind/following{/other_user}",
+      "gists_url": "https://api.github.com/users/HenryLoenwind/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/HenryLoenwind/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/HenryLoenwind/subscriptions",
+      "organizations_url": "https://api.github.com/users/HenryLoenwind/orgs",
+      "repos_url": "https://api.github.com/users/HenryLoenwind/repos",
+      "events_url": "https://api.github.com/users/HenryLoenwind/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/HenryLoenwind/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "That actually is intentional---the reset message is much longer, and it is very unlikely that the user would type that phrase.\r\n\r\nHowever, I see two issues:\r\n\r\n1. The check should look if the message *starts* with the marker, not contains it.\r\n2. The text of the prompt is duplicated here, and if the actual prompt is ever changed (or is in another language!), this code will fail. It should instead fetch the real prompt and use that to compare. With that done, there'll also be no need for a shortened marker, i.e. no contains/startsWith.",
+    "created_at": "2026-02-07T02:29:23Z",
+    "updated_at": "2026-02-07T02:29:23Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10828#discussion_r2776752160",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10828",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776752160"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10828#discussion_r2776752160"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10828"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776752160/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 487,
+    "original_start_line": 488,
+    "start_side": "RIGHT",
+    "line": 497,
+    "original_line": 497,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776741889,
+    "author_association": "NONE",
+    "original_position": 21,
+    "position": 30,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776754613",
+    "pull_request_review_id": 3765946110,
+    "id": 2776754613,
+    "node_id": "PRRC_kwDOQb6kR86lgem1",
+    "diff_hunk": "@@ -482,6 +485,15 @@ function buildChatItems(props: ChatProps): Array<ChatItem | MessageGroup> {\n       continue;\n     }\n \n+    // Filter out bare reset/new session prompts that leak from gateway\n+    const messageText =\n+      typeof normalized.content === \"string\"\n+        ? normalized.content\n+        : normalized.content.map((c) => c.text ?? \"\").join(\"\");\n+    if (messageText.includes(BARE_RESET_MARKER)) {\n+      continue;\n+    }",
+    "path": "ui/src/ui/views/chat.ts",
+    "commit_id": "0dfae50366b0cd3862b15842ac23e1717513e384",
+    "original_commit_id": "c48b2bbe1cc182063ade36c23c412c68a1dfd181",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You're absolutely right on both points. Here's the fix:\n\n```suggestion\n    // Filter out bare reset/new session prompts that leak from gateway\n    const messageText =\n      typeof normalized.content === \"string\"\n        ? normalized.content\n        : normalized.content.map((c) => c.text ?? \"\").join(\"\");\n    if (\n      normalized.role === \"system\" &&\n      messageText.trim() === BARE_SESSION_RESET_PROMPT\n    ) {\n      continue;\n    }\n```\n\nAnd update the constant at the top (line 17) to use the actual prompt from the backend:\n\n```suggestion\nconst BARE_SESSION_RESET_PROMPT =\n  \"A new session was started via /new or /reset. Greet the user in your configured persona, if one is provided. Be yourself - use your defined voice, mannerisms, and mood. Keep it to 1-3 sentences and ask what they want to do. If the runtime model differs from default_model in the system prompt, mention the default model. Do not mention internal steps, files, tools, or reasoning.\";\n```\n\nThis:\n1. Uses exact match (`===`) instead of substring match\n2. Only filters system messages (not user messages quoting the text)\n3. Uses the full prompt string so it won't break if the backend prompt changes (though ideally this should be exported from a shared constants module to avoid duplication)",
+    "created_at": "2026-02-07T02:30:09Z",
+    "updated_at": "2026-02-07T02:30:10Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10828#discussion_r2776754613",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10828",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776754613"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10828#discussion_r2776754613"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10828"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776754613/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 487,
+    "original_start_line": 488,
+    "start_side": "RIGHT",
+    "line": 497,
+    "original_line": 497,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776741889,
+    "author_association": "NONE",
+    "original_position": 21,
+    "position": 30,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776773889",
+    "pull_request_review_id": 3765969981,
+    "id": 2776773889,
+    "node_id": "PRRC_kwDOQb6kR86lgjUB",
+    "diff_hunk": "@@ -482,6 +485,15 @@ function buildChatItems(props: ChatProps): Array<ChatItem | MessageGroup> {\n       continue;\n     }\n \n+    // Filter out bare reset/new session prompts that leak from gateway\n+    const messageText =\n+      typeof normalized.content === \"string\"\n+        ? normalized.content\n+        : normalized.content.map((c) => c.text ?? \"\").join(\"\");\n+    if (messageText.includes(BARE_RESET_MARKER)) {\n+      continue;\n+    }",
+    "path": "ui/src/ui/views/chat.ts",
+    "commit_id": "0dfae50366b0cd3862b15842ac23e1717513e384",
+    "original_commit_id": "c48b2bbe1cc182063ade36c23c412c68a1dfd181",
+    "user": {
+      "login": "ByteBotAI",
+      "id": 259751477,
+      "node_id": "U_kgDOD3t-NQ",
+      "avatar_url": "https://avatars.githubusercontent.com/u/259751477?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/ByteBotAI",
+      "html_url": "https://github.com/ByteBotAI",
+      "followers_url": "https://api.github.com/users/ByteBotAI/followers",
+      "following_url": "https://api.github.com/users/ByteBotAI/following{/other_user}",
+      "gists_url": "https://api.github.com/users/ByteBotAI/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/ByteBotAI/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/ByteBotAI/subscriptions",
+      "organizations_url": "https://api.github.com/users/ByteBotAI/orgs",
+      "repos_url": "https://api.github.com/users/ByteBotAI/repos",
+      "events_url": "https://api.github.com/users/ByteBotAI/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/ByteBotAI/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@greptile-apps Updated with the full prompt text constant as suggested. Ready for re-review!",
+    "created_at": "2026-02-07T02:37:39Z",
+    "updated_at": "2026-02-07T02:37:39Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10828#discussion_r2776773889",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10828",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776773889"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10828#discussion_r2776773889"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10828"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776773889/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 487,
+    "original_start_line": 488,
+    "start_side": "RIGHT",
+    "line": 497,
+    "original_line": 497,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776741889,
+    "author_association": "NONE",
+    "original_position": 21,
+    "position": 30,
+    "subject_type": "line"
+  }
+]

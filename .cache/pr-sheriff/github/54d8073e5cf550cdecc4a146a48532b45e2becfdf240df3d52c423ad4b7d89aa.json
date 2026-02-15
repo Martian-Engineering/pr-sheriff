@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055551",
+    "pull_request_review_id": 3742783363,
+    "id": 2757055551,
+    "node_id": "PRRC_kwDOQb6kR86kVVQ_",
+    "diff_hunk": "@@ -0,0 +1,73 @@\n+import { describe, expect, it } from \"vitest\";\n+\n+import type { CronJob } from \"../types.js\";\n+import { computeJobNextRunAtMs } from \"./jobs.js\";\n+\n+function makeEveryJob(overrides: Partial<CronJob> = {}): CronJob {\n+  return {\n+    id: \"test-job\",\n+    enabled: true,\n+    createdAtMs: 1000,\n+    updatedAtMs: 1000,\n+    schedule: { kind: \"every\", everyMs: 3600_000 }, // 1 hour\n+    sessionTarget: \"main\",\n+    wakeMode: \"next-heartbeat\",\n+    payload: { kind: \"systemEvent\", text: \"test\" },\n+    state: {},\n+    ...overrides,\n+  };\n+}\n+\n+describe(\"computeJobNextRunAtMs\", () => {\n+  it(\"anchors to lastRunAtMs for every jobs that have run\", () => {",
+    "path": "src/cron/service/jobs.test.ts",
+    "commit_id": "c2e9bfb8642782c02295e7d59bc684c4a5e0fbca",
+    "original_commit_id": "c2e9bfb8642782c02295e7d59bc684c4a5e0fbca",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P3] Local test helper can violate CronJob invariants\n\n`makeEveryJob()` builds a full `CronJob` inline, but it omits fields like `name`/`description`/`deleteAfterRun`/`isolation`/`agentId` that may be required depending on the `CronJob` type definition. If `CronJob` is later tightened, this test will start failing in a way that’s unrelated to scheduling logic; consider using a minimal `CronJob` factory from the codebase (if one exists) or explicitly satisfy required fields so the test remains robust.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/service/jobs.test.ts\nLine: 20:22\n\nComment:\n[P3] Local test helper can violate CronJob invariants\n\n`makeEveryJob()` builds a full `CronJob` inline, but it omits fields like `name`/`description`/`deleteAfterRun`/`isolation`/`agentId` that may be required depending on the `CronJob` type definition. If `CronJob` is later tightened, this test will start failing in a way that’s unrelated to scheduling logic; consider using a minimal `CronJob` factory from the codebase (if one exists) or explicitly satisfy required fields so the test remains robust.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:51:32Z",
+    "updated_at": "2026-02-03T03:51:33Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2006#discussion_r2757055551",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2006",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055551"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2006#discussion_r2757055551"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2006"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055551/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 20,
+    "original_start_line": 20,
+    "start_side": "RIGHT",
+    "line": 22,
+    "original_line": 22,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 22,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184995",
+    "pull_request_review_id": 3742934499,
+    "id": 2757184995,
+    "node_id": "PRRC_kwDOQb6kR86kV03j",
+    "diff_hunk": "@@ -0,0 +1,73 @@\n+import { describe, expect, it } from \"vitest\";\n+\n+import type { CronJob } from \"../types.js\";\n+import { computeJobNextRunAtMs } from \"./jobs.js\";\n+\n+function makeEveryJob(overrides: Partial<CronJob> = {}): CronJob {\n+  return {\n+    id: \"test-job\",\n+    enabled: true,\n+    createdAtMs: 1000,\n+    updatedAtMs: 1000,\n+    schedule: { kind: \"every\", everyMs: 3600_000 }, // 1 hour\n+    sessionTarget: \"main\",\n+    wakeMode: \"next-heartbeat\",\n+    payload: { kind: \"systemEvent\", text: \"test\" },\n+    state: {},\n+    ...overrides,\n+  };\n+}\n+\n+describe(\"computeJobNextRunAtMs\", () => {\n+  it(\"anchors to lastRunAtMs for every jobs that have run\", () => {\n+    const job = makeEveryJob({\n+      state: { lastRunAtMs: 1000 },\n+    });\n+    const nowMs = 5000;\n+    const next = computeJobNextRunAtMs(job, nowMs);\n+    // Should be lastRunAtMs + everyMs, NOT nowMs + everyMs\n+    expect(next).toBe(1000 + 3600_000);\n+  });\n+\n+  it(\"falls back to anchorMs when no lastRunAtMs\", () => {\n+    const job = makeEveryJob({\n+      schedule: { kind: \"every\", everyMs: 3600_000, anchorMs: 500 },\n+      state: {}, // No lastRunAtMs\n+    });\n+    const next = computeJobNextRunAtMs(job, 1000);\n+    expect(next).toBe(500 + 3600_000);\n+  });\n+\n+  it(\"falls back to nowMs when neither lastRunAtMs nor anchorMs exist\", () => {\n+    const job = makeEveryJob({\n+      schedule: { kind: \"every\", everyMs: 3600_000 }, // No anchorMs\n+      state: {}, // No lastRunAtMs\n+    });\n+    const next = computeJobNextRunAtMs(job, 1000);\n+    expect(next).toBe(1000 + 3600_000);",
+    "path": "src/cron/service/jobs.test.ts",
+    "commit_id": "c2e9bfb8642782c02295e7d59bc684c4a5e0fbca",
+    "original_commit_id": "c2e9bfb8642782c02295e7d59bc684c4a5e0fbca",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P3] Interval expectations in tests are brittle across `computeNextRunAtMs` semantics\n\nThese assertions hard-code `next === anchor + everyMs`, but `computeNextRunAtMs` rounds up to the next interval boundary and can skip ahead by multiple intervals when `nowMs` is far past the anchor. This test currently passes because `nowMs` is close to the anchor, but it’s easy for a future refactor to change the test’s chosen `nowMs` and create a failure unrelated to drift.\n\nAlso appears in: `src/cron/service/jobs.test.ts:26-30`, `src/cron/service/jobs.test.ts:33-39`.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/service/jobs.test.ts\nLine: 41:47\n\nComment:\n[P3] Interval expectations in tests are brittle across `computeNextRunAtMs` semantics\n\nThese assertions hard-code `next === anchor + everyMs`, but `computeNextRunAtMs` rounds up to the next interval boundary and can skip ahead by multiple intervals when `nowMs` is far past the anchor. This test currently passes because `nowMs` is close to the anchor, but it’s easy for a future refactor to change the test’s chosen `nowMs` and create a failure unrelated to drift.\n\nAlso appears in: `src/cron/service/jobs.test.ts:26-30`, `src/cron/service/jobs.test.ts:33-39`.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:33Z",
+    "updated_at": "2026-02-03T04:51:33Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2006#discussion_r2757184995",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2006",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184995"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2006#discussion_r2757184995"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2006"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757184995/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 41,
+    "original_start_line": 41,
+    "start_side": "RIGHT",
+    "line": 47,
+    "original_line": 47,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 47,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

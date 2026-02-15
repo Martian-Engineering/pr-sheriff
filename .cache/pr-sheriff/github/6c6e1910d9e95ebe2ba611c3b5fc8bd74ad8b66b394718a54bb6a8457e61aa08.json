@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069726",
+    "pull_request_review_id": 3742801030,
+    "id": 2757069726,
+    "node_id": "PRRC_kwDOQb6kR86kVYue",
+    "diff_hunk": "@@ -4,6 +4,8 @@ import lockfile from \"proper-lockfile\";\n import type { MoltbotConfig } from \"../../config/config.js\";\n import { refreshChutesTokens } from \"../chutes-oauth.js\";\n import { refreshQwenPortalCredentials } from \"../../providers/qwen-portal-oauth.js\";\n+import { readClaudeCliCredentials, writeClaudeCliCredentials } from \"../cli-credentials.js\";\n+import { AUTH_STORE_LOCK_OPTIONS, CLAUDE_CLI_PROFILE_ID, log } from \"./constants.js\";\n import { AUTH_STORE_LOCK_OPTIONS, log } from \"./constants.js\";\n import { formatAuthDoctorHint } from \"./doctor.js\";",
+    "path": "src/agents/auth-profiles/oauth.ts",
+    "commit_id": "cb335690b5befb01dfe8af6353b5242be3ed7f3f",
+    "original_commit_id": "cb335690b5befb01dfe8af6353b5242be3ed7f3f",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P0] Duplicate import of `AUTH_STORE_LOCK_OPTIONS`/`log` will fail lint/TS\n\n`AUTH_STORE_LOCK_OPTIONS` and `log` are imported twice (once from `./constants.js` and again alongside `CLAUDE_CLI_PROFILE_ID`). This will cause a duplicate import error.\n\n```suggestion\nimport { AUTH_STORE_LOCK_OPTIONS, CLAUDE_CLI_PROFILE_ID, log } from \"./constants.js\";\n```\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/auth-profiles/oauth.ts\nLine: 8:10\n\nComment:\n[P0] Duplicate import of `AUTH_STORE_LOCK_OPTIONS`/`log` will fail lint/TS\n\n`AUTH_STORE_LOCK_OPTIONS` and `log` are imported twice (once from `./constants.js` and again alongside `CLAUDE_CLI_PROFILE_ID`). This will cause a duplicate import error.\n\n```suggestion\nimport { AUTH_STORE_LOCK_OPTIONS, CLAUDE_CLI_PROFILE_ID, log } from \"./constants.js\";\n```\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:58:01Z",
+    "updated_at": "2026-02-03T03:58:01Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2123#discussion_r2757069726",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2123",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069726"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2123#discussion_r2757069726"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2123"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069726/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 8,
+    "original_start_line": 8,
+    "start_side": "RIGHT",
+    "line": 10,
+    "original_line": 10,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 7,
+    "position": 19,
+    "subject_type": "line"
+  }
+]

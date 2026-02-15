@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2753987269",
+    "pull_request_review_id": 3738968461,
+    "id": 2753987269,
+    "node_id": "PRRC_kwDOQb6kR86kJoLF",
+    "diff_hunk": "@@ -538,19 +550,26 @@ export async function runHeartbeatOnce(opts: {\n   const { sender } = resolveHeartbeatSenderContext({ cfg, entry, delivery });\n   const responsePrefix = resolveEffectiveMessagesConfig(cfg, agentId).responsePrefix;\n \n-  // Check if this is an exec event with pending exec completion system events.\n-  // If so, use a specialized prompt that instructs the model to relay the result\n+  // Check if this is an exec event or cron event with pending system events.\n+  // If so, use a specialized prompt that instructs the model to relay the result/reminder\n   // instead of the standard heartbeat prompt with \"reply HEARTBEAT_OK\".\n   const isExecEvent = opts.reason === \"exec-event\";\n-  const pendingEvents = isExecEvent ? peekSystemEvents(sessionKey) : [];\n+  const isCronEvent = opts.reason?.startsWith(\"cron:\");\n+  const shouldCheckEvents = isExecEvent || isCronEvent;\n+  const pendingEvents = shouldCheckEvents ? peekSystemEvents(sessionKey) : [];\n   const hasExecCompletion = pendingEvents.some((evt) => evt.includes(\"Exec finished\"));\n+  const hasCronEvents = isCronEvent && pendingEvents.length > 0;\n \n-  const prompt = hasExecCompletion ? EXEC_EVENT_PROMPT : resolveHeartbeatPrompt(cfg, heartbeat);\n+  const prompt = hasExecCompletion\n+    ? EXEC_EVENT_PROMPT\n+    : hasCronEvents\n+      ? CRON_EVENT_PROMPT\n+      : resolveHeartbeatPrompt(cfg, heartbeat);\n   const ctx = {\n     Body: prompt,\n     From: sender,\n     To: sender,\n-    Provider: hasExecCompletion ? \"exec-event\" : \"heartbeat\",\n+    Provider: hasExecCompletion ? \"exec-event\" : hasCronEvents ? \"cron-event\" : \"heartbeat\",",
+    "path": "src/infra/heartbeat-runner.ts",
+    "commit_id": "948b4f2363b7808ee6a10bb6291525999c8847e4",
+    "original_commit_id": "2e2a86413de3169eb28616f19f8064290c234454",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Cron-event prompt selection can be accidentally triggered by leftover, unrelated system events\n\n`hasCronEvents` is currently `isCronEvent && pendingEvents.length > 0`, so any queued system event (including ones unrelated to the cron reminder, e.g. an earlier exec.* event queued to the same sessionKey) will switch the prompt to `CRON_EVENT_PROMPT`. This can lead to the model “relaying a reminder” when the system events aren’t actually a cron reminder.\n\nConsider keying off a cron-specific marker (similar to `Exec finished`) or using `contextKey`/sessionKey isolation for cron jobs so the prompt only switches when the pending events are actually cron reminder events.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/infra/heartbeat-runner.ts\nLine: 553:572\n\nComment:\n[P1] Cron-event prompt selection can be accidentally triggered by leftover, unrelated system events\n\n`hasCronEvents` is currently `isCronEvent && pendingEvents.length > 0`, so any queued system event (including ones unrelated to the cron reminder, e.g. an earlier exec.* event queued to the same sessionKey) will switch the prompt to `CRON_EVENT_PROMPT`. This can lead to the model “relaying a reminder” when the system events aren’t actually a cron reminder.\n\nConsider keying off a cron-specific marker (similar to `Exec finished`) or using `contextKey`/sessionKey isolation for cron jobs so the prompt only switches when the pending events are actually cron reminder events.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-02T11:58:09Z",
+    "updated_at": "2026-02-02T11:58:13Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/7109#discussion_r2753987269",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/7109",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2753987269"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/7109#discussion_r2753987269"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/7109"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2753987269/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 553,
+    "original_start_line": 553,
+    "start_side": "RIGHT",
+    "line": 572,
+    "original_line": 572,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 63,
+    "position": 137,
+    "subject_type": "line"
+  }
+]

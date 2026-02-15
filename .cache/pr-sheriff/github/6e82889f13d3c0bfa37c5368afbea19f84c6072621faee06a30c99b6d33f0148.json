@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776819579",
+    "pull_request_review_id": 3766018652,
+    "id": 2776819579,
+    "node_id": "PRRC_kwDOQb6kR86lgud7",
+    "diff_hunk": "@@ -354,6 +363,134 @@ function buildQwenPortalProvider(): ProviderConfig {\n   };\n }\n \n+\n+function buildNvidiaProvider(): ProviderConfig {\n+  return {\n+    baseUrl: NVIDIA_BASE_URL,",
+    "path": "src/agents/models-config.providers.ts",
+    "commit_id": "21fac425a3ad6b6fffc212457bebc5e7fe48fbac",
+    "original_commit_id": "5c04156b9a2e300686af2a6e0f300cf71b2a7fd2",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Duplicate function definition**\n\n`buildNvidiaProvider` is declared twice back-to-back (and with identical bodies). This will cause a TypeScript compilation error (`Duplicate function implementation`) and block the build.\n\n```suggestion\nfunction buildNvidiaProvider(): ProviderConfig {\n  return {\n    baseUrl: NVIDIA_BASE_URL,\n    api: \"openai-completions\",\n    models: [\n      {\n        id: \"nvidia/llama-3.1-nemotron-70b-instruct\",\n        name: \"NVIDIA Llama 3.1 Nemotron 70B Instruct\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia/llama-3.3-nemotron-super-49b-v1.5\",\n        name: \"NVIDIA Llama 3.3 Nemotron Super 49B v1.5\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia/nemotron-3-nano-30b-a3b\",\n        name: \"NVIDIA Nemotron 3 Nano 30B\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia.nemotron-nano-12b-v2\",\n        name: \"NVIDIA Nemotron Nano 12B v2\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia.nemotron-nano-9b-v2\",\n        name: \"NVIDIA Nemotron Nano 9B v2\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia/nemotron-nano-12b-v2-vl\",\n        name: \"NVIDIA Nemotron Nano 12B v2 Vision\",\n        reasoning: false,\n        input: [\"text\", \"image\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n    ],\n  };\n}\n```\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/models-config.providers.ts\nLine: 367:369\n\nComment:\n**Duplicate function definition**\n\n`buildNvidiaProvider` is declared twice back-to-back (and with identical bodies). This will cause a TypeScript compilation error (`Duplicate function implementation`) and block the build.\n\n```suggestion\nfunction buildNvidiaProvider(): ProviderConfig {\n  return {\n    baseUrl: NVIDIA_BASE_URL,\n    api: \"openai-completions\",\n    models: [\n      {\n        id: \"nvidia/llama-3.1-nemotron-70b-instruct\",\n        name: \"NVIDIA Llama 3.1 Nemotron 70B Instruct\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia/llama-3.3-nemotron-super-49b-v1.5\",\n        name: \"NVIDIA Llama 3.3 Nemotron Super 49B v1.5\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia/nemotron-3-nano-30b-a3b\",\n        name: \"NVIDIA Nemotron 3 Nano 30B\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia.nemotron-nano-12b-v2\",\n        name: \"NVIDIA Nemotron Nano 12B v2\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia.nemotron-nano-9b-v2\",\n        name: \"NVIDIA Nemotron Nano 9B v2\",\n        reasoning: false,\n        input: [\"text\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n      {\n        id: \"nvidia/nemotron-nano-12b-v2-vl\",\n        name: \"NVIDIA Nemotron Nano 12B v2 Vision\",\n        reasoning: false,\n        input: [\"text\", \"image\"],\n        cost: NVIDIA_DEFAULT_COST,\n        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n      },\n    ],\n  };\n}\n```\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:57:46Z",
+    "updated_at": "2026-02-07T02:57:49Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10853#discussion_r2776819579",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10853",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776819579"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10853#discussion_r2776819579"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10853"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776819579/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 372,
+    "original_start_line": 367,
+    "start_side": "RIGHT",
+    "line": 374,
+    "original_line": 374,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 23,
+    "position": 23,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776819605",
+    "pull_request_review_id": 3766018652,
+    "id": 2776819605,
+    "node_id": "PRRC_kwDOQb6kR86lgueV",
+    "diff_hunk": "@@ -354,6 +363,134 @@ function buildQwenPortalProvider(): ProviderConfig {\n   };\n }\n \n+\n+function buildNvidiaProvider(): ProviderConfig {\n+  return {\n+    baseUrl: NVIDIA_BASE_URL,\n+    api: \"openai-completions\",\n+    models: [\n+      {\n+        id: \"nvidia/llama-3.1-nemotron-70b-instruct\",\n+        name: \"NVIDIA Llama 3.1 Nemotron 70B Instruct\",\n+        reasoning: false,\n+        input: [\"text\"],\n+        cost: NVIDIA_DEFAULT_COST,\n+        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n+        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n+      },\n+      {\n+        id: \"nvidia/llama-3.3-nemotron-super-49b-v1.5\",\n+        name: \"NVIDIA Llama 3.3 Nemotron Super 49B v1.5\",\n+        reasoning: false,\n+        input: [\"text\"],\n+        cost: NVIDIA_DEFAULT_COST,\n+        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n+        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n+      },\n+      {\n+        id: \"nvidia/nemotron-3-nano-30b-a3b\",\n+        name: \"NVIDIA Nemotron 3 Nano 30B\",\n+        reasoning: false,\n+        input: [\"text\"],\n+        cost: NVIDIA_DEFAULT_COST,\n+        contextWindow: NVIDIA_DEFAULT_CONTEXT_WINDOW,\n+        maxTokens: NVIDIA_DEFAULT_MAX_TOKENS,\n+      },\n+      {\n+        id: \"nvidia.nemotron-nano-12b-v2\",\n+        name: \"NVIDIA Nemotron Nano 12B v2\",",
+    "path": "src/agents/models-config.providers.ts",
+    "commit_id": "21fac425a3ad6b6fffc212457bebc5e7fe48fbac",
+    "original_commit_id": "5c04156b9a2e300686af2a6e0f300cf71b2a7fd2",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Inconsistent model ID format**\n\nTwo NVIDIA model IDs use `nvidia.<name>` (dot) instead of the `nvidia/<name>` (slash) format used by the other NVIDIA entries. If the upstream OpenAI-compatible API expects the slash-form model IDs, these two entries will be unusable while the others work.\n\n```suggestion\n        id: \"nvidia/nemotron-nano-12b-v2\",\n```\n\n(And similarly for the 9B v2 model.)\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/models-config.providers.ts\nLine: 399:401\n\nComment:\n**Inconsistent model ID format**\n\nTwo NVIDIA model IDs use `nvidia.<name>` (dot) instead of the `nvidia/<name>` (slash) format used by the other NVIDIA entries. If the upstream OpenAI-compatible API expects the slash-form model IDs, these two entries will be unusable while the others work.\n\n```suggestion\n        id: \"nvidia/nemotron-nano-12b-v2\",\n```\n\n(And similarly for the 9B v2 model.)\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:57:48Z",
+    "updated_at": "2026-02-07T02:57:49Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10853#discussion_r2776819605",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10853",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776819605"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10853#discussion_r2776819605"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10853"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776819605/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 404,
+    "original_start_line": 399,
+    "start_side": "RIGHT",
+    "line": 406,
+    "original_line": 406,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 55,
+    "position": 55,
+    "subject_type": "line"
+  }
+]

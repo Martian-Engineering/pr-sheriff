@@ -1,0 +1,209 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947355",
+    "pull_request_review_id": 3742653985,
+    "id": 2756947355,
+    "node_id": "PRRC_kwDOQb6kR86kU62b",
+    "diff_hunk": "@@ -0,0 +1,156 @@\n+name: CI / macOS\n+\n+on:\n+  pull_request:\n+    paths:\n+      - 'src/**'\n+      - 'extensions/**'\n+      - 'apps/macos/**'\n+      - 'package.json'\n+      - 'pnpm-lock.yaml'\n+      - 'tsconfig.json'\n+      - 'vitest.config.ts'\n+      - '**/*.test.ts'\n+      - '.swiftlint.yml'\n+      - '.swiftformat'",
+    "path": ".github/workflows/ci-macos.yml",
+    "commit_id": "2c89017e7e891c19aff18a63249f6a6fe404d328",
+    "original_commit_id": "2c89017e7e891c19aff18a63249f6a6fe404d328",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Path filter misses some macOS-relevant triggers\n\nThe new workflow only runs on `pull_request` changes to a small set of paths; this can unintentionally skip macOS CI when changes affect the macOS build/test indirectly (e.g., repo-wide workflow/action changes, build scripts, `pnpm-workspace.yaml`, `.npmrc`, `.node-version`/tooling config, or shared packages outside `src/**`). If those files can influence `pnpm test` or the Swift build, consider broadening the `paths:` list (or adding a `paths-ignore:` approach in `ci.yml` instead) so macOS CI still runs when it should.\n\nAlso appears in: `.github/workflows/ci-macos.yml:6-15` (entire `paths` block).\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: .github/workflows/ci-macos.yml\nLine: 5:15\n\nComment:\n[P1] Path filter misses some macOS-relevant triggers\n\nThe new workflow only runs on `pull_request` changes to a small set of paths; this can unintentionally skip macOS CI when changes affect the macOS build/test indirectly (e.g., repo-wide workflow/action changes, build scripts, `pnpm-workspace.yaml`, `.npmrc`, `.node-version`/tooling config, or shared packages outside `src/**`). If those files can influence `pnpm test` or the Swift build, consider broadening the `paths:` list (or adding a `paths-ignore:` approach in `ci.yml` instead) so macOS CI still runs when it should.\n\nAlso appears in: `.github/workflows/ci-macos.yml:6-15` (entire `paths` block).\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T02:54:12Z",
+    "updated_at": "2026-02-03T02:54:15Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2138#discussion_r2756947355",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2138",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947355"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2138#discussion_r2756947355"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2138"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947355/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 5,
+    "original_start_line": 5,
+    "start_side": "RIGHT",
+    "line": 15,
+    "original_line": 15,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 15,
+    "position": 15,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947379",
+    "pull_request_review_id": 3742653985,
+    "id": 2756947379,
+    "node_id": "PRRC_kwDOQb6kR86kU62z",
+    "diff_hunk": "@@ -0,0 +1,156 @@\n+name: CI / macOS\n+\n+on:\n+  pull_request:\n+    paths:\n+      - 'src/**'\n+      - 'extensions/**'\n+      - 'apps/macos/**'\n+      - 'package.json'\n+      - 'pnpm-lock.yaml'\n+      - 'tsconfig.json'\n+      - 'vitest.config.ts'\n+      - '**/*.test.ts'\n+      - '.swiftlint.yml'\n+      - '.swiftformat'\n+\n+jobs:\n+  checks-macos:\n+    runs-on: macos-latest\n+    strategy:\n+      fail-fast: false\n+      matrix:\n+        include:\n+          - task: test\n+            command: pnpm test\n+    steps:\n+      - name: Checkout\n+        uses: actions/checkout@v4\n+        with:\n+          submodules: false\n+\n+      - name: Checkout submodules (retry)\n+        run: |\n+          set -euo pipefail\n+          git submodule sync --recursive\n+          for attempt in 1 2 3 4 5; do\n+            if git -c protocol.version=2 submodule update --init --force --depth=1 --recursive; then\n+              exit 0\n+            fi\n+            echo \"Submodule update failed (attempt $attempt/5). Retrying…\"\n+            sleep $((attempt * 10))\n+          done\n+          exit 1\n+\n+      - name: Setup Node.js\n+        uses: actions/setup-node@v4\n+        with:\n+          node-version: 22.x\n+          check-latest: true\n+\n+      - name: Setup pnpm (corepack retry)\n+        run: |\n+          set -euo pipefail\n+          corepack enable\n+          for attempt in 1 2 3; do\n+            if corepack prepare pnpm@10.23.0 --activate; then\n+              pnpm -v\n+              exit 0\n+            fi\n+            echo \"corepack prepare failed (attempt $attempt/3). Retrying...\"\n+            sleep $((attempt * 10))\n+          done\n+          exit 1\n+\n+      - name: Runtime versions\n+        run: |\n+          node -v\n+          npm -v\n+          pnpm -v\n+\n+      - name: Capture node path\n+        run: echo \"NODE_BIN=$(dirname \\\"$(node -p \\\"process.execPath\\\")\\\")\" >> \"$GITHUB_ENV\"\n+\n+      - name: Install dependencies\n+        env:\n+          CI: true\n+        run: |\n+          export PATH=\"$NODE_BIN:$PATH\"\n+          which node\n+          node -v\n+          pnpm -v\n+          pnpm install --frozen-lockfile --ignore-scripts=false --config.engine-strict=false --config.enable-pre-post-scripts=true || pnpm install --frozen-lockfile --ignore-scripts=false --config.engine-strict=false --config.enable-pre-post-scripts=true\n+\n+      - name: Run ${{ matrix.task }}\n+        env:\n+          NODE_OPTIONS: --max-old-space-size=4096\n+        run: ${{ matrix.command }}\n+\n+  macos-app:\n+    runs-on: macos-latest\n+    strategy:\n+      fail-fast: false\n+      matrix:\n+        include:\n+          - task: lint\n+            command: |\n+              swiftlint --config .swiftlint.yml\n+              swiftformat --lint apps/macos/Sources --config .swiftformat\n+          - task: build\n+            command: |\n+              set -euo pipefail\n+              for attempt in 1 2 3; do\n+                if swift build --package-path apps/macos --configuration release; then\n+                  exit 0\n+                fi\n+                echo \"swift build failed (attempt $attempt/3). Retrying…\"\n+                sleep $((attempt * 20))\n+              done\n+              exit 1\n+          - task: test\n+            command: |\n+              set -euo pipefail\n+              for attempt in 1 2 3; do\n+                if swift test --package-path apps/macos --parallel --enable-code-coverage --show-codecov-path; then\n+                  exit 0\n+                fi\n+                echo \"swift test failed (attempt $attempt/3). Retrying…\"\n+                sleep $((attempt * 20))\n+              done\n+              exit 1\n+    steps:\n+      - name: Checkout\n+        uses: actions/checkout@v4\n+        with:\n+          submodules: false\n+\n+      - name: Checkout submodules (retry)\n+        run: |\n+          set -euo pipefail\n+          git submodule sync --recursive\n+          for attempt in 1 2 3 4 5; do\n+            if git -c protocol.version=2 submodule update --init --force --depth=1 --recursive; then\n+              exit 0\n+            fi\n+            echo \"Submodule update failed (attempt $attempt/5). Retrying…\"\n+            sleep $((attempt * 10))\n+          done\n+          exit 1\n+\n+      - name: Select Xcode 26.1\n+        run: |\n+          sudo xcode-select -s /Applications/Xcode_26.1.app\n+          xcodebuild -version",
+    "path": ".github/workflows/ci-macos.yml",
+    "commit_id": "2c89017e7e891c19aff18a63249f6a6fe404d328",
+    "original_commit_id": "2c89017e7e891c19aff18a63249f6a6fe404d328",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Hard-coded Xcode path may break on `macos-latest`\n\n`sudo xcode-select -s /Applications/Xcode_26.1.app` will fail if that Xcode bundle name isn’t present on the current `macos-latest` image (or if GitHub updates the default image). If the intent is to pin Xcode, it’s safer to select based on what’s installed (or use the `setup-xcode` action) to avoid a sudden CI outage when runner images change.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: .github/workflows/ci-macos.yml\nLine: 140:143\n\nComment:\n[P1] Hard-coded Xcode path may break on `macos-latest`\n\n`sudo xcode-select -s /Applications/Xcode_26.1.app` will fail if that Xcode bundle name isn’t present on the current `macos-latest` image (or if GitHub updates the default image). If the intent is to pin Xcode, it’s safer to select based on what’s installed (or use the `setup-xcode` action) to avoid a sudden CI outage when runner images change.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T02:54:13Z",
+    "updated_at": "2026-02-03T02:54:15Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2138#discussion_r2756947379",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2138",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947379"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2138#discussion_r2756947379"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2138"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947379/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 140,
+    "original_start_line": 140,
+    "start_side": "RIGHT",
+    "line": 143,
+    "original_line": 143,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 143,
+    "position": 143,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069131",
+    "pull_request_review_id": 3742800471,
+    "id": 2757069131,
+    "node_id": "PRRC_kwDOQb6kR86kVYlL",
+    "diff_hunk": "@@ -0,0 +1,156 @@\n+name: CI / macOS\n+\n+on:\n+  pull_request:\n+    paths:\n+      - 'src/**'\n+      - 'extensions/**'\n+      - 'apps/macos/**'\n+      - 'package.json'\n+      - 'pnpm-lock.yaml'\n+      - 'tsconfig.json'\n+      - 'vitest.config.ts'\n+      - '**/*.test.ts'\n+      - '.swiftlint.yml'\n+      - '.swiftformat'",
+    "path": ".github/workflows/ci-macos.yml",
+    "commit_id": "2c89017e7e891c19aff18a63249f6a6fe404d328",
+    "original_commit_id": "2c89017e7e891c19aff18a63249f6a6fe404d328",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Path filter doesn’t include UI changes that can break `pnpm test`\n\n`CI / macOS` is described as covering “Node source”, but the current `paths:` list omits `ui/**` (and potentially other JS/TS areas) even though macOS runs `pnpm test`. A PR that only touches `ui/src/**` could introduce test failures that won’t be caught on macOS anymore, which is exactly the kind of platform-specific breakage this workflow is meant to detect. Consider adding `ui/**` (or otherwise aligning the paths with what `pnpm test` actually depends on).\n\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: .github/workflows/ci-macos.yml\nLine: 3:15\n\nComment:\n[P1] Path filter doesn’t include UI changes that can break `pnpm test`\n\n`CI / macOS` is described as covering “Node source”, but the current `paths:` list omits `ui/**` (and potentially other JS/TS areas) even though macOS runs `pnpm test`. A PR that only touches `ui/src/**` could introduce test failures that won’t be caught on macOS anymore, which is exactly the kind of platform-specific breakage this workflow is meant to detect. Consider adding `ui/**` (or otherwise aligning the paths with what `pnpm test` actually depends on).\n\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:57:45Z",
+    "updated_at": "2026-02-03T03:57:46Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2138#discussion_r2757069131",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2138",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069131"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2138#discussion_r2757069131"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2138"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069131/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 3,
+    "original_start_line": 3,
+    "start_side": "RIGHT",
+    "line": 15,
+    "original_line": 15,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 15,
+    "position": 15,
+    "subject_type": "line"
+  }
+]

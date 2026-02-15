@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776814267",
+    "pull_request_review_id": 3766012164,
+    "id": 2776814267,
+    "node_id": "PRRC_kwDOQb6kR86lgtK7",
+    "diff_hunk": "@@ -0,0 +1,147 @@\n+import { describe, it, expect, vi, beforeEach, afterEach } from \"vitest\";\n+import { Command } from \"commander\";\n+import { registerCompletionCli, resolveShellFromEnv, resolveCompletionCachePath } from \"./completion-cli.js\";\n+\n+describe(\"completion-cli\", () => {\n+  describe(\"shell detection\", () => {\n+    it(\"detects zsh from SHELL env var\", () => {\n+      const shell = resolveShellFromEnv({ SHELL: \"/bin/zsh\" });\n+      expect(shell).toBe(\"zsh\");\n+    });\n+\n+    it(\"detects bash from SHELL env var\", () => {\n+      const shell = resolveShellFromEnv({ SHELL: \"/bin/bash\" });\n+      expect(shell).toBe(\"bash\");\n+    });\n+\n+    it(\"detects fish from SHELL env var\", () => {\n+      const shell = resolveShellFromEnv({ SHELL: \"/usr/bin/fish\" });\n+      expect(shell).toBe(\"fish\");\n+    });\n+\n+    it(\"detects powershell from SHELL env var\", () => {\n+      const shell = resolveShellFromEnv({ SHELL: \"/usr/bin/pwsh\" });\n+      expect(shell).toBe(\"powershell\");\n+    });\n+\n+    it(\"defaults to zsh when SHELL not set\", () => {\n+      const shell = resolveShellFromEnv({});\n+      expect(shell).toBe(\"zsh\");\n+    });\n+  });\n+\n+  describe(\"completion cache path\", () => {\n+    it(\"generates correct path for bash\", () => {\n+      const path = resolveCompletionCachePath(\"bash\", \"openclaw\");\n+      expect(path).toMatch(/completions.*openclaw\\.bash$/);\n+    });\n+\n+    it(\"generates correct path for zsh\", () => {\n+      const path = resolveCompletionCachePath(\"zsh\", \"openclaw\");\n+      expect(path).toMatch(/completions.*openclaw\\.zsh$/);\n+    });\n+\n+    it(\"generates correct path for fish\", () => {\n+      const path = resolveCompletionCachePath(\"fish\", \"openclaw\");\n+      expect(path).toMatch(/completions.*openclaw\\.fish$/);\n+    });\n+\n+    it(\"generates correct path for powershell\", () => {\n+      const path = resolveCompletionCachePath(\"powershell\", \"openclaw\");\n+      expect(path).toMatch(/completions.*openclaw\\.ps1$/);\n+    });\n+\n+    it(\"sanitizes binary name in path\", () => {\n+      const path = resolveCompletionCachePath(\"bash\", \"my/bad:bin\");\n+      expect(path).toMatch(/my-bad-bin\\.bash$/);\n+    });\n+  });\n+\n+  describe(\"completion output\", () => {\n+    let mockStdoutWrite: ReturnType<typeof vi.fn>;\n+    let mockConsoleLog: ReturnType<typeof vi.fn>;\n+\n+    beforeEach(() => {\n+      mockStdoutWrite = vi.fn();\n+      mockConsoleLog = vi.fn();\n+      \n+      // Mock process.stdout.write\n+      process.stdout.write = mockStdoutWrite as any;\n+      // Mock console.log to verify it's NOT being called for completion script\n+      global.console.log = mockConsoleLog;\n+    });\n+\n+    afterEach(() => {\n+      vi.clearAllMocks();\n+    });\n+\n+    it(\"writes completion script to stdout without console.log formatting\", () => {\n+      const program = new Command();\n+      program.name(\"test-cli\");\n+      program.option(\"-v, --verbose\", \"verbose output\");\n+\n+      // Register the completion CLI command\n+      registerCompletionCli(program);\n+\n+      // Find the completion command\n+      const completionCmd = program.commands.find((cmd) => cmd.name() === \"completion\");\n+      expect(completionCmd).toBeDefined();\n+\n+      // The actual test would be run through the CLI, but we can verify the structure\n+      expect(mockStdoutWrite).toHaveBeenCalled().or.not.toHaveBeenCalled();\n+    });",
+    "path": "src/cli/completion-cli.test.ts",
+    "commit_id": "268fb92a5541302cd12f510fc3768ee27a1f8a6b",
+    "original_commit_id": "ef3833fa1b084a469cd701c3d9b2cb0e3f684dde",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Non-asserting completion test**\n\n`expect(mockStdoutWrite).toHaveBeenCalled().or.not.toHaveBeenCalled();` is always true, so this test can never fail and doesn’t verify the completion handler behavior. Also, this test only registers the command and never executes the `.action` callback, so `process.stdout.write`/`console.log` usage in `registerCompletionCli` isn’t exercised at all.\n\nConsider invoking the command (e.g., `program.parseAsync([...])` or calling the action handler) and asserting `stdout.write` was called with the generated script and `console.log` was not called.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cli/completion-cli.test.ts\nLine: 78:92\n\nComment:\n**Non-asserting completion test**\n\n`expect(mockStdoutWrite).toHaveBeenCalled().or.not.toHaveBeenCalled();` is always true, so this test can never fail and doesn’t verify the completion handler behavior. Also, this test only registers the command and never executes the `.action` callback, so `process.stdout.write`/`console.log` usage in `registerCompletionCli` isn’t exercised at all.\n\nConsider invoking the command (e.g., `program.parseAsync([...])` or calling the action handler) and asserting `stdout.write` was called with the generated script and `console.log` was not called.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:53:25Z",
+    "updated_at": "2026-02-07T02:53:26Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10846#discussion_r2776814267",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10846",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776814267"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10846#discussion_r2776814267"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10846"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776814267/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 78,
+    "original_start_line": 78,
+    "start_side": "RIGHT",
+    "line": 92,
+    "original_line": 92,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 92,
+    "position": 92,
+    "subject_type": "line"
+  }
+]

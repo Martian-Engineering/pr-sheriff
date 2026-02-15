@@ -1,0 +1,141 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776814446",
+    "pull_request_review_id": 3766012244,
+    "id": 2776814446,
+    "node_id": "PRRC_kwDOQb6kR86lgtNu",
+    "diff_hunk": "@@ -48,6 +49,9 @@ export function resolveCronDeliveryPlan(job: CronJob): CronDeliveryPlan {\n     (delivery as { channel?: unknown } | undefined)?.channel,\n   );\n   const deliveryTo = normalizeTo((delivery as { to?: unknown } | undefined)?.to);\n+  const deliveryAccountId = normalizeTo(",
+    "path": "src/cron/delivery.ts",
+    "commit_id": "921269a158e5407d89cf31f5cdfaf4c6a335f62d",
+    "original_commit_id": "1c64b9a43364b5c43d75659f5122f8bb9f08c60b",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**accountId ignored for payload-only jobs**\n\n`resolveCronDeliveryPlan()` only reads `accountId` from `job.delivery`, but jobs without an explicit `delivery` object (legacy/payload-driven configs) can’t specify an account override even if they can specify `channel`/`to` via payload. If that’s not intended, this change is incomplete: either document that `accountId` only works when `delivery` is present, or add `accountId` support to the payload schema/types and include it in the `payload`-sourced plan.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/delivery.ts\nLine: 50:52\n\nComment:\n**accountId ignored for payload-only jobs**\n\n`resolveCronDeliveryPlan()` only reads `accountId` from `job.delivery`, but jobs without an explicit `delivery` object (legacy/payload-driven configs) can’t specify an account override even if they can specify `channel`/`to` via payload. If that’s not intended, this change is incomplete: either document that `accountId` only works when `delivery` is present, or add `accountId` support to the payload schema/types and include it in the `payload`-sourced plan.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:53:32Z",
+    "updated_at": "2026-02-07T02:53:33Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10847#discussion_r2776814446",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10847",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776814446"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10847#discussion_r2776814446"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10847"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776814446/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 50,
+    "original_start_line": 50,
+    "start_side": "RIGHT",
+    "line": 52,
+    "original_line": 52,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776820519",
+    "pull_request_review_id": 3766019991,
+    "id": 2776820519,
+    "node_id": "PRRC_kwDOQb6kR86lgusn",
+    "diff_hunk": "@@ -48,6 +49,9 @@ export function resolveCronDeliveryPlan(job: CronJob): CronDeliveryPlan {\n     (delivery as { channel?: unknown } | undefined)?.channel,\n   );\n   const deliveryTo = normalizeTo((delivery as { to?: unknown } | undefined)?.to);\n+  const deliveryAccountId = normalizeTo(",
+    "path": "src/cron/delivery.ts",
+    "commit_id": "921269a158e5407d89cf31f5cdfaf4c6a335f62d",
+    "original_commit_id": "1c64b9a43364b5c43d75659f5122f8bb9f08c60b",
+    "user": {
+      "login": "jcardama",
+      "id": 26747345,
+      "node_id": "MDQ6VXNlcjI2NzQ3MzQ1",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26747345?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jcardama",
+      "html_url": "https://github.com/jcardama",
+      "followers_url": "https://api.github.com/users/jcardama/followers",
+      "following_url": "https://api.github.com/users/jcardama/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jcardama/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jcardama/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jcardama/subscriptions",
+      "organizations_url": "https://api.github.com/users/jcardama/orgs",
+      "repos_url": "https://api.github.com/users/jcardama/repos",
+      "events_url": "https://api.github.com/users/jcardama/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jcardama/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Intentional — `accountId` is delivery-only by design.\n\nThe payload fields (`deliver`, `channel`, `to`) are legacy. The normalizer (`normalizeCronJobCreate` with `applyDefaults: true`) already auto-promotes them into a `delivery` object for any new job, so in practice all new jobs get a `delivery` block where `accountId` can be set.\n\nAdded a code comment in 36651eb explaining the scope.",
+    "created_at": "2026-02-07T02:59:02Z",
+    "updated_at": "2026-02-07T02:59:02Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10847#discussion_r2776820519",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10847",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776820519"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10847#discussion_r2776820519"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10847"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776820519/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 50,
+    "original_start_line": 50,
+    "start_side": "RIGHT",
+    "line": 52,
+    "original_line": 52,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776814446,
+    "author_association": "NONE",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line"
+  }
+]

@@ -1,0 +1,278 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817887",
+    "pull_request_review_id": 3766016444,
+    "id": 2776817887,
+    "node_id": "PRRC_kwDOQb6kR86lguDf",
+    "diff_hunk": "@@ -465,3 +465,152 @@ describe(\"cron cli\", () => {\n     expect(patch?.patch?.delivery?.bestEffort).toBe(false);\n   });\n });",
+    "path": "src/cli/cron-cli.test.ts",
+    "commit_id": "2c065dbe07ca5e13a18d0add063593d01b51eaa0",
+    "original_commit_id": "e0562d9e2d9a66e4cad97d421deb62eaf0a80dd6",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Broken test block scope**\n\nThe new `describe(...)` block is outside the top-level `describe(\"cron cli\", ...)` due to an extra closing `});` earlier, and then it adds another trailing `});` at the very end. This will either fail to parse or run tests in the wrong scope. The fix is to remove the extra closing brace so the new `describe` is nested correctly, and ensure the file ends with a single `});` for the top-level describe.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cli/cron-cli.test.ts\nLine: 465:467\n\nComment:\n**Broken test block scope**\n\nThe new `describe(...)` block is outside the top-level `describe(\"cron cli\", ...)` due to an extra closing `});` earlier, and then it adds another trailing `});` at the very end. This will either fail to parse or run tests in the wrong scope. The fix is to remove the extra closing brace so the new `describe` is nested correctly, and ensure the file ends with a single `});` for the top-level describe.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:56:15Z",
+    "updated_at": "2026-02-07T02:56:19Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10851#discussion_r2776817887",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10851",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817887"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10851#discussion_r2776817887"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10851"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817887/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 465,
+    "original_start_line": 465,
+    "start_side": "RIGHT",
+    "line": 467,
+    "original_line": 467,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 3,
+    "position": 3,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817904",
+    "pull_request_review_id": 3766016444,
+    "id": 2776817904,
+    "node_id": "PRRC_kwDOQb6kR86lguDw",
+    "diff_hunk": "@@ -465,3 +465,152 @@ describe(\"cron cli\", () => {\n     expect(patch?.patch?.delivery?.bestEffort).toBe(false);\n   });\n });\n+\n+  describe(\"cron list output with undefined state (fixes issue #6236)\", () => {\n+    it(\"handles job with undefined state without crashing\", () => {\n+      const { printCronList } = require(\"./cron-cli/shared.js\");",
+    "path": "src/cli/cron-cli.test.ts",
+    "commit_id": "2c065dbe07ca5e13a18d0add063593d01b51eaa0",
+    "original_commit_id": "e0562d9e2d9a66e4cad97d421deb62eaf0a80dd6",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Non-portable CJS require**\n\nThis test file is ESM (`import ... from ...`), but the new tests use `require(\"./cron-cli/shared.js\")`. In this repo’s Vitest setup, that’s likely to throw (`require is not defined in ES module scope`) or behave inconsistently depending on transforms. Use `await import(\"./cron-cli/shared.js\")` (or import at top) instead of `require` so the tests run under ESM consistently.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cli/cron-cli.test.ts\nLine: 469:471\n\nComment:\n**Non-portable CJS require**\n\nThis test file is ESM (`import ... from ...`), but the new tests use `require(\"./cron-cli/shared.js\")`. In this repo’s Vitest setup, that’s likely to throw (`require is not defined in ES module scope`) or behave inconsistently depending on transforms. Use `await import(\"./cron-cli/shared.js\")` (or import at top) instead of `require` so the tests run under ESM consistently.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:56:16Z",
+    "updated_at": "2026-02-07T02:56:19Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10851#discussion_r2776817904",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10851",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817904"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10851#discussion_r2776817904"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10851"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817904/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 469,
+    "original_start_line": 469,
+    "start_side": "RIGHT",
+    "line": 471,
+    "original_line": 471,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 7,
+    "position": 7,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817919",
+    "pull_request_review_id": 3766016444,
+    "id": 2776817919,
+    "node_id": "PRRC_kwDOQb6kR86lguD_",
+    "diff_hunk": "@@ -465,3 +465,152 @@ describe(\"cron cli\", () => {\n     expect(patch?.patch?.delivery?.bestEffort).toBe(false);\n   });\n });\n+\n+  describe(\"cron list output with undefined state (fixes issue #6236)\", () => {\n+    it(\"handles job with undefined state without crashing\", () => {",
+    "path": "src/cli/cron-cli.test.ts",
+    "commit_id": "2c065dbe07ca5e13a18d0add063593d01b51eaa0",
+    "original_commit_id": "e0562d9e2d9a66e4cad97d421deb62eaf0a80dd6",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Wrong issue reference**\n\nThe description says this is a regression for undefined `job.state` and references #9732, but the new `describe` title says “fixes issue #6236”. That mismatch will confuse future triage/search (and likely points at the wrong issue). Update the label to reference the correct issue number/context used by this PR.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cli/cron-cli.test.ts\nLine: 469:470\n\nComment:\n**Wrong issue reference**\n\nThe description says this is a regression for undefined `job.state` and references #9732, but the new `describe` title says “fixes issue #6236”. That mismatch will confuse future triage/search (and likely points at the wrong issue). Update the label to reference the correct issue number/context used by this PR.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:56:17Z",
+    "updated_at": "2026-02-07T02:56:19Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10851#discussion_r2776817919",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10851",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817919"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10851#discussion_r2776817919"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10851"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817919/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 469,
+    "original_start_line": 469,
+    "start_side": "RIGHT",
+    "line": 470,
+    "original_line": 470,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 6,
+    "position": 6,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817936",
+    "pull_request_review_id": 3766016444,
+    "id": 2776817936,
+    "node_id": "PRRC_kwDOQb6kR86lguEQ",
+    "diff_hunk": "@@ -191,10 +194,10 @@ export function printCronList(jobs: CronJob[], runtime = defaultRuntime) {\n       CRON_SCHEDULE_PAD,\n     );\n     const nextLabel = pad(\n-      job.enabled ? formatRelative(job.state.nextRunAtMs, now) : \"-\",\n+      job.enabled && job.state ? formatRelative(job.state.nextRunAtMs, now) : \"-\",\n       CRON_NEXT_PAD,\n     );\n-    const lastLabel = pad(formatRelative(job.state.lastRunAtMs, now), CRON_LAST_PAD);\n+    const lastLabel = pad(formatRelative(job.state?.lastRunAtMs, now), CRON_LAST_PAD);",
+    "path": "src/cli/cron-cli/shared.ts",
+    "commit_id": "2c065dbe07ca5e13a18d0add063593d01b51eaa0",
+    "original_commit_id": "e0562d9e2d9a66e4cad97d421deb62eaf0a80dd6",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Still crashes on state**\n\n`printCronList` now guards `nextRunAtMs` and `lastRunAtMs`, but it still unconditionally calls `job.state.lastStatus` via `formatStatus()` if the job is enabled. You added a `!job.state` check in `formatStatus`, which helps, but `printCronList` still calls `formatRelative(job.state?.lastRunAtMs, now)` while `formatRelative` treats `0` as missing (`if (!ms) return \"-\"`). If `lastRunAtMs` can legitimately be `0` (epoch), it will incorrectly display `-`.\n\nConsider changing `formatRelative`’s falsy check to an explicit `ms == null` check to avoid mis-rendering valid timestamps.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cli/cron-cli/shared.ts\nLine: 196:200\n\nComment:\n**Still crashes on state**\n\n`printCronList` now guards `nextRunAtMs` and `lastRunAtMs`, but it still unconditionally calls `job.state.lastStatus` via `formatStatus()` if the job is enabled. You added a `!job.state` check in `formatStatus`, which helps, but `printCronList` still calls `formatRelative(job.state?.lastRunAtMs, now)` while `formatRelative` treats `0` as missing (`if (!ms) return \"-\"`). If `lastRunAtMs` can legitimately be `0` (epoch), it will incorrectly display `-`.\n\nConsider changing `formatRelative`’s falsy check to an explicit `ms == null` check to avoid mis-rendering valid timestamps.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:56:18Z",
+    "updated_at": "2026-02-07T02:56:19Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10851#discussion_r2776817936",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10851",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817936"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10851#discussion_r2776817936"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10851"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776817936/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 196,
+    "original_start_line": 196,
+    "start_side": "RIGHT",
+    "line": 200,
+    "original_line": 200,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 19,
+    "position": 19,
+    "subject_type": "line"
+  }
+]

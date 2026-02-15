@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055546",
+    "pull_request_review_id": 3742783367,
+    "id": 2757055546,
+    "node_id": "PRRC_kwDOQb6kR86kVVQ6",
+    "diff_hunk": "@@ -77,7 +77,33 @@ describe(\"resolveAgentRoute\", () => {\n       accountId: null,\n       peer: { kind: \"dm\", id: \"222222222222222222\" },\n     });\n-    expect(route.sessionKey).toBe(\"agent:main:discord:dm:alice\");\n+    expect(route.sessionKey).toBe(\"agent:main:dm:alice\");\n+  });\n+\n+  test(\"identityLinks per-channel-peer shares context across channels\", () => {\n+    const cfg: ClawdbotConfig = {\n+      session: {\n+        dmScope: \"per-channel-peer\",\n+        identityLinks: {\n+          alice: [\"telegram:111111111\", \"discord:222222222222222222\"],\n+        },\n+      },",
+    "path": "src/routing/resolve-route.test.ts",
+    "commit_id": "d80ec4ca31fa9c3d54de826466ae4bb35ed01979",
+    "original_commit_id": "d80ec4ca31fa9c3d54de826466ae4bb35ed01979",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P0] `ClawdbotConfig` type isn’t imported/defined in this file\n\nIn `resolve-route.test.ts`, the new test declares `const cfg: ClawdbotConfig = { ... }`, but the file only imports `MoltbotConfig` (`import type { MoltbotConfig } from \"../config/config.js\";`). Unless `ClawdbotConfig` is a global type (unlikely in TS), this will fail type-checking. It’s also inconsistent with the other tests in this file which use `MoltbotConfig`.\n\nAlso appears in `src/security/audit.test.ts:735` (uses `ClawdbotConfig` as well).\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/routing/resolve-route.test.ts\nLine: 83:90\n\nComment:\n[P0] `ClawdbotConfig` type isn’t imported/defined in this file\n\nIn `resolve-route.test.ts`, the new test declares `const cfg: ClawdbotConfig = { ... }`, but the file only imports `MoltbotConfig` (`import type { MoltbotConfig } from \"../config/config.js\";`). Unless `ClawdbotConfig` is a global type (unlikely in TS), this will fail type-checking. It’s also inconsistent with the other tests in this file which use `MoltbotConfig`.\n\nAlso appears in `src/security/audit.test.ts:735` (uses `ClawdbotConfig` as well).\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:51:32Z",
+    "updated_at": "2026-02-03T03:51:33Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/1984#discussion_r2757055546",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/1984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055546"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/1984#discussion_r2757055546"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/1984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757055546/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 83,
+    "original_start_line": 83,
+    "start_side": "RIGHT",
+    "line": 90,
+    "original_line": 90,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 15,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185027",
+    "pull_request_review_id": 3742934535,
+    "id": 2757185027,
+    "node_id": "PRRC_kwDOQb6kR86kV04D",
+    "diff_hunk": "@@ -132,6 +132,9 @@ export function buildAgentPeerSessionKey(params: {\n     if (linkedPeerId) peerId = linkedPeerId;\n     peerId = peerId.toLowerCase();\n     if (dmScope === \"per-channel-peer\" && peerId) {\n+      if (linkedPeerId) {\n+        return `agent:${normalizeAgentId(params.agentId)}:dm:${peerId}`;\n+      }",
+    "path": "src/routing/session-key.ts",
+    "commit_id": "d80ec4ca31fa9c3d54de826466ae4bb35ed01979",
+    "original_commit_id": "d80ec4ca31fa9c3d54de826466ae4bb35ed01979",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] `linkedPeerId` is used as a boolean switch, but it’s derived from the *pre-normalized* `peerId` and `dmScope !== \"main\"`. This can diverge from the actual canonicalization decision if `resolveLinkedPeerId` returns a canonical name with leading/trailing whitespace (it’s returned as `canonical.trim()` but not lowercased), or if `peerId` becomes empty/normalized differently.\n\nConcretely: `peerId` is later lowercased and used in the key, but the early return uses `if (linkedPeerId)` rather than checking whether `peerId` was actually rewritten to a linked canonical id. This is a subtle coupling that can produce unexpected session keys if `resolveLinkedPeerId` ever changes its normalization rules.\n\nA safer check is to key off `peerId !== originalPeerId` (or return a `{ canonicalPeerId, wasLinked }` tuple).\n\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/routing/session-key.ts\nLine: 135:137\n\nComment:\n[P1] `linkedPeerId` is used as a boolean switch, but it’s derived from the *pre-normalized* `peerId` and `dmScope !== \"main\"`. This can diverge from the actual canonicalization decision if `resolveLinkedPeerId` returns a canonical name with leading/trailing whitespace (it’s returned as `canonical.trim()` but not lowercased), or if `peerId` becomes empty/normalized differently.\n\nConcretely: `peerId` is later lowercased and used in the key, but the early return uses `if (linkedPeerId)` rather than checking whether `peerId` was actually rewritten to a linked canonical id. This is a subtle coupling that can produce unexpected session keys if `resolveLinkedPeerId` ever changes its normalization rules.\n\nA safer check is to key off `peerId !== originalPeerId` (or return a `{ canonicalPeerId, wasLinked }` tuple).\n\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:33Z",
+    "updated_at": "2026-02-03T04:51:34Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/1984#discussion_r2757185027",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/1984",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185027"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/1984#discussion_r2757185027"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/1984"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185027/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 135,
+    "original_start_line": 135,
+    "start_side": "RIGHT",
+    "line": 137,
+    "original_line": 137,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

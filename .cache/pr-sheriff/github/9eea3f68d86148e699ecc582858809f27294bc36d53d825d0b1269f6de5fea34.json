@@ -1,0 +1,209 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2727385486",
+    "pull_request_review_id": 3705775633,
+    "id": 2727385486,
+    "node_id": "PRRC_kwDOQb6kR86ikJmO",
+    "diff_hunk": "@@ -235,12 +235,20 @@ export const signalOnboardingAdapter: ChannelOnboardingAdapter = {\n     }\n \n     if (!account) {\n-      account = String(\n+      const rawAccount = String(\n         await prompter.text({\n           message: \"Signal bot number (E.164)\",\n-          validate: (value) => (value?.trim() ? undefined : \"Required\"),\n+          validate: (value) => {\n+            const trimmed = value?.trim();\n+            if (!trimmed) return \"Required\";\n+            if (!normalizeE164(trimmed)) {\n+              return \"Invalid E.164 phone number (must start with + and country code, e.g. +15555550123)\";\n+            }",
+    "path": "src/channels/plugins/onboarding/signal.ts",
+    "commit_id": "82ac6c6a1d25645ce2bf8a1dbb4ff40f43d8f1d5",
+    "original_commit_id": "82ac6c6a1d25645ce2bf8a1dbb4ff40f43d8f1d5",
+    "user": {
+      "login": "Copilot",
+      "id": 175728472,
+      "node_id": "BOT_kgDOCnlnWA",
+      "avatar_url": "https://avatars.githubusercontent.com/in/946600?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Copilot",
+      "html_url": "https://github.com/apps/copilot-pull-request-reviewer",
+      "followers_url": "https://api.github.com/users/Copilot/followers",
+      "following_url": "https://api.github.com/users/Copilot/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Copilot/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Copilot/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Copilot/subscriptions",
+      "organizations_url": "https://api.github.com/users/Copilot/orgs",
+      "repos_url": "https://api.github.com/users/Copilot/repos",
+      "events_url": "https://api.github.com/users/Copilot/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Copilot/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "`normalizeE164` is not a validator in this repo (src/utils.ts:36-41): it always returns a string like `+${digits}` even when the input has no digits (e.g. \"ok\" -> \"+\"). As a result, `if (!normalizeE164(trimmed))` will never reject any non-empty input, so this prompt still accepts invalid values.\n\nConsider validating the normalized output against a strict E.164 pattern (e.g. `^\\+[1-9]\\d{1,14}$`) and using that normalized value for storage, or change `normalizeE164` (or add a new helper) to return `null`/`undefined` when the input cannot be parsed into a valid E.164 number.",
+    "created_at": "2026-01-26T12:17:17Z",
+    "updated_at": "2026-01-26T12:17:17Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2208#discussion_r2727385486",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2208",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2727385486"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2208#discussion_r2727385486"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2208"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2727385486/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 241,
+    "original_start_line": 241,
+    "start_side": "RIGHT",
+    "line": 246,
+    "original_line": 246,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 14,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947244",
+    "pull_request_review_id": 3742653843,
+    "id": 2756947244,
+    "node_id": "PRRC_kwDOQb6kR86kU60s",
+    "diff_hunk": "@@ -235,12 +235,20 @@ export const signalOnboardingAdapter: ChannelOnboardingAdapter = {\n     }\n \n     if (!account) {\n-      account = String(\n+      const rawAccount = String(\n         await prompter.text({\n           message: \"Signal bot number (E.164)\",\n-          validate: (value) => (value?.trim() ? undefined : \"Required\"),\n+          validate: (value) => {\n+            const trimmed = value?.trim();\n+            if (!trimmed) return \"Required\";\n+            if (!normalizeE164(trimmed)) {\n+              return \"Invalid E.164 phone number (must start with + and country code, e.g. +15555550123)\";\n+            }",
+    "path": "src/channels/plugins/onboarding/signal.ts",
+    "commit_id": "82ac6c6a1d25645ce2bf8a1dbb4ff40f43d8f1d5",
+    "original_commit_id": "82ac6c6a1d25645ce2bf8a1dbb4ff40f43d8f1d5",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Validation likely accepts non‑E.164 values because `normalizeE164` always returns a `+`-prefixed string.\n\n`normalizeE164(trimmed)` is used as a boolean check, but `normalizeE164` (src/utils.ts:36) never returns `null/undefined` and will turn inputs like `\"ok\"` into `\"+\"` and `\"12345\"` into `\"+12345\"`. That means the new validation will still accept many invalid entries and store them (e.g., `account = normalizeE164(rawAccount) ?? rawAccount` will set `account` to `\"+\"` for `\"ok\"`). Consider switching to an actual E.164 validator (regex / libphonenumber) or changing `normalizeE164` to return `null` on invalid input, then use that in both `validate` and normalization.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/channels/plugins/onboarding/signal.ts\nLine: 241:246\n\nComment:\n[P1] Validation likely accepts non‑E.164 values because `normalizeE164` always returns a `+`-prefixed string.\n\n`normalizeE164(trimmed)` is used as a boolean check, but `normalizeE164` (src/utils.ts:36) never returns `null/undefined` and will turn inputs like `\"ok\"` into `\"+\"` and `\"12345\"` into `\"+12345\"`. That means the new validation will still accept many invalid entries and store them (e.g., `account = normalizeE164(rawAccount) ?? rawAccount` will set `account` to `\"+\"` for `\"ok\"`). Consider switching to an actual E.164 validator (regex / libphonenumber) or changing `normalizeE164` to return `null` on invalid input, then use that in both `validate` and normalization.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T02:54:08Z",
+    "updated_at": "2026-02-03T02:54:09Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2208#discussion_r2756947244",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2208",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947244"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2208#discussion_r2756947244"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2208"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2756947244/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 241,
+    "original_start_line": 241,
+    "start_side": "RIGHT",
+    "line": 246,
+    "original_line": 246,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 14,
+    "position": 128,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069524",
+    "pull_request_review_id": 3742800882,
+    "id": 2757069524,
+    "node_id": "PRRC_kwDOQb6kR86kVYrU",
+    "diff_hunk": "@@ -235,12 +235,20 @@ export const signalOnboardingAdapter: ChannelOnboardingAdapter = {\n     }\n \n     if (!account) {\n-      account = String(\n+      const rawAccount = String(\n         await prompter.text({\n           message: \"Signal bot number (E.164)\",\n-          validate: (value) => (value?.trim() ? undefined : \"Required\"),\n+          validate: (value) => {\n+            const trimmed = value?.trim();\n+            if (!trimmed) return \"Required\";\n+            if (!normalizeE164(trimmed)) {\n+              return \"Invalid E.164 phone number (must start with + and country code, e.g. +15555550123)\";\n+            }",
+    "path": "src/channels/plugins/onboarding/signal.ts",
+    "commit_id": "82ac6c6a1d25645ce2bf8a1dbb4ff40f43d8f1d5",
+    "original_commit_id": "82ac6c6a1d25645ce2bf8a1dbb4ff40f43d8f1d5",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] `normalizeE164` isn’t actually validating E.164 here, so this new prompt still accepts many invalid inputs.\n\n`normalizeE164` (src/utils.ts:36) always returns a `+`-prefixed string (e.g. `normalizeE164(\"ok\") -> \"+\"`, `normalizeE164(\"12345\") -> \"+12345\"`), so `if (!normalizeE164(trimmed))` will never trigger. As a result, the onboarding prompt will still accept non-phone values and persist them (line 251 will store \"+\" for \"ok\"). Consider using an actual E.164 validator (e.g. regex `^\\+[1-9]\\d{1,14}$` / libphonenumber), or change `normalizeE164` to return `null` on invalid input and use that for both validate + normalization.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/channels/plugins/onboarding/signal.ts\nLine: 241:246\n\nComment:\n[P1] `normalizeE164` isn’t actually validating E.164 here, so this new prompt still accepts many invalid inputs.\n\n`normalizeE164` (src/utils.ts:36) always returns a `+`-prefixed string (e.g. `normalizeE164(\"ok\") -> \"+\"`, `normalizeE164(\"12345\") -> \"+12345\"`), so `if (!normalizeE164(trimmed))` will never trigger. As a result, the onboarding prompt will still accept non-phone values and persist them (line 251 will store \"+\" for \"ok\"). Consider using an actual E.164 validator (e.g. regex `^\\+[1-9]\\d{1,14}$` / libphonenumber), or change `normalizeE164` to return `null` on invalid input and use that for both validate + normalization.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:57:57Z",
+    "updated_at": "2026-02-03T03:57:58Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2208#discussion_r2757069524",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2208",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069524"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2208#discussion_r2757069524"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2208"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757069524/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 241,
+    "original_start_line": 241,
+    "start_side": "RIGHT",
+    "line": 246,
+    "original_line": 246,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 14,
+    "position": 128,
+    "subject_type": "line"
+  }
+]

@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776750350",
+    "pull_request_review_id": 3765940242,
+    "id": 2776750350,
+    "node_id": "PRRC_kwDOQb6kR86lgdkO",
+    "diff_hunk": "@@ -14,35 +14,42 @@ import { ensureLoaded, persist, warnIfDisabled } from \"./store.js\";\n import { armTimer, emit, executeJob, runMissedJobs, stopTimer, wake } from \"./timer.js\";\n \n export async function start(state: CronServiceState) {\n-  await locked(state, async () => {\n-    if (!state.deps.cronEnabled) {\n-      state.deps.log.info({ enabled: false }, \"cron: disabled\");\n-      return;\n-    }\n-    await ensureLoaded(state, { skipRecompute: true });\n-    const jobs = state.store?.jobs ?? [];\n-    for (const job of jobs) {\n-      if (typeof job.state.runningAtMs === \"number\") {\n-        state.deps.log.warn(\n-          { jobId: job.id, runningAtMs: job.state.runningAtMs },\n-          \"cron: clearing stale running marker on startup\",\n-        );\n-        job.state.runningAtMs = undefined;\n+  if (!state.deps.cronEnabled) {\n+    state.deps.log.info({ enabled: false }, \"cron: disabled\");\n+    return;\n+  }\n+  try {\n+    await locked(state, async () => {\n+      await ensureLoaded(state, { skipRecompute: true });\n+      const jobs = state.store?.jobs ?? [];\n+      for (const job of jobs) {\n+        if (typeof job.state.runningAtMs === \"number\") {\n+          state.deps.log.warn(\n+            { jobId: job.id, runningAtMs: job.state.runningAtMs },\n+            \"cron: clearing stale running marker on startup\",\n+          );\n+          job.state.runningAtMs = undefined;\n+        }\n       }\n-    }\n-    await runMissedJobs(state);\n-    recomputeNextRuns(state);\n-    await persist(state);\n-    armTimer(state);\n-    state.deps.log.info(\n-      {\n-        enabled: true,\n-        jobs: state.store?.jobs.length ?? 0,\n-        nextWakeAtMs: nextWakeAtMs(state) ?? null,\n-      },\n-      \"cron: started\",\n-    );\n-  });\n+      await runMissedJobs(state);\n+      recomputeNextRuns(state);\n+      await persist(state);\n+    });\n+  } catch (err) {\n+    // Log but don't propagate — armTimer below will still schedule the next tick\n+    // which will retry ensureLoaded/persist, preventing permanent startup failure.\n+    state.deps.log.error({ err: String(err) }, \"cron: start failed, will retry on next tick\");\n+  }",
+    "path": "src/cron/service/ops.ts",
+    "commit_id": "0822ce99e25c64ce6508cd28c29218702e74ff91",
+    "original_commit_id": "ccf6170eda10b3c886315d71dde47fc81ba5f563",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Lost error context**\n\n`start()` now logs errors as `{ err: String(err) }`, which drops stack traces and structured error fields (many callers in this codebase appear to log `{ err }`). This will make diagnosing the transient startup failures harder, which is the exact scenario this PR targets. Consider logging the original error object (or at least include `stack` when `err instanceof Error`).\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/service/ops.ts\nLine: 38:42\n\nComment:\n**Lost error context**\n\n`start()` now logs errors as `{ err: String(err) }`, which drops stack traces and structured error fields (many callers in this codebase appear to log `{ err }`). This will make diagnosing the transient startup failures harder, which is the exact scenario this PR targets. Consider logging the original error object (or at least include `stack` when `err instanceof Error`).\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:28:53Z",
+    "updated_at": "2026-02-07T02:28:54Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10829#discussion_r2776750350",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10829",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776750350"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10829#discussion_r2776750350"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10829"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776750350/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 38,
+    "original_start_line": 38,
+    "start_side": "RIGHT",
+    "line": 42,
+    "original_line": 42,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 57,
+    "position": 57,
+    "subject_type": "line"
+  }
+]

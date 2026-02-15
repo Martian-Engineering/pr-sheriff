@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2769769835",
+    "pull_request_review_id": 3757830272,
+    "id": 2769769835,
+    "node_id": "PRRC_kwDOQb6kR86lF1Vr",
+    "diff_hunk": "@@ -266,6 +269,31 @@ Use jobId as the canonical identifier; id is accepted for compatibility. Use con\n               }\n             }\n           }\n+          // Add delivery config if deliver/channel/to are specified\n+          const deliver = typeof params.deliver === \"boolean\" ? params.deliver : undefined;\n+          const channel = readStringParam(params, \"channel\");",
+    "path": "src/agents/tools/cron-tool.ts",
+    "commit_id": "c5af029cd62d17fbadd1d07d54d9aa0b04084a3b",
+    "original_commit_id": "c5af029cd62d17fbadd1d07d54d9aa0b04084a3b",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Delivery config clobbered**\n\nThis block sets `jobRec.delivery = delivery` whenever `deliver/channel/to` are present, which overwrites any `delivery` already provided inside `params.job` (e.g. existing `bestEffort`, explicit `mode`, or pre-set `channel/to`). That changes behavior for callers that pass a full `job.delivery` and then also set one of these new top-level hints. Consider merging into an existing `jobRec.delivery` object rather than replacing it, or only setting it when `jobRec.delivery` is absent.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/tools/cron-tool.ts\nLine: 272:274\n\nComment:\n**Delivery config clobbered**\n\nThis block sets `jobRec.delivery = delivery` whenever `deliver/channel/to` are present, which overwrites any `delivery` already provided inside `params.job` (e.g. existing `bestEffort`, explicit `mode`, or pre-set `channel/to`). That changes behavior for callers that pass a full `job.delivery` and then also set one of these new top-level hints. Consider merging into an existing `jobRec.delivery` object rather than replacing it, or only setting it when `jobRec.delivery` is absent.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-05T15:30:01Z",
+    "updated_at": "2026-02-05T15:30:03Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9687#discussion_r2769769835",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/9687",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2769769835"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/9687#discussion_r2769769835"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/9687"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2769769835/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 272,
+    "original_start_line": 272,
+    "start_side": "RIGHT",
+    "line": 274,
+    "original_line": 274,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 16,
+    "position": 16,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2769769933",
+    "pull_request_review_id": 3757830272,
+    "id": 2769769933,
+    "node_id": "PRRC_kwDOQb6kR86lF1XN",
+    "diff_hunk": "@@ -37,8 +38,12 @@ export async function onTimer(state: CronServiceState) {\n   state.running = true;\n   try {\n     await locked(state, async () => {\n-      await ensureLoaded(state, { forceReload: true });\n+      // Load without recomputing to preserve stored nextRunAtMs values\n+      await ensureLoaded(state, { forceReload: true, skipRecompute: true });",
+    "path": "src/cron/service/timer.ts",
+    "commit_id": "c5af029cd62d17fbadd1d07d54d9aa0b04084a3b",
+    "original_commit_id": "c5af029cd62d17fbadd1d07d54d9aa0b04084a3b",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Stale `nextRunAtMs` after load**\n\n`onTimer()` loads with `skipRecompute: true` and then runs `runDueJobs()`, which relies on stored `job.state.nextRunAtMs`. But `ensureLoaded()` can mutate job specs during migration/normalization (schedule coercion, payload/delivery migration) and may `persist()` those mutations while recompute is skipped. If the schedule changes, the persisted/stored `nextRunAtMs` can become inconsistent and due jobs can be missed or run early. You likely need to recompute after any mutation that can affect scheduling (or avoid skipping recompute when `ensureLoaded()` mutates).\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/service/timer.ts\nLine: 40:42\n\nComment:\n**Stale `nextRunAtMs` after load**\n\n`onTimer()` loads with `skipRecompute: true` and then runs `runDueJobs()`, which relies on stored `job.state.nextRunAtMs`. But `ensureLoaded()` can mutate job specs during migration/normalization (schedule coercion, payload/delivery migration) and may `persist()` those mutations while recompute is skipped. If the schedule changes, the persisted/stored `nextRunAtMs` can become inconsistent and due jobs can be missed or run early. You likely need to recompute after any mutation that can affect scheduling (or avoid skipping recompute when `ensureLoaded()` mutates).\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-05T15:30:02Z",
+    "updated_at": "2026-02-05T15:30:03Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9687#discussion_r2769769933",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/9687",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2769769933"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/9687#discussion_r2769769933"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/9687"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2769769933/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 40,
+    "original_start_line": 40,
+    "start_side": "RIGHT",
+    "line": 42,
+    "original_line": 42,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 14,
+    "position": 14,
+    "subject_type": "line"
+  }
+]

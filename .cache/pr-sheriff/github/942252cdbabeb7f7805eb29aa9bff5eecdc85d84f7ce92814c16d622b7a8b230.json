@@ -1,0 +1,140 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774967347",
+    "pull_request_review_id": 3763995187,
+    "id": 2774967347,
+    "node_id": "PRRC_kwDOQb6kR86lZqQz",
+    "diff_hunk": "@@ -58,7 +58,7 @@ export function computeJobNextRunAtMs(job: CronJob, nowMs: number): number | und\n   return computeNextRunAtMs(job.schedule, nowMs);\n }\n \n-export function recomputeNextRuns(state: CronServiceState) {\n+export function recomputeNextRuns(state: CronServiceState, opts?: { skipDue?: boolean }) {\n   if (!state.store) {\n     return;",
+    "path": "src/cron/service/jobs.ts",
+    "commit_id": "0211d258d5e661734124bd4b3a81cf632b294fd8",
+    "original_commit_id": "65f5891412fe34845387e7067ff4a308955146d4",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Due jobs can stay stale**\n\nWith `skipDue` enabled, `recomputeNextRuns()` will `continue` for any job where `nextRunAtMs <= now` (`src/cron/service/jobs.ts:86-90`). This fixes the skip-on-timer issue, but it also means a due job whose schedule *changed in the reloaded file* will keep the old `nextRunAtMs` and will run immediately (even if the updated schedule moved it into the future). This is reachable on the timer force-reload path (`ensureLoaded(..., {forceReload:true})` → `recomputeNextRuns(..., {skipDue:true})` → `runDueJobs()`).\n\nIf the intended behavior is “never skip due jobs, but still respect updated schedules,” consider limiting `skipDue` to recurring schedules only, or only skipping when the on-disk schedule is unchanged, or otherwise reconciling schedule edits for already-due jobs.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/service/jobs.ts\nLine: 61:63\n\nComment:\n**Due jobs can stay stale**\n\nWith `skipDue` enabled, `recomputeNextRuns()` will `continue` for any job where `nextRunAtMs <= now` (`src/cron/service/jobs.ts:86-90`). This fixes the skip-on-timer issue, but it also means a due job whose schedule *changed in the reloaded file* will keep the old `nextRunAtMs` and will run immediately (even if the updated schedule moved it into the future). This is reachable on the timer force-reload path (`ensureLoaded(..., {forceReload:true})` → `recomputeNextRuns(..., {skipDue:true})` → `runDueJobs()`).\n\nIf the intended behavior is “never skip due jobs, but still respect updated schedules,” consider limiting `skipDue` to recurring schedules only, or only skipping when the on-disk schedule is unchanged, or otherwise reconciling schedule edits for already-due jobs.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-06T16:28:50Z",
+    "updated_at": "2026-02-06T16:28:51Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10531#discussion_r2774967347",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10531",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774967347"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10531#discussion_r2774967347"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10531"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774967347/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 91,
+    "original_start_line": 61,
+    "start_side": "RIGHT",
+    "line": 93,
+    "original_line": 63,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 7,
+    "position": 55,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774967431",
+    "pull_request_review_id": 3763995187,
+    "id": 2774967431,
+    "node_id": "PRRC_kwDOQb6kR86lZqSH",
+    "diff_hunk": "@@ -0,0 +1,141 @@\n+import fs from \"node:fs/promises\";\n+import os from \"node:os\";\n+import path from \"node:path\";\n+import { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\n+import { CronService } from \"./service.js\";\n+\n+const noopLogger = {\n+  debug: vi.fn(),\n+  info: vi.fn(),\n+  warn: vi.fn(),\n+  error: vi.fn(),\n+};\n+\n+async function makeStorePath() {\n+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), \"openclaw-cron-\"));\n+  return {\n+    storePath: path.join(dir, \"cron\", \"jobs.json\"),\n+    cleanup: async () => {\n+      await fs.rm(dir, { recursive: true, force: true });\n+    },\n+  };",
+    "path": "src/cron/service.force-reload-preserves-due-jobs.test.ts",
+    "commit_id": "0211d258d5e661734124bd4b3a81cf632b294fd8",
+    "original_commit_id": "65f5891412fe34845387e7067ff4a308955146d4",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Temp dir can leak**\n\n`makeStorePath()` creates a temp directory and returns a `cleanup()` function, but the tests only call `cleanup()` at the end of the happy path. If an assertion fails (or `cron.start()` throws), the temp dir won’t be removed, leaving filesystem junk across repeated runs/CI retries (`src/cron/service.force-reload-preserves-due-jobs.test.ts:14-21`). Prefer registering cleanup via `afterEach` once the dir is created (or wrapping the test body in `try/finally`).\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/cron/service.force-reload-preserves-due-jobs.test.ts\nLine: 14:21\n\nComment:\n**Temp dir can leak**\n\n`makeStorePath()` creates a temp directory and returns a `cleanup()` function, but the tests only call `cleanup()` at the end of the happy path. If an assertion fails (or `cron.start()` throws), the temp dir won’t be removed, leaving filesystem junk across repeated runs/CI retries (`src/cron/service.force-reload-preserves-due-jobs.test.ts:14-21`). Prefer registering cleanup via `afterEach` once the dir is created (or wrapping the test body in `try/finally`).\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-06T16:28:51Z",
+    "updated_at": "2026-02-06T16:28:52Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10531#discussion_r2774967431",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10531",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774967431"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10531#discussion_r2774967431"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10531"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774967431/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 14,
+    "original_start_line": 14,
+    "start_side": "RIGHT",
+    "line": 21,
+    "original_line": 21,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 21,
+    "position": 21,
+    "subject_type": "line"
+  }
+]

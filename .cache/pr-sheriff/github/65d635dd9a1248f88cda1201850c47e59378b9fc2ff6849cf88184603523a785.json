@@ -1,0 +1,209 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185007",
+    "pull_request_review_id": 3742934516,
+    "id": 2757185007,
+    "node_id": "PRRC_kwDOQb6kR86kV03v",
+    "diff_hunk": "@@ -239,8 +248,8 @@ final class NodeAppModel {\n                         url: url,",
+    "path": "apps/ios/Sources/Model/NodeAppModel.swift",
+    "commit_id": "299752dde5d2e910b605626142e2e9cb3e82a075",
+    "original_commit_id": "299752dde5d2e910b605626142e2e9cb3e82a075",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Operator connection state never resets shared connection fields.\n\n`connectedGatewayID`, `gatewayServerName`, and `gatewayRemoteAddress` are only set/cleared by the node session task (`gatewayTask`). If the node session disconnects but the operator session remains connected (or vice versa), Settings/Chat can display misleading “Connected”/server/address info because those fields reflect only one of the two sockets. This shows up in `disconnectGateway()` as well: it clears shared fields but doesn’t distinguish which session disconnected.\n\nConsider tracking operator connection metadata separately (operator server/address/id), or deriving the UI state from each session’s own connection callbacks.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: apps/ios/Sources/Model/NodeAppModel.swift\nLine: 233:248\n\nComment:\n[P1] Operator connection state never resets shared connection fields.\n\n`connectedGatewayID`, `gatewayServerName`, and `gatewayRemoteAddress` are only set/cleared by the node session task (`gatewayTask`). If the node session disconnects but the operator session remains connected (or vice versa), Settings/Chat can display misleading “Connected”/server/address info because those fields reflect only one of the two sockets. This shows up in `disconnectGateway()` as well: it clears shared fields but doesn’t distinguish which session disconnected.\n\nConsider tracking operator connection metadata separately (operator server/address/id), or deriving the UI state from each session’s own connection callbacks.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:33Z",
+    "updated_at": "2026-02-03T04:51:36Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2134#discussion_r2757185007",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2134",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185007"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2134#discussion_r2757185007"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2134"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185007/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 233,
+    "original_start_line": 233,
+    "start_side": "RIGHT",
+    "line": 248,
+    "original_line": 248,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 61,
+    "position": 122,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185036",
+    "pull_request_review_id": 3742934516,
+    "id": 2757185036,
+    "node_id": "PRRC_kwDOQb6kR86kV04M",
+    "diff_hunk": "@@ -311,15 +321,75 @@ final class NodeAppModel {\n                 self.showLocalCanvasOnDisconnect()\n             }\n         }\n+\n+        self.operatorGatewayTask = Task {\n+            var attempt = 0\n+            while !Task.isCancelled {\n+                await MainActor.run {\n+                    if attempt == 0 {\n+                        self.operatorGatewayStatusText = \"Connecting…\"\n+                    } else {\n+                        self.operatorGatewayStatusText = \"Reconnecting…\"\n+                    }\n+                }\n+\n+                do {\n+                    try await self.operatorGateway.connect(\n+                        url: url,\n+                        token: token,",
+    "path": "apps/ios/Sources/Model/NodeAppModel.swift",
+    "commit_id": "299752dde5d2e910b605626142e2e9cb3e82a075",
+    "original_commit_id": "299752dde5d2e910b605626142e2e9cb3e82a075",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P1] Main cleanup runs only when node task exits.\n\nThe big `MainActor.run` cleanup (resetting `connectedGatewayID`, `gatewayConnected`, `seamColorHex`, `showLocalCanvasOnDisconnect()`, etc.) is in the *node* task’s termination path. If the operator session disconnects/reconnects independently, nothing updates the shared fields or UI besides `operatorGatewayStatusText`. If the intent is “chat available when operator socket is up”, this can leave the app in an inconsistent state.\n\nIf the sessions are intended to be coupled, consider explicitly tying operator task lifecycle to node task lifecycle (e.g., cancel operator when node disconnects) or duplicating the necessary cleanup on operator disconnect.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: apps/ios/Sources/Model/NodeAppModel.swift\nLine: 330:339\n\nComment:\n[P1] Main cleanup runs only when node task exits.\n\nThe big `MainActor.run` cleanup (resetting `connectedGatewayID`, `gatewayConnected`, `seamColorHex`, `showLocalCanvasOnDisconnect()`, etc.) is in the *node* task’s termination path. If the operator session disconnects/reconnects independently, nothing updates the shared fields or UI besides `operatorGatewayStatusText`. If the intent is “chat available when operator socket is up”, this can leave the app in an inconsistent state.\n\nIf the sessions are intended to be coupled, consider explicitly tying operator task lifecycle to node task lifecycle (e.g., cancel operator when node disconnects) or duplicating the necessary cleanup on operator disconnect.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:34Z",
+    "updated_at": "2026-02-03T04:51:36Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2134#discussion_r2757185036",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2134",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185036"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2134#discussion_r2757185036"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2134"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185036/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 330,
+    "original_start_line": 330,
+    "start_side": "RIGHT",
+    "line": 339,
+    "original_line": 339,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 98,
+    "position": 168,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185097",
+    "pull_request_review_id": 3742934516,
+    "id": 2757185097,
+    "node_id": "PRRC_kwDOQb6kR86kV05J",
+    "diff_hunk": "@@ -32,7 +32,16 @@ const APPROVALS_SCOPE = \"operator.approvals\";\n const PAIRING_SCOPE = \"operator.pairing\";\n \n const APPROVAL_METHODS = new Set([\"exec.approval.request\", \"exec.approval.resolve\"]);\n-const NODE_ROLE_METHODS = new Set([\"node.invoke.result\", \"node.event\", \"skills.bins\"]);\n+const NODE_ROLE_METHODS = new Set([\n+  \"node.invoke.result\",",
+    "path": "src/gateway/server-methods.ts",
+    "commit_id": "299752dde5d2e910b605626142e2e9cb3e82a075",
+    "original_commit_id": "299752dde5d2e910b605626142e2e9cb3e82a075",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P0] Expanding `NODE_ROLE_METHODS` to include operator-style chat methods weakens role boundaries.\n\nAllowing `node` to call `chat.history`/`chat.send`/`chat.abort`/`sessions.list` makes those RPCs available to *any* node-authenticated client, not just iOS UI clients. If nodes are expected to be less-trusted than operators, this is a privilege escalation surface (e.g., nodes enumerating sessions or reading chat history).\n\nIf the goal is “iOS node can chat”, consider gating by a dedicated scope/cap/clientId (e.g., `clientId === clawdbot-ios`), or introducing a separate role/scope for mobile chat rather than broadening the generic `node` role.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/gateway/server-methods.ts\nLine: 33:36\n\nComment:\n[P0] Expanding `NODE_ROLE_METHODS` to include operator-style chat methods weakens role boundaries.\n\nAllowing `node` to call `chat.history`/`chat.send`/`chat.abort`/`sessions.list` makes those RPCs available to *any* node-authenticated client, not just iOS UI clients. If nodes are expected to be less-trusted than operators, this is a privilege escalation surface (e.g., nodes enumerating sessions or reading chat history).\n\nIf the goal is “iOS node can chat”, consider gating by a dedicated scope/cap/clientId (e.g., `clientId === clawdbot-ios`), or introducing a separate role/scope for mobile chat rather than broadening the generic `node` role.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T04:51:35Z",
+    "updated_at": "2026-02-03T04:51:36Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2134#discussion_r2757185097",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2134",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185097"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2134#discussion_r2757185097"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2134"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757185097/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 33,
+    "original_start_line": 33,
+    "start_side": "RIGHT",
+    "line": 36,
+    "original_line": 36,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 6,
+    "position": 1,
+    "subject_type": "line"
+  }
+]

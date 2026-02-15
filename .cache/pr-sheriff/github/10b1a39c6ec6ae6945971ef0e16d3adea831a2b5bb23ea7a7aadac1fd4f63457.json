@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3863337581",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10776#issuecomment-3863337581",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/10776",
+    "id": 3863337581,
+    "node_id": "IC_kwDOQb6kR87mRdpt",
+    "user": {
+      "login": "tyler6204",
+      "id": 64381258,
+      "node_id": "MDQ6VXNlcjY0MzgxMjU4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/64381258?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/tyler6204",
+      "html_url": "https://github.com/tyler6204",
+      "followers_url": "https://api.github.com/users/tyler6204/followers",
+      "following_url": "https://api.github.com/users/tyler6204/following{/other_user}",
+      "gists_url": "https://api.github.com/users/tyler6204/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/tyler6204/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/tyler6204/subscriptions",
+      "organizations_url": "https://api.github.com/users/tyler6204/orgs",
+      "repos_url": "https://api.github.com/users/tyler6204/repos",
+      "events_url": "https://api.github.com/users/tyler6204/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/tyler6204/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-02-07T02:03:17Z",
+    "updated_at": "2026-02-07T02:03:17Z",
+    "body": "Merged via squash.\n\n- Merge commit: d90cac990c8f9864d2bcb0f3605a057fad2003cf\n\nThanks @tyler6204!",
+    "author_association": "MEMBER",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3863337581/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

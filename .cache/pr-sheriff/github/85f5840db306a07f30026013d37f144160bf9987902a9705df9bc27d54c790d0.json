@@ -1,0 +1,210 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774901558",
+    "pull_request_review_id": 3763925506,
+    "id": 2774901558,
+    "node_id": "PRRC_kwDOQb6kR86lZaM2",
+    "diff_hunk": "@@ -1,6 +1,6 @@\n // Defaults for agent metadata when upstream does not supply them.\n // Model id uses pi-ai's built-in Anthropic catalog.\n export const DEFAULT_PROVIDER = \"anthropic\";\n-export const DEFAULT_MODEL = \"claude-opus-4-5\";\n-// Context window: Opus 4.5 supports ~200k tokens (per pi-ai models.generated.ts).\n+export const DEFAULT_MODEL = \"claude-opus-4-6\";\n+// Context window: Opus supports ~200k tokens (per pi-ai models.generated.ts for Opus 4.5).\n export const DEFAULT_CONTEXT_TOKENS = 200_000;",
+    "path": "src/agents/defaults.ts",
+    "commit_id": "2d52f2903e9eb74d80525168d4936f854d986e26",
+    "original_commit_id": "2d52f2903e9eb74d80525168d4936f854d986e26",
+    "user": {
+      "login": "bchelli",
+      "id": 1065245,
+      "node_id": "MDQ6VXNlcjEwNjUyNDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1065245?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bchelli",
+      "html_url": "https://github.com/bchelli",
+      "followers_url": "https://api.github.com/users/bchelli/followers",
+      "following_url": "https://api.github.com/users/bchelli/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bchelli/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bchelli/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bchelli/subscriptions",
+      "organizations_url": "https://api.github.com/users/bchelli/orgs",
+      "repos_url": "https://api.github.com/users/bchelli/repos",
+      "events_url": "https://api.github.com/users/bchelli/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bchelli/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@TinyTb  Isn't the context window 1M?",
+    "created_at": "2026-02-06T16:12:58Z",
+    "updated_at": "2026-02-06T16:14:28Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9853#discussion_r2774901558",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/9853",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774901558"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/9853#discussion_r2774901558"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/9853"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774901558/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6,
+    "original_line": 6,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774977675",
+    "pull_request_review_id": 3764006740,
+    "id": 2774977675,
+    "node_id": "PRRC_kwDOQb6kR86lZsyL",
+    "diff_hunk": "@@ -3,11 +3,17 @@ export type ModelRef = {\n   id?: string | null;\n };\n \n-const ANTHROPIC_PREFIXES = [\"claude-opus-4-5\", \"claude-sonnet-4-5\", \"claude-haiku-4-5\"];\n+const ANTHROPIC_PREFIXES = [\n+  \"claude-opus-4-6\",\n+  \"claude-opus-4-5\",\n+  \"claude-sonnet-4-5\",\n+  \"claude-haiku-4-5\",\n+];\n const OPENAI_MODELS = [\"gpt-5.2\", \"gpt-5.0\"];\n const CODEX_MODELS = [\n   \"gpt-5.2\",\n   \"gpt-5.2-codex\",\n+  \"gpt-5.3-codex\",",
+    "path": "src/agents/live-model-filter.ts",
+    "commit_id": "2d52f2903e9eb74d80525168d4936f854d986e26",
+    "original_commit_id": "2d52f2903e9eb74d80525168d4936f854d986e26",
+    "user": {
+      "login": "bchelli",
+      "id": 1065245,
+      "node_id": "MDQ6VXNlcjEwNjUyNDU=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1065245?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bchelli",
+      "html_url": "https://github.com/bchelli",
+      "followers_url": "https://api.github.com/users/bchelli/followers",
+      "following_url": "https://api.github.com/users/bchelli/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bchelli/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/bchelli/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/bchelli/subscriptions",
+      "organizations_url": "https://api.github.com/users/bchelli/orgs",
+      "repos_url": "https://api.github.com/users/bchelli/repos",
+      "events_url": "https://api.github.com/users/bchelli/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/bchelli/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Why is this in this PR? shouldn't this be in another PR?",
+    "created_at": "2026-02-06T16:31:18Z",
+    "updated_at": "2026-02-06T16:31:36Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9853#discussion_r2774977675",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/9853",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774977675"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/9853#discussion_r2774977675"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/9853"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2774977675/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 16,
+    "original_line": 16,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 15,
+    "position": 15,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2775687597",
+    "pull_request_review_id": 3764784560,
+    "id": 2775687597,
+    "node_id": "PRRC_kwDOQb6kR86lcaGt",
+    "diff_hunk": "@@ -1,6 +1,6 @@\n // Defaults for agent metadata when upstream does not supply them.\n // Model id uses pi-ai's built-in Anthropic catalog.\n export const DEFAULT_PROVIDER = \"anthropic\";\n-export const DEFAULT_MODEL = \"claude-opus-4-5\";\n-// Context window: Opus 4.5 supports ~200k tokens (per pi-ai models.generated.ts).\n+export const DEFAULT_MODEL = \"claude-opus-4-6\";\n+// Context window: Opus supports ~200k tokens (per pi-ai models.generated.ts for Opus 4.5).\n export const DEFAULT_CONTEXT_TOKENS = 200_000;",
+    "path": "src/agents/defaults.ts",
+    "commit_id": "2d52f2903e9eb74d80525168d4936f854d986e26",
+    "original_commit_id": "2d52f2903e9eb74d80525168d4936f854d986e26",
+    "user": {
+      "login": "HenryLoenwind",
+      "id": 1485873,
+      "node_id": "MDQ6VXNlcjE0ODU4NzM=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1485873?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/HenryLoenwind",
+      "html_url": "https://github.com/HenryLoenwind",
+      "followers_url": "https://api.github.com/users/HenryLoenwind/followers",
+      "following_url": "https://api.github.com/users/HenryLoenwind/following{/other_user}",
+      "gists_url": "https://api.github.com/users/HenryLoenwind/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/HenryLoenwind/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/HenryLoenwind/subscriptions",
+      "organizations_url": "https://api.github.com/users/HenryLoenwind/orgs",
+      "repos_url": "https://api.github.com/users/HenryLoenwind/repos",
+      "events_url": "https://api.github.com/users/HenryLoenwind/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/HenryLoenwind/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "You need to set an additional \"beta, please\" header in the API request to get those 1M. Without it, it's only 200k.",
+    "created_at": "2026-02-06T19:29:53Z",
+    "updated_at": "2026-02-06T19:29:54Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/9853#discussion_r2775687597",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/9853",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2775687597"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/9853#discussion_r2775687597"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/9853"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2775687597/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 6,
+    "original_line": 6,
+    "side": "RIGHT",
+    "in_reply_to_id": 2774901558,
+    "author_association": "NONE",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line"
+  }
+]

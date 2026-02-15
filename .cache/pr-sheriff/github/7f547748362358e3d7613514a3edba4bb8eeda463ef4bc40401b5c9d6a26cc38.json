@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757070456",
+    "pull_request_review_id": 3742801928,
+    "id": 2757070456,
+    "node_id": "PRRC_kwDOQb6kR86kVY54",
+    "diff_hunk": "@@ -111,6 +111,7 @@ Status: beta.\n - Security: add mDNS discovery mode with minimal default to reduce information disclosure. (#1882) Thanks @orlyjamie.\n - Security: harden URL fetches with DNS pinning to reduce rebinding risk. Thanks Chris Zheng.\n - Web UI: improve WebChat image paste previews and allow image-only sends. (#1925) Thanks @smartprogrammer93.\n+- Gateway: fix server resource leak in canBindToHost error handler.",
+    "path": "CHANGELOG.md",
+    "commit_id": "36d19694d3a984237870efb06945c40555bfef43",
+    "original_commit_id": "36d19694d3a984237870efb06945c40555bfef43",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "[P2] Changelog entry missing PR reference/thanks\n\nMost entries in this section include the PR number and an attribution (e.g. `(#1234) Thanks @user.`). This new line doesn’t, which makes it harder to trace back to the change.\n\nConsider updating it to include `(#2114) Thanks @Episkey-G.` (and keep wording consistent with surrounding bullets).\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: CHANGELOG.md\nLine: 114:114\n\nComment:\n[P2] Changelog entry missing PR reference/thanks\n\nMost entries in this section include the PR number and an attribution (e.g. `(#1234) Thanks @user.`). This new line doesn’t, which makes it harder to trace back to the change.\n\nConsider updating it to include `(#2114) Thanks @Episkey-G.` (and keep wording consistent with surrounding bullets).\n\n<sub>Note: If this suggestion doesn't match your team's coding style, reply to this and let me know. I'll remember it for next time!</sub>\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-03T03:58:22Z",
+    "updated_at": "2026-02-03T03:58:22Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/2114#discussion_r2757070456",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/2114",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757070456"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/2114#discussion_r2757070456"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/2114"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2757070456/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": 114,
+    "original_line": 114,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 4,
+    "position": 412,
+    "subject_type": "line"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3863413878",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10844#issuecomment-3863413878",
+    "issue_url": "https://api.github.com/repos/openclaw/openclaw/issues/10844",
+    "id": 3863413878,
+    "node_id": "IC_kwDOQb6kR87mRwR2",
+    "user": {
+      "login": "jlian",
+      "id": 2320572,
+      "node_id": "MDQ6VXNlcjIzMjA1NzI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2320572?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jlian",
+      "html_url": "https://github.com/jlian",
+      "followers_url": "https://api.github.com/users/jlian/followers",
+      "following_url": "https://api.github.com/users/jlian/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jlian/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jlian/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jlian/subscriptions",
+      "organizations_url": "https://api.github.com/users/jlian/orgs",
+      "repos_url": "https://api.github.com/users/jlian/repos",
+      "events_url": "https://api.github.com/users/jlian/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jlian/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "created_at": "2026-02-07T02:57:08Z",
+    "updated_at": "2026-02-07T02:57:08Z",
+    "body": "### Test results\n\nAll 21 tests pass (vitest v4.0.18):\n\n```\n ✓ src/agents/live-model-filter.test.ts (10 tests) 7ms\n ✓ src/agents/pi-embedded-runner/model.test.ts (11 tests) 11ms\n\n Test Files  2 passed (2)\n      Tests  21 passed (21)\n   Duration  1.77s\n```\n\nThis includes the `gpt-5.2-codex` prefix-match case and the `github-copilot` forward-compat fallback case flagged in the review.",
+    "author_association": "NONE",
+    "pin": null,
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/issues/comments/3863413878/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "performed_via_github_app": null
+  }
+]

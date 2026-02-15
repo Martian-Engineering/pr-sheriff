@@ -1,0 +1,71 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776816880",
+    "pull_request_review_id": 3766015137,
+    "id": 2776816880,
+    "node_id": "PRRC_kwDOQb6kR86lgtzw",
+    "diff_hunk": "@@ -171,9 +171,14 @@ export async function monitorTelegramProvider(opts: MonitorTelegramOpts = {}) {\n \n     while (!opts.abortSignal?.aborted) {\n       const runner = run(bot, createTelegramRunnerOptions(cfg));\n+      // Track the stop promise so we can await it in finally block.\n+      // This prevents race conditions where a new polling loop starts\n+      // before the old runner has fully stopped (causing 409 conflicts\n+      // and duplicate message delivery).\n+      const stopState: { promise: Promise<void> | null } = { promise: null };\n       const stopOnAbort = () => {\n         if (opts.abortSignal?.aborted) {\n-          void runner.stop();\n+          stopState.promise = runner.stop();",
+    "path": "src/telegram/monitor.ts",
+    "commit_id": "36ee71d7048a41bff0cb739abb25f5575a43c5e8",
+    "original_commit_id": "36ee71d7048a41bff0cb739abb25f5575a43c5e8",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Await never runs**\n\n`stopState.promise` is only set in the abort event handler. In the hot-reload/config-restart scenario described in the PR, the polling loop is typically restarted without aborting `opts.abortSignal`, so `stopState.promise` stays `null` and the new loop can still start before the previous runner is fully stopped.\n\nTo actually prevent overlapping pollers, ensure `runner.stop()` is triggered on *all* restart/exit paths (e.g., in the `finally` block unconditionally or before the backoff sleep), then await it there. As-is, this change only affects the abort case.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/telegram/monitor.ts\nLine: 178:181\n\nComment:\n**Await never runs**\n\n`stopState.promise` is only set in the abort event handler. In the hot-reload/config-restart scenario described in the PR, the polling loop is typically restarted without aborting `opts.abortSignal`, so `stopState.promise` stays `null` and the new loop can still start before the previous runner is fully stopped.\n\nTo actually prevent overlapping pollers, ensure `runner.stop()` is triggered on *all* restart/exit paths (e.g., in the `finally` block unconditionally or before the backoff sleep), then await it there. As-is, this change only affects the abort case.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:55:30Z",
+    "updated_at": "2026-02-07T02:55:31Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10850#discussion_r2776816880",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10850",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776816880"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10850#discussion_r2776816880"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10850"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776816880/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 178,
+    "original_start_line": 178,
+    "start_side": "RIGHT",
+    "line": 181,
+    "original_line": 181,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 12,
+    "position": 12,
+    "subject_type": "line"
+  }
+]

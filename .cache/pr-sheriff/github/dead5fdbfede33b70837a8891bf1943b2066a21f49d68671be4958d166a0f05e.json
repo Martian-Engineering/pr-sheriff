@@ -1,0 +1,162 @@
+[
+  {
+    "__typename": "LabeledEvent",
+    "createdAt": "2026-02-15T15:50:59Z",
+    "actor": {
+      "login": "DavidOrti"
+    },
+    "label": {
+      "name": "bug"
+    }
+  },
+  {
+    "__typename": "ReferencedEvent",
+    "createdAt": "2026-02-15T16:17:04Z",
+    "actor": {
+      "login": "Limitless2023"
+    },
+    "commit": {
+      "oid": "64232a13837a9b9926d3a9ec8a50f6ce4f662e79",
+      "url": "https://github.com/Limitless2023/openclaw/commit/64232a13837a9b9926d3a9ec8a50f6ce4f662e79",
+      "messageHeadline": "fix: skip embedding provider check in doctor when QMD backend is enabled"
+    },
+    "commitRepository": {
+      "nameWithOwner": "Limitless2023/openclaw"
+    }
+  },
+  {
+    "__typename": "CrossReferencedEvent",
+    "createdAt": "2026-02-15T16:17:29Z",
+    "actor": {
+      "login": "Limitless2023"
+    },
+    "source": {
+      "__typename": "PullRequest",
+      "number": 17291,
+      "title": "fix: skip embedding provider check in doctor when QMD backend is enabled",
+      "url": "https://github.com/openclaw/openclaw/pull/17291",
+      "mergedAt": null,
+      "closedAt": "2026-02-15T17:16:12Z"
+    }
+  },
+  {
+    "__typename": "ReferencedEvent",
+    "createdAt": "2026-02-15T16:20:46Z",
+    "actor": {
+      "login": "miloudbelarebia"
+    },
+    "commit": {
+      "oid": "f37900d7b80d99b48124b1deab6e1407ab1a8c02",
+      "url": "https://github.com/miloudbelarebia/openclaw/commit/f37900d7b80d99b48124b1deab6e1407ab1a8c02",
+      "messageHeadline": "fix(doctor): skip embedding provider check when QMD backend is active"
+    },
+    "commitRepository": {
+      "nameWithOwner": "miloudbelarebia/openclaw"
+    }
+  },
+  {
+    "__typename": "CrossReferencedEvent",
+    "createdAt": "2026-02-15T16:21:00Z",
+    "actor": {
+      "login": "miloudbelarebia"
+    },
+    "source": {
+      "__typename": "PullRequest",
+      "number": 17295,
+      "title": "fix(doctor): skip embedding provider check when QMD backend is active",
+      "url": "https://github.com/openclaw/openclaw/pull/17295",
+      "mergedAt": null,
+      "closedAt": null
+    }
+  },
+  {
+    "__typename": "CrossReferencedEvent",
+    "createdAt": "2026-02-15T16:48:44Z",
+    "actor": {
+      "login": "ephelia-ai"
+    },
+    "source": {
+      "__typename": "PullRequest",
+      "number": 17306,
+      "title": "fix(doctor): skip memorySearch provider warning when memory backend is qmd",
+      "url": "https://github.com/openclaw/openclaw/pull/17306",
+      "mergedAt": null,
+      "closedAt": null
+    }
+  },
+  {
+    "__typename": "CrossReferencedEvent",
+    "createdAt": "2026-02-15T16:50:57Z",
+    "actor": {
+      "login": "olivier-motium"
+    },
+    "source": {
+      "__typename": "PullRequest",
+      "number": 17310,
+      "title": "feat: add AI PR triage GitHub Action for duplicate detection",
+      "url": "https://github.com/openclaw/openclaw/pull/17310",
+      "mergedAt": null,
+      "closedAt": "2026-02-15T16:51:55Z"
+    }
+  },
+  {
+    "__typename": "ReferencedEvent",
+    "createdAt": "2026-02-15T17:47:40Z",
+    "actor": {
+      "login": "nikhil8182"
+    },
+    "commit": {
+      "oid": "faa219bac90604055e19fffd67485f96728b8330",
+      "url": "https://github.com/nikhil8182/openclaw/commit/faa219bac90604055e19fffd67485f96728b8330",
+      "messageHeadline": "fix(doctor): skip embedding provider check when memory backend is QMD"
+    },
+    "commitRepository": {
+      "nameWithOwner": "nikhil8182/openclaw"
+    }
+  },
+  {
+    "__typename": "CrossReferencedEvent",
+    "createdAt": "2026-02-15T17:48:03Z",
+    "actor": {
+      "login": "nikhil8182"
+    },
+    "source": {
+      "__typename": "PullRequest",
+      "number": 17360,
+      "title": "fix(doctor): skip embedding provider check when memory backend is QMD",
+      "url": "https://github.com/openclaw/openclaw/pull/17360",
+      "mergedAt": null,
+      "closedAt": null
+    }
+  },
+  {
+    "__typename": "ReferencedEvent",
+    "createdAt": "2026-02-15T18:02:21Z",
+    "actor": {
+      "login": "Limitless2023"
+    },
+    "commit": {
+      "oid": "991e8a1bac1032a6453fa2e70338bfba2abe5ff9",
+      "url": "https://github.com/Limitless2023/openclaw/commit/991e8a1bac1032a6453fa2e70338bfba2abe5ff9",
+      "messageHeadline": "fix: skip embedding provider check in doctor when QMD backend is enabled"
+    },
+    "commitRepository": {
+      "nameWithOwner": "Limitless2023/openclaw"
+    }
+  },
+  {
+    "__typename": "CrossReferencedEvent",
+    "createdAt": "2026-02-15T18:02:55Z",
+    "actor": {
+      "login": "Limitless2023"
+    },
+    "source": {
+      "__typename": "PullRequest",
+      "number": 17381,
+      "title": "fix: skip embedding provider check in doctor when QMD backend is enabled",
+      "url": "https://github.com/openclaw/openclaw/pull/17381",
+      "mergedAt": null,
+      "closedAt": null
+    }
+  }
+]

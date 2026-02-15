@@ -1,0 +1,141 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776717503",
+    "pull_request_review_id": 3765899946,
+    "id": 2776717503,
+    "node_id": "PRRC_kwDOQb6kR86lgVi_",
+    "diff_hunk": "@@ -100,12 +100,12 @@ export const SYNTHETIC_MODEL_CATALOG = [\n     maxTokens: 8192,\n   },\n   {\n-    id: \"hf:moonshotai/Kimi-K2.5\",\n-    name: \"Kimi K2.5\",\n+    id: \"hf:moonshotai/MiniMax-M2.1\",\n+    name: \"MiniMax M2.1\",\n     reasoning: true,\n     input: [\"text\"],\n-    contextWindow: 256000,\n-    maxTokens: 8192,\n+    contextWindow: 192000,\n+    maxTokens: 65536,\n   },",
+    "path": "src/agents/synthetic-models.ts",
+    "commit_id": "2a4e41aaaaa531ac359269440424dcdcc2691d9d",
+    "original_commit_id": "9319d4d21979d70750cb41ae4255012164b28ab7",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Wrong model ID/name pairing**\n\nThis catalog entry looks accidentally swapped: it now lists `id: \"hf:moonshotai/MiniMax-M2.1\"` with name `\"MiniMax M2.1\"`, but the original default model was `\"hf:MiniMaxAI/MiniMax-M2.1\"` (different namespace), and you also removed the separate `hf:moonshotai/Kimi-K2.5` entry by turning it into MiniMax. As written, users selecting MiniMax by ID may hit a non-existent/incorrect model, and Kimi K2.5 is no longer explicitly present except as the default.\n\nFix by restoring the MiniMax ID and keeping Kimi as its own entry.\n```suggestion\n  {\n    id: \"hf:MiniMaxAI/MiniMax-M2.1\",\n    name: \"MiniMax M2.1\",\n    reasoning: true,\n    input: [\"text\"],\n    contextWindow: 192000,\n    maxTokens: 65536,\n  },\n```\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/synthetic-models.ts\nLine: 102:109\n\nComment:\n**Wrong model ID/name pairing**\n\nThis catalog entry looks accidentally swapped: it now lists `id: \"hf:moonshotai/MiniMax-M2.1\"` with name `\"MiniMax M2.1\"`, but the original default model was `\"hf:MiniMaxAI/MiniMax-M2.1\"` (different namespace), and you also removed the separate `hf:moonshotai/Kimi-K2.5` entry by turning it into MiniMax. As written, users selecting MiniMax by ID may hit a non-existent/incorrect model, and Kimi K2.5 is no longer explicitly present except as the default.\n\nFix by restoring the MiniMax ID and keeping Kimi as its own entry.\n```suggestion\n  {\n    id: \"hf:MiniMaxAI/MiniMax-M2.1\",\n    name: \"MiniMax M2.1\",\n    reasoning: true,\n    input: [\"text\"],\n    contextWindow: 192000,\n    maxTokens: 65536,\n  },\n```\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:03:26Z",
+    "updated_at": "2026-02-07T02:03:26Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10823#discussion_r2776717503",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10823",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776717503"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10823#discussion_r2776717503"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10823"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776717503/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 102,
+    "original_start_line": 102,
+    "start_side": "RIGHT",
+    "line": 109,
+    "original_line": 109,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 38,
+    "position": 38,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776721607",
+    "pull_request_review_id": 3765905386,
+    "id": 2776721607,
+    "node_id": "PRRC_kwDOQb6kR86lgWjH",
+    "diff_hunk": "@@ -100,12 +100,12 @@ export const SYNTHETIC_MODEL_CATALOG = [\n     maxTokens: 8192,\n   },\n   {\n-    id: \"hf:moonshotai/Kimi-K2.5\",\n-    name: \"Kimi K2.5\",\n+    id: \"hf:moonshotai/MiniMax-M2.1\",\n+    name: \"MiniMax M2.1\",\n     reasoning: true,\n     input: [\"text\"],\n-    contextWindow: 256000,\n-    maxTokens: 8192,\n+    contextWindow: 192000,\n+    maxTokens: 65536,\n   },",
+    "path": "src/agents/synthetic-models.ts",
+    "commit_id": "2a4e41aaaaa531ac359269440424dcdcc2691d9d",
+    "original_commit_id": "9319d4d21979d70750cb41ae4255012164b28ab7",
+    "user": {
+      "login": "reissbaker",
+      "id": 803092,
+      "node_id": "MDQ6VXNlcjgwMzA5Mg==",
+      "avatar_url": "https://avatars.githubusercontent.com/u/803092?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/reissbaker",
+      "html_url": "https://github.com/reissbaker",
+      "followers_url": "https://api.github.com/users/reissbaker/followers",
+      "following_url": "https://api.github.com/users/reissbaker/following{/other_user}",
+      "gists_url": "https://api.github.com/users/reissbaker/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/reissbaker/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/reissbaker/subscriptions",
+      "organizations_url": "https://api.github.com/users/reissbaker/orgs",
+      "repos_url": "https://api.github.com/users/reissbaker/repos",
+      "events_url": "https://api.github.com/users/reissbaker/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/reissbaker/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "Whoops! Fixed.",
+    "created_at": "2026-02-07T02:05:19Z",
+    "updated_at": "2026-02-07T02:05:19Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10823#discussion_r2776721607",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10823",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776721607"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10823#discussion_r2776721607"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10823"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776721607/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 102,
+    "original_start_line": 102,
+    "start_side": "RIGHT",
+    "line": 109,
+    "original_line": 109,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776717503,
+    "author_association": "NONE",
+    "original_position": 38,
+    "position": 38,
+    "subject_type": "line"
+  }
+]

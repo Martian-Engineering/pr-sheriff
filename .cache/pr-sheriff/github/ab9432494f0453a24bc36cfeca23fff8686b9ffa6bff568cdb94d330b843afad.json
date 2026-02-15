@@ -1,0 +1,280 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776810104",
+    "pull_request_review_id": 3766007483,
+    "id": 2776810104,
+    "node_id": "PRRC_kwDOQb6kR86lgsJ4",
+    "diff_hunk": "@@ -74,6 +83,10 @@ export function isModernModelRef(ref: ModelRef): boolean {\n     return matchesPrefix(id, XAI_PREFIXES);\n   }\n \n+  if (provider === \"github-copilot\") {\n+    return matchesPrefix(id, COPILOT_CLAUDE_PREFIXES) || matchesPrefix(id, COPILOT_GPT_PREFIXES);\n+  }",
+    "path": "src/agents/live-model-filter.ts",
+    "commit_id": "ac34cd3034b527abd7b774ae41e1476b031449e4",
+    "original_commit_id": "6a4a2af90a6aa74b0b160d328f344de63c0b9b4d",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Copilot GPT/Codex mismatch**\n`isModernModelRef` treats all `github-copilot` models as prefix matches against `COPILOT_CLAUDE_PREFIXES`/`COPILOT_GPT_PREFIXES`, but `COPILOT_GPT_PREFIXES` omits Codex-style IDs like `gpt-5.2-codex`. As a result, `isModernModelRef({provider:\"github-copilot\", id:\"gpt-5.2-codex\"})` returns `false` even though the new test expects `true`. Either expand `COPILOT_GPT_PREFIXES` to cover `gpt-5.*`/`*-codex` variants (or reuse the existing `CODEX_MODELS` list) so the behavior matches the intended filter.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/live-model-filter.ts\nLine: 86:88\n\nComment:\n**Copilot GPT/Codex mismatch**\n`isModernModelRef` treats all `github-copilot` models as prefix matches against `COPILOT_CLAUDE_PREFIXES`/`COPILOT_GPT_PREFIXES`, but `COPILOT_GPT_PREFIXES` omits Codex-style IDs like `gpt-5.2-codex`. As a result, `isModernModelRef({provider:\"github-copilot\", id:\"gpt-5.2-codex\"})` returns `false` even though the new test expects `true`. Either expand `COPILOT_GPT_PREFIXES` to cover `gpt-5.*`/`*-codex` variants (or reuse the existing `CODEX_MODELS` list) so the behavior matches the intended filter.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:51:18Z",
+    "updated_at": "2026-02-07T02:51:20Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10844#discussion_r2776810104",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10844",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776810104"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10844#discussion_r2776810104"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10844"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776810104/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 86,
+    "original_start_line": 86,
+    "start_side": "RIGHT",
+    "line": 88,
+    "original_line": 88,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776810131",
+    "pull_request_review_id": 3766007483,
+    "id": 2776810131,
+    "node_id": "PRRC_kwDOQb6kR86lgsKT",
+    "diff_hunk": "@@ -207,6 +207,41 @@ describe(\"resolveModel\", () => {\n     });\n   });\n \n+  it(\"builds a github-copilot forward-compat fallback for claude-opus-4.6\", () => {\n+    const templateModel = {\n+      id: \"claude-opus-4.5\",\n+      name: \"Claude Opus 4.5\",\n+      provider: \"github-copilot\",",
+    "path": "src/agents/pi-embedded-runner/model.test.ts",
+    "commit_id": "ac34cd3034b527abd7b774ae41e1476b031449e4",
+    "original_commit_id": "6a4a2af90a6aa74b0b160d328f344de63c0b9b4d",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Unreachable fallback path**\nThis test stubs the registry so `find(\"github-copilot\", \"claude-opus-4.5\")` returns a template, but the forward-compat resolver always looks up templates using `normalizeProviderId(provider)` (see `model.ts:79`/`model.ts:101`). If `normalizeProviderId(\"github-copilot\")` differs from the literal string (e.g. normalized to `githubcopilot`), this lookup will never hit and the fallback won’t be built. Update the stub to match the normalized provider value (or stub `normalizeProviderId`) so the test is asserting the real reachable code path.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/agents/pi-embedded-runner/model.test.ts\nLine: 210:214\n\nComment:\n**Unreachable fallback path**\nThis test stubs the registry so `find(\"github-copilot\", \"claude-opus-4.5\")` returns a template, but the forward-compat resolver always looks up templates using `normalizeProviderId(provider)` (see `model.ts:79`/`model.ts:101`). If `normalizeProviderId(\"github-copilot\")` differs from the literal string (e.g. normalized to `githubcopilot`), this lookup will never hit and the fallback won’t be built. Update the stub to match the normalized provider value (or stub `normalizeProviderId`) so the test is asserting the real reachable code path.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T02:51:19Z",
+    "updated_at": "2026-02-07T02:51:20Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10844#discussion_r2776810131",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10844",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776810131"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10844#discussion_r2776810131"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10844"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776810131/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 210,
+    "original_start_line": 210,
+    "start_side": "RIGHT",
+    "line": 214,
+    "original_line": 214,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776815696",
+    "pull_request_review_id": 3766013839,
+    "id": 2776815696,
+    "node_id": "PRRC_kwDOQb6kR86lgthQ",
+    "diff_hunk": "@@ -74,6 +83,10 @@ export function isModernModelRef(ref: ModelRef): boolean {\n     return matchesPrefix(id, XAI_PREFIXES);\n   }\n \n+  if (provider === \"github-copilot\") {\n+    return matchesPrefix(id, COPILOT_CLAUDE_PREFIXES) || matchesPrefix(id, COPILOT_GPT_PREFIXES);\n+  }",
+    "path": "src/agents/live-model-filter.ts",
+    "commit_id": "ac34cd3034b527abd7b774ae41e1476b031449e4",
+    "original_commit_id": "6a4a2af90a6aa74b0b160d328f344de63c0b9b4d",
+    "user": {
+      "login": "jlian",
+      "id": 2320572,
+      "node_id": "MDQ6VXNlcjIzMjA1NzI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2320572?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jlian",
+      "html_url": "https://github.com/jlian",
+      "followers_url": "https://api.github.com/users/jlian/followers",
+      "following_url": "https://api.github.com/users/jlian/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jlian/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jlian/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jlian/subscriptions",
+      "organizations_url": "https://api.github.com/users/jlian/orgs",
+      "repos_url": "https://api.github.com/users/jlian/repos",
+      "events_url": "https://api.github.com/users/jlian/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jlian/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@greptileai I believe this is a false positive — the test passes as-is. `COPILOT_GPT_PREFIXES` includes `\"gpt-5\"`, and `matchesPrefix` uses `startsWith`:\r\n\r\n```ts\r\nfunction matchesPrefix(id: string, prefixes: string[]): boolean {\r\n  return prefixes.some((prefix) => id.startsWith(prefix));\r\n}\r\n```\r\n\r\nSo `\"gpt-5.2-codex\".startsWith(\"gpt-5\")` → `true`. All 10 tests in `live-model-filter.test.ts` pass, including the `gpt-5.2-codex` case.",
+    "created_at": "2026-02-07T02:54:29Z",
+    "updated_at": "2026-02-07T02:55:39Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10844#discussion_r2776815696",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10844",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776815696"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10844#discussion_r2776815696"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10844"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776815696/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 86,
+    "original_start_line": 86,
+    "start_side": "RIGHT",
+    "line": 88,
+    "original_line": 88,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776810104,
+    "author_association": "NONE",
+    "original_position": 22,
+    "position": 22,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776816028",
+    "pull_request_review_id": 3766014254,
+    "id": 2776816028,
+    "node_id": "PRRC_kwDOQb6kR86lgtmc",
+    "diff_hunk": "@@ -207,6 +207,41 @@ describe(\"resolveModel\", () => {\n     });\n   });\n \n+  it(\"builds a github-copilot forward-compat fallback for claude-opus-4.6\", () => {\n+    const templateModel = {\n+      id: \"claude-opus-4.5\",\n+      name: \"Claude Opus 4.5\",\n+      provider: \"github-copilot\",",
+    "path": "src/agents/pi-embedded-runner/model.test.ts",
+    "commit_id": "ac34cd3034b527abd7b774ae41e1476b031449e4",
+    "original_commit_id": "6a4a2af90a6aa74b0b160d328f344de63c0b9b4d",
+    "user": {
+      "login": "jlian",
+      "id": 2320572,
+      "node_id": "MDQ6VXNlcjIzMjA1NzI=",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2320572?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/jlian",
+      "html_url": "https://github.com/jlian",
+      "followers_url": "https://api.github.com/users/jlian/followers",
+      "following_url": "https://api.github.com/users/jlian/following{/other_user}",
+      "gists_url": "https://api.github.com/users/jlian/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/jlian/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/jlian/subscriptions",
+      "organizations_url": "https://api.github.com/users/jlian/orgs",
+      "repos_url": "https://api.github.com/users/jlian/repos",
+      "events_url": "https://api.github.com/users/jlian/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/jlian/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "@greptileai I believe this is also a false positive. `normalizeProviderId(\"github-copilot\")` returns `\"github-copilot\"` unchanged — there is no alias mapping for it:\r\n\r\n```ts\r\nexport function normalizeProviderId(provider: string): string {\r\n  const normalized = provider.trim().toLowerCase();\r\n  if (normalized === \"z.ai\" || normalized === \"z-ai\") return \"zai\";\r\n  if (normalized === \"opencode-zen\") return \"opencode\";\r\n  if (normalized === \"qwen\") return \"qwen-portal\";\r\n  if (normalized === \"kimi-code\") return \"kimi-coding\";\r\n  return normalized; // ← \"github-copilot\" passes through\r\n}\r\n```\r\n\r\nThe test stub `find(\"github-copilot\", \"claude-opus-4.5\")` matches exactly what the resolver calls. Confirmed by running the test — all 11 tests in `model.test.ts` pass.",
+    "created_at": "2026-02-07T02:54:45Z",
+    "updated_at": "2026-02-07T02:55:51Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10844#discussion_r2776816028",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10844",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776816028"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10844#discussion_r2776816028"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10844"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776816028/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 210,
+    "original_start_line": 210,
+    "start_side": "RIGHT",
+    "line": 214,
+    "original_line": 214,
+    "side": "RIGHT",
+    "in_reply_to_id": 2776810131,
+    "author_association": "NONE",
+    "original_position": 8,
+    "position": 8,
+    "subject_type": "line"
+  }
+]

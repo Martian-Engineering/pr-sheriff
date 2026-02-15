@@ -1,0 +1,209 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700063",
+    "pull_request_review_id": 3805206960,
+    "id": 2809700063,
+    "node_id": "PRRC_kwDOQb6kR86neJ7f",
+    "diff_hunk": "@@ -0,0 +1,135 @@\n+/**\n+ * GitHub API helpers for PR triage.\n+ * Handles data fetching, pagination, and PR summary generation.\n+ */\n+\n+const GITHUB_API = \"https://api.github.com\";\n+\n+export function createGitHubClient(token) {\n+  async function gh(path, opts = {}) {\n+    const url = path.startsWith(\"http\") ? path : `${GITHUB_API}${path}`;\n+    const res = await fetch(url, {\n+      headers: {\n+        Authorization: `token ${token}`,\n+        Accept: \"application/vnd.github+json\",\n+        \"X-GitHub-Api-Version\": \"2022-11-28\",\n+        ...opts.headers,\n+      },\n+      ...opts,\n+    });",
+    "path": "scripts/pr-triage-github.mjs",
+    "commit_id": "bc9a8dc558e41a161646f4db03b46f94b202dda9",
+    "original_commit_id": "bc9a8dc558e41a161646f4db03b46f94b202dda9",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**`...opts` spread overrides merged headers**\n\nThe `...opts` spread at line 17 replaces the entire `headers` object constructed on lines 12–16 whenever `opts` includes a `headers` key. This means callers that pass both `headers` and other options (like `method` or `body`) — which `ensureLabel` and `applyLabels` both do — will lose the `Authorization`, `Accept`, and `X-GitHub-Api-Version` headers. Every label-creation and label-application call will fail with a 401 or 403.\n\nTo fix this, destructure `headers` out of `opts` before spreading:\n\n```suggestion\n  async function gh(path, opts = {}) {\n    const url = path.startsWith(\"http\") ? path : `${GITHUB_API}${path}`;\n    const { headers: extraHeaders, ...restOpts } = opts;\n    const res = await fetch(url, {\n      headers: {\n        Authorization: `token ${token}`,\n        Accept: \"application/vnd.github+json\",\n        \"X-GitHub-Api-Version\": \"2022-11-28\",\n        ...extraHeaders,\n      },\n      ...restOpts,\n    });\n```\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: scripts/pr-triage-github.mjs\nLine: 9:19\n\nComment:\n**`...opts` spread overrides merged headers**\n\nThe `...opts` spread at line 17 replaces the entire `headers` object constructed on lines 12–16 whenever `opts` includes a `headers` key. This means callers that pass both `headers` and other options (like `method` or `body`) — which `ensureLabel` and `applyLabels` both do — will lose the `Authorization`, `Accept`, and `X-GitHub-Api-Version` headers. Every label-creation and label-application call will fail with a 401 or 403.\n\nTo fix this, destructure `headers` out of `opts` before spreading:\n\n```suggestion\n  async function gh(path, opts = {}) {\n    const url = path.startsWith(\"http\") ? path : `${GITHUB_API}${path}`;\n    const { headers: extraHeaders, ...restOpts } = opts;\n    const res = await fetch(url, {\n      headers: {\n        Authorization: `token ${token}`,\n        Accept: \"application/vnd.github+json\",\n        \"X-GitHub-Api-Version\": \"2022-11-28\",\n        ...extraHeaders,\n      },\n      ...restOpts,\n    });\n```\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-15T16:54:03Z",
+    "updated_at": "2026-02-15T16:54:06Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/17310#discussion_r2809700063",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/17310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700063"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/17310#discussion_r2809700063"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/17310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700063/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 9,
+    "original_start_line": 9,
+    "start_side": "RIGHT",
+    "line": 19,
+    "original_line": 19,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 19,
+    "position": 19,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700080",
+    "pull_request_review_id": 3805206960,
+    "id": 2809700080,
+    "node_id": "PRRC_kwDOQb6kR86neJ7w",
+    "diff_hunk": "@@ -0,0 +1,393 @@\n+#!/usr/bin/env node\n+/**\n+ * PR Triage — AI-powered duplicate detection and categorization.\n+ *\n+ * Single Claude call per PR with cached context of all open PRs\n+ * and recent merge/close decisions. Outputs silent labels only — no\n+ * public bot comments (political risk: matplotlib/crabby-rathbun Feb 2026).\n+ *\n+ * Default model: Claude Opus 4.6 (1M context). Override with TRIAGE_MODEL env var.\n+ * Cost tracking built-in — logs per-call and cumulative costs.\n+ */\n+\n+import { appendFileSync } from \"node:fs\";\n+import { readFile } from \"node:fs/promises\";\n+import {\n+  createGitHubClient,\n+  extractIssueRefs,\n+  computeFileOverlap,\n+  getTargetPR,\n+  getOpenPRSummaries,\n+  getRecentDecisions,\n+} from \"./pr-triage-github.mjs\";\n+\n+const REPO = process.env.REPO;\n+const PR_NUMBER = Number(process.env.PR_NUMBER) || 0;\n+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;\n+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;\n+\n+const DRY_RUN = !ANTHROPIC_API_KEY || process.env.DRY_RUN === \"1\";\n+if (DRY_RUN) {\n+  console.log(\"DRY RUN: no ANTHROPIC_API_KEY or DRY_RUN=1 — will skip LLM call and label application\");\n+}\n+if (!GITHUB_TOKEN) {\n+  console.error(\"GITHUB_TOKEN is required\");\n+  process.exit(1);\n+}\n+\n+const ANTHROPIC_API = \"https://api.anthropic.com/v1/messages\";\n+const MODEL = process.env.TRIAGE_MODEL || \"claude-opus-4-6\";\n+const MAX_OPEN_PRS = Number(process.env.MAX_OPEN_PRS) || 500;\n+const MAX_HISTORY = Number(process.env.MAX_HISTORY) || 100;\n+const MAX_DIFF_CHARS = Number(process.env.MAX_DIFF_CHARS) || 8000;\n+\n+const PRICING = {\n+  \"claude-opus-4-6\":            { input: 15.00, cache_read: 1.50, output: 75.00 },\n+  \"claude-sonnet-4-5-20250929\": { input: 3.00, cache_read: 0.30, output: 15.00 },\n+  \"claude-haiku-4-5-20251001\":  { input: 1.00, cache_read: 0.10, output: 5.00 },\n+};\n+let totalCost = 0;\n+\n+const { gh, ghPaginate } = createGitHubClient(GITHUB_TOKEN);\n+\n+// --- Deterministic pre-enrichment ---\n+\n+function deterministicSignals(targetPR, openPRSummaries) {\n+  const targetRefs = extractIssueRefs(targetPR.title + \" \" + targetPR.body);\n+  const targetFiles = targetPR.files || [];\n+  const signals = [];\n+\n+  for (const summary of openPRSummaries) {\n+    const numMatch = summary.match(/^#(\\d+):/);\n+    if (!numMatch) { continue; }\n+    const num = Number(numMatch[1]);\n+    if (num === targetPR.number) { continue; }\n+\n+    const refsMatch = summary.match(/refs: (.+)/);\n+    const prRefs = refsMatch ? refsMatch[1].split(\", \") : [];\n+    const filesMatch = summary.match(/files: (.+)/);\n+    const prFiles = filesMatch\n+      ? filesMatch[1].replace(/ \\(\\+\\d+ more\\)/, \"\").split(\", \")\n+      : [];\n+\n+    const sharedRefs = targetRefs.filter((r) => prRefs.includes(r));\n+    const jaccard = computeFileOverlap(targetFiles, prFiles);\n+\n+    if (sharedRefs.length > 0 || jaccard > 0.3) {\n+      signals.push({\n+        pr: num,\n+        sharedRefs,\n+        jaccard: Math.round(jaccard * 100) / 100,\n+        summary: summary.split(\"\\n\")[0],\n+      });\n+    }\n+  }\n+  return signals;\n+}\n+\n+// --- LLM triage call ---\n+\n+async function loadContributing() {\n+  try {\n+    const content = await readFile(\"CONTRIBUTING.md\", \"utf-8\");\n+    const focusMatch = content.match(/## Current Focus.*?\\n([\\s\\S]*?)(?=\\n## |$)/);\n+    return focusMatch ? focusMatch[1].trim() : content.slice(0, 1000);\n+  } catch {\n+    return \"Priorities: Stability, UX, Skills (ClawHub), Performance\";\n+  }\n+}\n+\n+async function triagePR(targetPR, openPRSummaries, decisions, deterministicHints) {\n+  const contributingMd = await loadContributing();\n+\n+  const systemPrompt = `You are an AI PR triage assistant for the ${REPO} open-source project.\n+Your job: analyze the NEW PR below and detect duplicates, overlaps, and categorize it.\n+\n+## All Open PRs (${openPRSummaries.length} total)\n+${openPRSummaries.join(\"\\n\\n\")}\n+\n+## Recent Maintainer Decisions (implicit preferences — learn from these)\n+### Merged (approved):\n+${decisions.mergedPRs.slice(0, 25).join(\"\\n\")}\n+\n+### Closed without merge (rejected):\n+${decisions.rejectedPRs.slice(0, 25).join(\"\\n\")}\n+\n+## Project Focus (from CONTRIBUTING.md)\n+${contributingMd}\n+\n+## Rules\n+- Compare the NEW PR against ALL open PRs above\n+- Detect: exact duplicates, partial overlaps, related work, superset/subset relationships\n+- Categorize: bug, feature, refactor, test, docs, chore\n+- Assess quality signals: size appropriateness, test inclusion, focused scope\n+- Learn from the merged/closed decisions above — what does this maintainer value?\n+- Be conservative: only flag duplicates at HIGH confidence\n+- Output valid JSON only, no markdown fences`;\n+\n+  const deterministicContext =\n+    deterministicHints.length > 0\n+      ? `\\n\\nDeterministic pre-analysis found these potential overlaps:\\n${deterministicHints.map((h) => `- PR #${h.pr}: shared refs=${h.sharedRefs.join(\",\") || \"none\"}, file overlap=${h.jaccard}`).join(\"\\n\")}`\n+      : \"\";\n+\n+  const userPrompt = `## NEW PR to triage\n+\n+Title: ${targetPR.title}\n+Author: ${targetPR.author}\n+Branch: ${targetPR.branch}\n+Size: +${targetPR.additions}/-${targetPR.deletions}, ${targetPR.changed_files} files changed\n+Created: ${targetPR.created_at}\n+Files: ${targetPR.files.join(\", \")}\n+\n+Description:\n+${targetPR.body || \"(no description)\"}\n+\n+Diff (excerpt):\n+${targetPR.diff || \"(diff unavailable)\"}\n+${deterministicContext}\n+\n+Respond with a single JSON object:\n+{\n+  \"duplicate_of\": [list of PR numbers this is a duplicate of, or empty],\n+  \"related_to\": [list of PR numbers this is related to but not duplicate, or empty],\n+  \"category\": \"bug\" | \"feature\" | \"refactor\" | \"test\" | \"docs\" | \"chore\",\n+  \"confidence\": \"high\" | \"medium\" | \"low\",\n+  \"quality_signals\": {\n+    \"focused_scope\": true/false,\n+    \"has_tests\": true/false,\n+    \"appropriate_size\": true/false,\n+    \"references_issue\": true/false\n+  },\n+  \"suggested_action\": \"needs-review\" | \"likely-duplicate\" | \"needs-discussion\" | \"auto-label-only\",\n+  \"reasoning\": \"one sentence explaining the triage decision\"\n+}`;\n+\n+  const res = await fetch(ANTHROPIC_API, {\n+    method: \"POST\",\n+    headers: {\n+      \"x-api-key\": ANTHROPIC_API_KEY,\n+      \"anthropic-version\": \"2023-06-01\",\n+      \"content-type\": \"application/json\",\n+      \"anthropic-beta\": \"prompt-caching-2024-07-31\",\n+    },\n+    body: JSON.stringify({\n+      model: MODEL,\n+      max_tokens: 1024,\n+      system: [{ type: \"text\", text: systemPrompt, cache_control: { type: \"ephemeral\" } }],\n+      messages: [{ role: \"user\", content: userPrompt }],\n+    }),\n+  });\n+\n+  if (!res.ok) {\n+    const body = await res.text().catch(() => \"\");\n+    throw new Error(`Anthropic API ${res.status}: ${body.slice(0, 300)}`);\n+  }\n+\n+  const data = await res.json();\n+  const usage = data.usage || {};\n+  const prices = PRICING[MODEL] || PRICING[\"claude-haiku-4-5-20251001\"];\n+  const inputCost = ((usage.input_tokens || 0) / 1_000_000) * prices.input;\n+  const cacheReadCost = ((usage.cache_read_input_tokens || 0) / 1_000_000) * prices.cache_read;\n+  const cacheCreateCost = ((usage.cache_creation_input_tokens || 0) / 1_000_000) * prices.input;\n+  const outputCost = ((usage.output_tokens || 0) / 1_000_000) * prices.output;\n+  const callCost = inputCost + cacheReadCost + cacheCreateCost + outputCost;\n+  totalCost += callCost;\n+\n+  console.log(`Tokens: ${usage.input_tokens || 0} input (${usage.cache_read_input_tokens || 0} cached, ${usage.cache_creation_input_tokens || 0} cache-write), ${usage.output_tokens || 0} output`);\n+  console.log(`Cost: $${callCost.toFixed(4)} this call | $${totalCost.toFixed(4)} total`);\n+\n+  const text = data.content?.[0]?.text || \"\";\n+  const jsonStr = text.replace(/^```json?\\n?/, \"\").replace(/\\n?```$/, \"\").trim();\n+  try {\n+    return JSON.parse(jsonStr);\n+  } catch {\n+    console.error(\"Failed to parse LLM response:\", text.slice(0, 500));\n+    return null;\n+  }\n+}\n+\n+// --- Label application ---\n+\n+const CATEGORY_LABELS = {\n+  bug: \"auto:bug\", feature: \"auto:feature\", refactor: \"auto:refactor\",\n+  test: \"auto:test\", docs: \"auto:docs\", chore: \"auto:chore\",\n+};\n+\n+async function ensureLabel(name, color) {\n+  try {\n+    await gh(`/repos/${REPO}/labels/${encodeURIComponent(name)}`);\n+  } catch {\n+    try {\n+      await gh(`/repos/${REPO}/labels`, {\n+        method: \"POST\",\n+        headers: { \"Content-Type\": \"application/json\" },\n+        body: JSON.stringify({ name, color }),\n+      });\n+    } catch {}\n+  }\n+}\n+\n+async function applyLabels(prNumber, triage) {\n+  if (!triage) { return; }\n+  const labels = [];\n+  const catLabel = CATEGORY_LABELS[triage.category];\n+  if (catLabel) {\n+    await ensureLabel(catLabel, \"d4c5f9\");\n+    labels.push(catLabel);\n+  }\n+\n+  if (triage.confidence === \"high\" && triage.duplicate_of?.length > 0) {\n+    await ensureLabel(\"possible-overlap\", \"fbca04\");\n+    labels.push(\"possible-overlap\");\n+    for (const dupNum of triage.duplicate_of) {\n+      const clusterLabel = `cluster:#${dupNum}`;\n+      await ensureLabel(clusterLabel, \"fbca04\");\n+      labels.push(clusterLabel);\n+    }\n+  }\n+\n+  if (triage.suggested_action === \"likely-duplicate\") {\n+    await ensureLabel(\"triage:likely-duplicate\", \"fbca04\");\n+    labels.push(\"triage:likely-duplicate\");\n+  } else if (triage.suggested_action === \"needs-discussion\") {\n+    await ensureLabel(\"triage:needs-discussion\", \"c2e0c6\");\n+    labels.push(\"triage:needs-discussion\");\n+  }\n+\n+  if (triage.quality_signals) {\n+    if (!triage.quality_signals.references_issue) {\n+      await ensureLabel(\"triage:no-issue-ref\", \"c2e0c6\");\n+      labels.push(\"triage:no-issue-ref\");\n+    }\n+    if (!triage.quality_signals.has_tests && triage.category !== \"docs\") {\n+      await ensureLabel(\"triage:no-tests\", \"c2e0c6\");\n+      labels.push(\"triage:no-tests\");\n+    }\n+  }\n+\n+  if (labels.length > 0) {\n+    try {\n+      await gh(`/repos/${REPO}/issues/${prNumber}/labels`, {\n+        method: \"POST\",\n+        headers: { \"Content-Type\": \"application/json\" },\n+        body: JSON.stringify({ labels }),\n+      });\n+      console.log(`Applied labels to #${prNumber}: ${labels.join(\", \")}`);\n+    } catch (err) {\n+      console.warn(`Failed to apply labels (likely missing write access): ${err.message}`);\n+      console.log(`Would apply to #${prNumber}: ${labels.join(\", \")}`);\n+    }\n+  }\n+}\n+\n+// --- Summary output ---\n+\n+function writeSummary(prNumber, triage, deterministicHints, costInfo) {\n+  if (!triage) { return; }\n+  const lines = [\n+    `## PR #${prNumber} Triage`, \"\",\n+    `**Category:** ${triage.category} | **Confidence:** ${triage.confidence} | **Action:** ${triage.suggested_action}`, \"\",\n+    `**Reasoning:** ${triage.reasoning}`, \"\",\n+  ];\n+  if (triage.duplicate_of?.length > 0) {\n+    lines.push(`**Possible duplicates:** ${triage.duplicate_of.map((n) => `#${n}`).join(\", \")}`);\n+  }\n+  if (triage.related_to?.length > 0) {\n+    lines.push(`**Related PRs:** ${triage.related_to.map((n) => `#${n}`).join(\", \")}`);\n+  }\n+  if (deterministicHints.length > 0) {\n+    lines.push(\"\", \"**Deterministic signals:**\");\n+    for (const h of deterministicHints) {\n+      lines.push(`- #${h.pr}: refs=${h.sharedRefs.join(\",\") || \"none\"}, file overlap=${h.jaccard}`);\n+    }\n+  }\n+  const qs = triage.quality_signals || {};\n+  lines.push(\"\", \"**Quality:**\",\n+    `- Focused scope: ${qs.focused_scope ? \"yes\" : \"no\"}`,\n+    `- Has tests: ${qs.has_tests ? \"yes\" : \"no\"}`,\n+    `- Appropriate size: ${qs.appropriate_size ? \"yes\" : \"no\"}`,\n+    `- References issue: ${qs.references_issue ? \"yes\" : \"no\"}`,\n+  );\n+  if (costInfo) {\n+    lines.push(\"\", `**Model:** ${costInfo.model} | **Cost:** $${costInfo.totalCost.toFixed(4)}`);\n+  }\n+  const summary = lines.join(\"\\n\");\n+  console.log(summary);\n+  if (process.env.GITHUB_STEP_SUMMARY) {\n+    try { appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + \"\\n\"); } catch {}\n+  }\n+}\n+\n+// --- Main ---\n+\n+async function main() {\n+  const prNumber = PR_NUMBER || 0;\n+  if (!prNumber) {\n+    console.error(\"No PR number provided (set PR_NUMBER env var)\");\n+    process.exit(1);\n+  }",
+    "path": "scripts/pr-triage.mjs",
+    "commit_id": "bc9a8dc558e41a161646f4db03b46f94b202dda9",
+    "original_commit_id": "bc9a8dc558e41a161646f4db03b46f94b202dda9",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**`workflow_dispatch` default \"0\" always errors out**\n\nThe workflow input description says `\"Triage a specific PR number (0 = latest)\"`, but the code treats `0` as an error and exits. When a maintainer triggers the workflow manually without providing a PR number, it will always fail because `PR_NUMBER` defaults to `\"0\"` → `Number(\"0\")` → `0` → `!0` is `true` → `process.exit(1)`.\n\nEither implement logic to fetch the latest open PR when `prNumber` is 0, or change the workflow default and error message to make it clear that a PR number is required.\n\n```suggestion\n  const prNumber = PR_NUMBER || 0;\n  if (!prNumber) {\n    console.error(\"No PR number provided — set PR_NUMBER env var to a valid PR number\");\n    process.exit(1);\n  }\n```\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: scripts/pr-triage.mjs\nLine: 324:328\n\nComment:\n**`workflow_dispatch` default \"0\" always errors out**\n\nThe workflow input description says `\"Triage a specific PR number (0 = latest)\"`, but the code treats `0` as an error and exits. When a maintainer triggers the workflow manually without providing a PR number, it will always fail because `PR_NUMBER` defaults to `\"0\"` → `Number(\"0\")` → `0` → `!0` is `true` → `process.exit(1)`.\n\nEither implement logic to fetch the latest open PR when `prNumber` is 0, or change the workflow default and error message to make it clear that a PR number is required.\n\n```suggestion\n  const prNumber = PR_NUMBER || 0;\n  if (!prNumber) {\n    console.error(\"No PR number provided — set PR_NUMBER env var to a valid PR number\");\n    process.exit(1);\n  }\n```\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-15T16:54:04Z",
+    "updated_at": "2026-02-15T16:54:06Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/17310#discussion_r2809700080",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/17310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700080"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/17310#discussion_r2809700080"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/17310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700080/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 324,
+    "original_start_line": 324,
+    "start_side": "RIGHT",
+    "line": 328,
+    "original_line": 328,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 328,
+    "position": 328,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700103",
+    "pull_request_review_id": 3805206960,
+    "id": 2809700103,
+    "node_id": "PRRC_kwDOQb6kR86neJ8H",
+    "diff_hunk": "@@ -0,0 +1,135 @@\n+/**\n+ * GitHub API helpers for PR triage.\n+ * Handles data fetching, pagination, and PR summary generation.\n+ */\n+\n+const GITHUB_API = \"https://api.github.com\";\n+\n+export function createGitHubClient(token) {\n+  async function gh(path, opts = {}) {\n+    const url = path.startsWith(\"http\") ? path : `${GITHUB_API}${path}`;\n+    const res = await fetch(url, {\n+      headers: {\n+        Authorization: `token ${token}`,\n+        Accept: \"application/vnd.github+json\",\n+        \"X-GitHub-Api-Version\": \"2022-11-28\",\n+        ...opts.headers,\n+      },\n+      ...opts,\n+    });\n+    if (!res.ok) {\n+      const body = await res.text().catch(() => \"\");\n+      throw new Error(`GitHub API ${res.status}: ${path} — ${body.slice(0, 200)}`);\n+    }\n+    return res.json();\n+  }\n+\n+  async function ghPaginate(path, maxItems = 100) {\n+    const items = [];\n+    let page = 1;\n+    while (items.length < maxItems) {\n+      const perPage = Math.min(100, maxItems - items.length);\n+      const sep = path.includes(\"?\") ? \"&\" : \"?\";\n+      const data = await gh(`${path}${sep}per_page=${perPage}&page=${page}`);\n+      if (!Array.isArray(data) || data.length === 0) { break; }\n+      items.push(...data);\n+      if (data.length < perPage) { break; }\n+      page++;\n+    }\n+    return items;\n+  }\n+\n+  return { gh, ghPaginate };\n+}\n+\n+export function extractIssueRefs(text) {\n+  if (!text) { return []; }\n+  const matches = text.match(/#(\\d{3,6})/g) || [];\n+  return [...new Set(matches)];\n+}\n+\n+export function computeFileOverlap(filesA, filesB) {\n+  if (!filesA.length || !filesB.length) { return 0; }\n+  const setA = new Set(filesA);\n+  const intersection = filesB.filter((f) => setA.has(f));\n+  const union = new Set([...filesA, ...filesB]);\n+  return intersection.length / union.size;\n+}\n+\n+function summarizePR(pr) {\n+  const issueRefs = extractIssueRefs(pr.title + \" \" + (pr.body || \"\"));\n+  return [\n+    `#${pr.number}: ${pr.title}`,\n+    `  author:${pr.user?.login || pr.author} +${pr.additions}/-${pr.deletions} ${pr.changed_files ?? pr.files?.length ?? \"?\"} files`,\n+    pr.files?.length\n+      ? `  files: ${pr.files.slice(0, 8).join(\", \")}${pr.files.length > 8 ? ` (+${pr.files.length - 8} more)` : \"\"}`\n+      : \"\",\n+    issueRefs.length ? `  refs: ${issueRefs.join(\", \")}` : \"\",\n+  ]\n+    .filter(Boolean)\n+    .join(\"\\n\");\n+}\n+\n+export async function getTargetPR(gh, repo, prNumber, maxDiffChars, token) {\n+  const pr = await gh(`/repos/${repo}/pulls/${prNumber}`);\n+  let diff = \"\";\n+  try {\n+    const res = await fetch(`${GITHUB_API}/repos/${repo}/pulls/${prNumber}`, {\n+      headers: {\n+        Authorization: `token ${token}`,\n+        Accept: \"application/vnd.github.v3.diff\",\n+        \"X-GitHub-Api-Version\": \"2022-11-28\",\n+      },\n+    });\n+    if (res.ok) {\n+      diff = await res.text();\n+      if (diff.length > maxDiffChars) {\n+        diff = diff.slice(0, maxDiffChars) + \"\\n... (truncated)\";\n+      }\n+    }\n+  } catch {}\n+\n+  const files = await gh(`/repos/${repo}/pulls/${prNumber}/files?per_page=100`);\n+  return {\n+    number: pr.number,\n+    title: pr.title,\n+    body: (pr.body || \"\").slice(0, 2000),\n+    author: pr.user?.login,\n+    branch: pr.head?.ref,\n+    additions: pr.additions,\n+    deletions: pr.deletions,\n+    changed_files: pr.changed_files,\n+    created_at: pr.created_at,\n+    files: files.map((f) => f.filename),\n+    diff,\n+  };\n+}\n+\n+export async function getOpenPRSummaries(gh, ghPaginate, repo, maxOpenPRs) {\n+  const prs = await ghPaginate(`/repos/${repo}/pulls?state=open&sort=created&direction=desc`, maxOpenPRs);\n+  const summaries = [];\n+  for (const pr of prs) {\n+    let files = [];\n+    try {\n+      files = (await gh(`/repos/${repo}/pulls/${pr.number}/files?per_page=30`)).map((f) => f.filename);\n+    } catch {}\n+    summaries.push(summarizePR({ ...pr, author: pr.user?.login, files }));\n+  }\n+  return summaries;\n+}",
+    "path": "scripts/pr-triage-github.mjs",
+    "commit_id": "bc9a8dc558e41a161646f4db03b46f94b202dda9",
+    "original_commit_id": "bc9a8dc558e41a161646f4db03b46f94b202dda9",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Sequential API calls for up to 500 PRs will be very slow**\n\n`getOpenPRSummaries` makes one additional API call per PR to fetch its files. With the default `MAX_OPEN_PRS=500`, this results in up to 500 sequential HTTP requests. Combined with the paginated fetch of the PR list itself (5 pages of 100), that's ~505 serial requests. At ~200ms per API call, this would take ~100 seconds just for data collection — and GitHub Actions has rate limits (5000 requests/hour for app tokens) that could be hit if the workflow runs frequently.\n\nConsider batching these with `Promise.all` (in groups to avoid rate limits), or reducing the default `MAX_OPEN_PRS`, or only fetching files for PRs that share issue references in their title/body.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: scripts/pr-triage-github.mjs\nLine: 108:119\n\nComment:\n**Sequential API calls for up to 500 PRs will be very slow**\n\n`getOpenPRSummaries` makes one additional API call per PR to fetch its files. With the default `MAX_OPEN_PRS=500`, this results in up to 500 sequential HTTP requests. Combined with the paginated fetch of the PR list itself (5 pages of 100), that's ~505 serial requests. At ~200ms per API call, this would take ~100 seconds just for data collection — and GitHub Actions has rate limits (5000 requests/hour for app tokens) that could be hit if the workflow runs frequently.\n\nConsider batching these with `Promise.all` (in groups to avoid rate limits), or reducing the default `MAX_OPEN_PRS`, or only fetching files for PRs that share issue references in their title/body.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-15T16:54:05Z",
+    "updated_at": "2026-02-15T16:54:06Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/17310#discussion_r2809700103",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/17310",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700103"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/17310#discussion_r2809700103"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/17310"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2809700103/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 108,
+    "original_start_line": 108,
+    "start_side": "RIGHT",
+    "line": 119,
+    "original_line": 119,
+    "side": "RIGHT",
+    "author_association": "CONTRIBUTOR",
+    "original_position": 119,
+    "position": 119,
+    "subject_type": "line"
+  }
+]

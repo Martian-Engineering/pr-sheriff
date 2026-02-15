@@ -1,0 +1,209 @@
+[
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822859",
+    "pull_request_review_id": 3766024036,
+    "id": 2776822859,
+    "node_id": "PRRC_kwDOQb6kR86lgvRL",
+    "diff_hunk": "@@ -159,6 +159,14 @@ export type DiscordAccountConfig = {\n   pluralkit?: DiscordPluralKitConfig;\n   /** Outbound response prefix override for this channel/account. */\n   responsePrefix?: string;\n+  /** Bot activity status text (e.g. \"Watching X\"). */\n+  activity?: string;\n+  /** Bot status (online|dnd|idle|invisible). Default: online. */\n+  status?: \"online\" | \"dnd\" | \"idle\" | \"invisible\" | \"offline\";",
+    "path": "src/config/types.discord.ts",
+    "commit_id": "599d8f610947fa02775a842bddab9f39f96758ff",
+    "original_commit_id": "599d8f610947fa02775a842bddab9f39f96758ff",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Type/schema mismatch**\n`DiscordAccountConfig.status` only allows `\"offline\"`, but the PR description/config docs mention `\"invisible\"` (Discord’s actual presence value). If users set `status: \"invisible\"` in `openclaw.json`, it will fail type-level expectations and/or drift from intended behavior. Either update the doc/description to use `offline`, or update the type/schema + presence update logic to accept `invisible` and map it appropriately.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/config/types.discord.ts\nLine: 165:165\n\nComment:\n**Type/schema mismatch**\n`DiscordAccountConfig.status` only allows `\"offline\"`, but the PR description/config docs mention `\"invisible\"` (Discord’s actual presence value). If users set `status: \"invisible\"` in `openclaw.json`, it will fail type-level expectations and/or drift from intended behavior. Either update the doc/description to use `offline`, or update the type/schema + presence update logic to accept `invisible` and map it appropriately.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T03:01:28Z",
+    "updated_at": "2026-02-07T03:01:31Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10855#discussion_r2776822859",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10855",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822859"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10855#discussion_r2776822859"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10855"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822859/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": null,
+    "original_start_line": null,
+    "start_side": null,
+    "line": null,
+    "original_line": 165,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 7,
+    "position": 1,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822914",
+    "pull_request_review_id": 3766024036,
+    "id": 2776822914,
+    "node_id": "PRRC_kwDOQb6kR86lgvSC",
+    "diff_hunk": "@@ -326,6 +326,10 @@ export const DiscordAccountSchema = z\n       .strict()\n       .optional(),\n     responsePrefix: z.string().optional(),\n+    activity: z.string().optional(),\n+    status: z.enum([\"online\", \"dnd\", \"idle\", \"invisible\", \"offline\"]).optional(),\n+    activityType: z.number().int().min(0).max(5).optional(),\n+    activityUrl: z.string().optional(),\n   })\n   .strict();",
+    "path": "src/config/zod-schema.providers-core.ts",
+    "commit_id": "016a79154046607d416c496b9dbf903b3c03c2d2",
+    "original_commit_id": "599d8f610947fa02775a842bddab9f39f96758ff",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Invalid activityType accepted**\n`activityType` is validated as `0..5`, but Discord activity types are not contiguous (4 is unused). Allowing `4` means a user can configure a value that will be sent to Discord and rejected/ignored depending on API/client behavior. Consider validating against the explicit allowed set (`z.union([z.literal(0), ...])` / `z.enum`-like) or transforming 4 → default.\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/config/zod-schema.providers-core.ts\nLine: 332:334\n\nComment:\n**Invalid activityType accepted**\n`activityType` is validated as `0..5`, but Discord activity types are not contiguous (4 is unused). Allowing `4` means a user can configure a value that will be sent to Discord and rejected/ignored depending on API/client behavior. Consider validating against the explicit allowed set (`z.union([z.literal(0), ...])` / `z.enum`-like) or transforming 4 → default.\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T03:01:29Z",
+    "updated_at": "2026-02-07T03:01:31Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10855#discussion_r2776822914",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10855",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822914"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10855#discussion_r2776822914"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10855"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822914/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 334,
+    "original_start_line": 332,
+    "start_side": "RIGHT",
+    "line": 336,
+    "original_line": 334,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 9,
+    "position": 11,
+    "subject_type": "line"
+  },
+  {
+    "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822955",
+    "pull_request_review_id": 3766024036,
+    "id": 2776822955,
+    "node_id": "PRRC_kwDOQb6kR86lgvSr",
+    "diff_hunk": "@@ -487,6 +487,25 @@ export async function monitorDiscordProvider(opts: MonitorDiscordOpts = {}) {\n     components.push(createExecApprovalButton({ handler: execApprovalsHandler }));\n   }\n \n+  class DiscordStatusReadyListener extends ReadyListener {\n+    async handle(_data: unknown, client: Client) {\n+      const gateway = client.getPlugin<GatewayPlugin>(\"gateway\");\n+      if (gateway) {\n+        const statusText = discordCfg.activity ?? \"the market 📉\";\n+        const activityType = discordCfg.activityType ?? 3;\n+        const status = discordCfg.status ?? \"online\";\n+        const url = discordCfg.activityUrl;\n+\n+        gateway.updatePresence({\n+          activities: [{ name: statusText, type: activityType, url: url }],\n+          status: status,",
+    "path": "src/discord/monitor/provider.ts",
+    "commit_id": "016a79154046607d416c496b9dbf903b3c03c2d2",
+    "original_commit_id": "599d8f610947fa02775a842bddab9f39f96758ff",
+    "user": {
+      "login": "greptile-apps[bot]",
+      "id": 165735046,
+      "node_id": "BOT_kgDOCeDqhg",
+      "avatar_url": "https://avatars.githubusercontent.com/in/867647?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/greptile-apps%5Bbot%5D",
+      "html_url": "https://github.com/apps/greptile-apps",
+      "followers_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/followers",
+      "following_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/following{/other_user}",
+      "gists_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/subscriptions",
+      "organizations_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/orgs",
+      "repos_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/repos",
+      "events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/greptile-apps%5Bbot%5D/received_events",
+      "type": "Bot",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "body": "**Streaming URL always sent**\n`updatePresence` always includes `url: url` in the activity object. Discord only permits `url` for `type: 1` (Streaming); for other activity types this can cause the presence payload to be rejected/ignored. Gate `url` so it’s only included when `activityType === 1` (and ideally validate `activityUrl` is present in that case).\n\n<details><summary>Prompt To Fix With AI</summary>\n\n`````markdown\nThis is a comment left during a code review.\nPath: src/discord/monitor/provider.ts\nLine: 499:501\n\nComment:\n**Streaming URL always sent**\n`updatePresence` always includes `url: url` in the activity object. Discord only permits `url` for `type: 1` (Streaming); for other activity types this can cause the presence payload to be rejected/ignored. Gate `url` so it’s only included when `activityType === 1` (and ideally validate `activityUrl` is present in that case).\n\nHow can I resolve this? If you propose a fix, please make it concise.\n`````\n</details>",
+    "created_at": "2026-02-07T03:01:30Z",
+    "updated_at": "2026-02-07T03:01:31Z",
+    "html_url": "https://github.com/openclaw/openclaw/pull/10855#discussion_r2776822955",
+    "pull_request_url": "https://api.github.com/repos/openclaw/openclaw/pulls/10855",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822955"
+      },
+      "html": {
+        "href": "https://github.com/openclaw/openclaw/pull/10855#discussion_r2776822955"
+      },
+      "pull_request": {
+        "href": "https://api.github.com/repos/openclaw/openclaw/pulls/10855"
+      }
+    },
+    "reactions": {
+      "url": "https://api.github.com/repos/openclaw/openclaw/pulls/comments/2776822955/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    },
+    "start_line": 499,
+    "original_start_line": 499,
+    "start_side": "RIGHT",
+    "line": 501,
+    "original_line": 501,
+    "side": "RIGHT",
+    "author_association": "NONE",
+    "original_position": 21,
+    "position": 21,
+    "subject_type": "line"
+  }
+]
