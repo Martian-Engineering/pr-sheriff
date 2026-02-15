@@ -69,7 +69,7 @@ export async function runAnthropicJudge(opts) {
   }
 
   // Default is intentionally overridable since Anthropic model IDs evolve.
-  const model = opts.model ?? process.env.PR_SHERIFF_MODEL ?? 'claude-3-5-sonnet-latest';
+  const model = opts.model ?? process.env.PR_SHERIFF_MODEL ?? 'claude-sonnet-4-20250514';
   const maxTokens = opts.maxTokens ?? 1200;
 
   const body = {
@@ -107,4 +107,3 @@ export async function runAnthropicJudge(opts) {
   const json = parseJsonFromModelText(text);
   return validateJudgeResult(json);
 }
-

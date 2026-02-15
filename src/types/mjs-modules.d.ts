@@ -8,5 +8,7 @@ declare module "*.mjs" {
   export const buildReferenceGraph: any;
   export const extractReferencedNumbers: any;
   export const extractReferencedNumbersFromPRAndComments: any;
+  export const buildJudgeSystemPrompt: any;
+  export const buildJudgeUserPrompt: any;
+  export const runAnthropicJudge: any;
 }
-
