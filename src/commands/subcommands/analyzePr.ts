@@ -17,7 +17,7 @@ type AnalyzePrCandidate = {
   number: number;
   title: string | null;
   url: string | null;
-  source: "merged_search" | "reference_chain";
+  source: "merged_search" | "reference_chain" | "graph_duplicate";
 };
 
 function toIsoDate(v: unknown): string | null {
@@ -202,6 +202,22 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
   /** PR candidates and how they were discovered. */
   const candidates: AnalyzePrCandidate[] = [];
 
+  // Add open PRs from the reference graph as potential competing duplicates.
+  for (const node of Object.values((graph as any)?.nodes ?? {})) {
+    if (!node || typeof node !== "object") continue;
+    if ((node as any).type !== "pr") continue;
+    if ((node as any).number === pr) continue;
+    if ((node as any).state !== "open") continue;
+    if (typeof (node as any).number !== "number") continue;
+
+    candidates.push({
+      number: (node as any).number,
+      title: (node as any).title ?? null,
+      url: (node as any).url ?? null,
+      source: "graph_duplicate"
+    });
+  }
+
   let targetPR: any = null;
   let targetComments: any = null;
 
@@ -326,7 +342,7 @@ export async function analyzePr(argv: string[], _ctx: CommandContext): Promise<u
         }))
       },
       candidates: candidates
-        .filter((c) => c.source === "merged_search")
+        .filter((c) => c.source === "merged_search" || c.source === "graph_duplicate")
         .slice(0, 50)
         .map((c) => ({ number: c.number, title: c.title ?? "", url: c.url }))
     },
